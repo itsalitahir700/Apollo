@@ -1,0 +1,32 @@
+.tabview-demo .tabview-custom i,
+.tabview-demo .tabview-custom span {
+    vertical-align: middle;
+}
+
+.tabview-demo .tabview-custom span {
+    margin: 0 0.5rem;
+}
+
+.tabview-demo .p-button {
+    margin-right: 0.25rem;
+}
+
+.tabview-demo .p-tabview p {
+    line-height: 1.5;
+    margin: 0;
+}
+.p-dialog-visible {
+    z-index: 1030 !important;
+}
+.p-dropdown-panel {
+    z-index: 1060 !important;
+}
+.p-multiselect-panel {
+    z-index: 1060 !important;
+}
+.p-password-panel {
+    z-index: 1060 !important;
+}
+.layout-topbar {
+    display: block;
+}

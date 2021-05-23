@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { Checkbox } from "primereact/checkbox";
+import { Button } from "primereact/button";
 
 function ClaimantInfo({
     selectedState,
@@ -38,6 +39,9 @@ function ClaimantInfo({
     setcity,
     region,
     setregion,
+    setMinor,
+    minor,
+    showMinorModal,
 }) {
     let states = [
         {
@@ -52,11 +56,13 @@ function ClaimantInfo({
         },
     ];
     const handleAge = (dob) => {
-        console.log(dob);
         setDateBirth(dob);
-        calculate_age(dob);
+        if (calculate_age(dob) < 15) {
+            setMinor(true);
+        } else {
+            setMinor(false);
+        }
     };
-    console.log(dateBirth);
     const calculate_age = (dob1) => {
         var today = new Date();
         var birthDate = new Date(dob1); // create a date object directly from `dob1` argument
@@ -65,7 +71,6 @@ function ClaimantInfo({
         if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
             age_now--;
         }
-        console.log(age_now);
         return age_now;
     };
     return (
@@ -106,8 +111,8 @@ function ClaimantInfo({
 
                 <div className="p-field p-col-12 p-md-4">
                     <label>Date of Birth</label>
-                    <span>Minor</span>
-                    <InputText value={dateBirth} type="date" onChange={(e) => handleAge(e.value)} />
+                    {minor && <Button label="Minor" className="p-button-danger minor" onClick={() => showMinorModal(true)} style={{ float: "right" }}></Button>}
+                    <InputText value={dateBirth} type="date" onChange={(e) => handleAge(e.target.value)} />
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">

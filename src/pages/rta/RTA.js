@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { Checkbox } from "primereact/checkbox";
@@ -9,6 +9,7 @@ import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import { TabView, TabPanel } from "primereact/tabview";
 import ClaimantInfo from "./claimantinfo";
+import MinorModal from "./minormodal";
 import "./rta.css";
 
 function RTA() {
@@ -43,6 +44,21 @@ function RTA() {
     const [checkedScotland, setCheckedScotland] = useState(false);
     const [checked, setChecked] = useState(false);
     const [displayBasic, setDisplayBasic] = useState(false);
+    const [minor, setMinor] = useState(false);
+    const [showMinorModal, setShowMinorModal] = useState(false);
+    const [minorDetails, setMinorDetails] = useState();
+    const handleMinorModal = React.useCallback(() => {
+        if (minor) {
+            setShowMinorModal(true);
+        } else {
+            setShowMinorModal(false);
+        }
+    }, [minor]);
+
+    useEffect(() => {
+        handleMinorModal();
+    }, [handleMinorModal]);
+
     return (
         <>
             <Fieldset legend="Claimant Info" toggleable>
@@ -81,6 +97,9 @@ function RTA() {
                     setcity={setcity}
                     region={region}
                     setregion={setregion}
+                    setMinor={setMinor}
+                    minor={minor}
+                    showMinorModal={setShowMinorModal}
                 />
             </Fieldset>
 
@@ -408,6 +427,7 @@ function RTA() {
                     </div>
                 </div>
             </Fieldset>
+            <MinorModal handleMinorReturn={setMinorDetails} show={showMinorModal} hide={setShowMinorModal} />
         </>
     );
 }

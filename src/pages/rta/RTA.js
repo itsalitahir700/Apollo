@@ -10,6 +10,7 @@ import { Button } from "primereact/button";
 import { TabView, TabPanel } from "primereact/tabview";
 import ClaimantInfo from "./claimantinfo";
 import MinorModal from "./minormodal";
+import AccidentInfo from "./AccidentInfo";
 import "./rta.css";
 
 function RTA() {
@@ -47,6 +48,7 @@ function RTA() {
     const [minor, setMinor] = useState(false);
     const [showMinorModal, setShowMinorModal] = useState(false);
     const [minorDetails, setMinorDetails] = useState();
+    const [accidentDetails, setaccidentDetails] = useState();
     const handleMinorModal = React.useCallback(() => {
         if (minor) {
             setShowMinorModal(true);
@@ -104,72 +106,7 @@ function RTA() {
             </Fieldset>
 
             <Fieldset legend="Accident Info" toggleable>
-                <div className="p-fluid p-formgrid p-grid">
-                    <div className="p-field p-col-12 p-md-4">
-                        <label>Address</label>
-                        <InputText placeholder="Date" type="date" />
-                        <InputText placeholder="Time" type="time" />
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <label>Circumstances</label>
-                        <Dropdown inputId="Status" value={selectedState} options={states} placeholder="Select" optionLabel="name" />
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <label>Location</label>
-                        <InputText />
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <label>Description</label>
-                        <InputTextarea />
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <label>Road Weather Conditions</label>
-                        <InputTextarea />
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <div className="p-field-radiobutton">
-                            <RadioButton inputId="city1" name="city" value="Chicago" />
-                            <label htmlFor="city1">Chicago</label>
-                        </div>
-                        <div className="p-field-radiobutton">
-                            <RadioButton inputId="city2" name="city" value="Los Angeles" />
-                            <label htmlFor="city2">Los Angeles</label>
-                        </div>
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <label>Injury Classification</label>
-                        <InputText />
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <label>Injury Description</label>
-                        <InputTextarea />
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <label>Length Of Injury</label>
-                        <div className="p-inputgroup">
-                            <InputText type="number" />
-                            <span className="p-inputgroup-addon">Weeks</span>
-                        </div>
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <Checkbox></Checkbox>
-                        <label>Ongoing Injury</label>
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <Checkbox></Checkbox>
-                        <label>Medical evidence avaliable</label>
-                    </div>
-                </div>
+                <AccidentInfo handleAccidentReturn={setaccidentDetails} />
             </Fieldset>
 
             <Fieldset legend="Vehicles & Passenger Info" toggleable>

@@ -32,17 +32,17 @@ function MinorModal({ show, hide, handleMinorReturn }) {
         },
     ];
     const initialState = {
-        name: "",
-        firstName: "",
-        middleName: "",
-        lastName: "",
-        dob: "",
-        pCode: "",
-        address1: "",
-        address2: "",
-        address3: "",
-        city: "",
-        region: "",
+        gtitle: "",
+        gfirstname: "",
+        gmiddleName: "",
+        glastName: "",
+        gdob: "",
+        gpostcode: "",
+        gaddress1: "",
+        gaddress2: "",
+        gaddress3: "",
+        gcity: "",
+        gregion: "",
     };
 
     const [minorDetails, setMinorDetails] = useState(initialState);
@@ -52,15 +52,15 @@ function MinorModal({ show, hide, handleMinorReturn }) {
     };
 
     return (
-        <Dialog header="Minor Details" footer={footer} visible={show} onHide={() => hide(false)} breakpoints={breakpoints} style={{ width: "50vw" }}>
+        <Dialog header="Litigation Friend" footer={footer} visible={show} onHide={() => hide(false)} breakpoints={breakpoints} style={{ width: "50vw" }}>
             <div className="p-fluid p-formgrid p-grid">
                 <div className="p-field p-col-12 p-md-3">
-                    <label htmlFor="Status">G. Name</label>
+                    <label htmlFor="Status"> Name</label>
                     <Dropdown
                         inputId="Status"
-                        value={minorDetails?.name}
+                        value={minorDetails?.gtitle}
                         onChange={(e) => {
-                            setMinorDetails({ ...minorDetails, name: e.value });
+                            setMinorDetails({ ...minorDetails, gtitle: e.value });
                         }}
                         options={states}
                         placeholder="Select"
@@ -68,30 +68,30 @@ function MinorModal({ show, hide, handleMinorReturn }) {
                     />
                 </div>
                 <div className="p-field p-col-12 p-md-3">
-                    <label>G. First Name</label>
+                    <label> First Name</label>
                     <InputText
-                        value={minorDetails?.firstName}
+                        value={minorDetails?.gfirstname}
                         onChange={(e) => {
-                            setMinorDetails({ ...minorDetails, firstName: e.target.value });
+                            setMinorDetails({ ...minorDetails, gfirstname: e.target.value });
                         }}
                     />
                 </div>
                 <div className="p-field p-col-12 p-md-3">
-                    <label>G. Middle Name</label>
+                    <label> Middle Name</label>
                     <InputText
-                        value={minorDetails?.middleName}
+                        value={minorDetails?.gmiddleName}
                         onChange={(e) => {
-                            setMinorDetails({ ...minorDetails, middleName: e.target.value });
+                            setMinorDetails({ ...minorDetails, gmiddleName: e.target.value });
                         }}
                     />
                 </div>
 
                 <div className="p-field p-col-12 p-md-3">
-                    <label>G. Last Name</label>
+                    <label> Last Name</label>
                     <InputText
-                        value={minorDetails?.lastName}
+                        value={minorDetails?.glastName}
                         onChange={(e) => {
-                            setMinorDetails({ ...minorDetails, lastName: e.target.value });
+                            setMinorDetails({ ...minorDetails, glastName: e.target.value });
                         }}
                     />
                 </div>
@@ -99,9 +99,9 @@ function MinorModal({ show, hide, handleMinorReturn }) {
                     <label>Date of Birth</label>
                     <InputText
                         type="date"
-                        value={minorDetails?.dob}
+                        value={minorDetails?.gdob}
                         onChange={(e) => {
-                            setMinorDetails({ ...minorDetails, dob: e.target.value });
+                            setMinorDetails({ ...minorDetails, gdob: e.target.value });
                         }}
                     />
                 </div>
@@ -109,36 +109,36 @@ function MinorModal({ show, hide, handleMinorReturn }) {
                     <label>Address</label>
                     <InputText
                         placeholder="Postal Code"
-                        value={minorDetails?.pCode}
+                        value={minorDetails?.gpostcode}
                         onChange={(e) => {
-                            setMinorDetails({ ...minorDetails, pCode: e.target.value });
+                            setMinorDetails({ ...minorDetails, gpostcode: e.target.value });
                         }}
                     />
                 </div>
                 <div className="p-field p-col-12 p-md-12">
                     <InputText
                         placeholder="Address Line 1"
-                        value={minorDetails?.address1}
+                        value={minorDetails?.gaddress1}
                         onChange={(e) => {
-                            setMinorDetails({ ...minorDetails, address1: e.target.value });
+                            setMinorDetails({ ...minorDetails, gaddress1: e.target.value });
                         }}
                     />
                 </div>
                 <div className="p-field p-col-12 p-md-12">
                     <InputText
                         placeholder="Address Line 2"
-                        value={minorDetails?.address2}
+                        value={minorDetails?.gaddress2}
                         onChange={(e) => {
-                            setMinorDetails({ ...minorDetails, address2: e.target.value });
+                            setMinorDetails({ ...minorDetails, gaddress2: e.target.value });
                         }}
                     />
                 </div>
                 <div className="p-field p-col-12 p-md-12">
                     <InputText
                         placeholder="Address Line 3"
-                        value={minorDetails?.address3}
+                        value={minorDetails?.gaddress3}
                         onChange={(e) => {
-                            setMinorDetails({ ...minorDetails, address3: e.target.value });
+                            setMinorDetails({ ...minorDetails, gaddress3: e.target.value });
                         }}
                     />
                 </div>

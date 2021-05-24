@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Dropdown } from "primereact/dropdown";
-import { InputText } from "primereact/inputtext";
-import { Checkbox } from "primereact/checkbox";
 import { Fieldset } from "primereact/fieldset";
 import { InputTextarea } from "primereact/inputtextarea";
-import { RadioButton } from "primereact/radiobutton";
-import { Dialog } from "primereact/dialog";
+import PassengerModal from "./passenger";
 import { Button } from "primereact/button";
-import { TabView, TabPanel } from "primereact/tabview";
 import ClaimantInfo from "./claimantinfo";
 import MinorModal from "./minormodal";
 import AccidentInfo from "./AccidentInfo";
 import VehiclesInfo from "./VehiclesInfo";
+import PassengersTable from "./passenger/passengertable";
 import "./rta.css";
 
 function RTA() {
@@ -27,6 +23,7 @@ function RTA() {
             type: null,
         },
     ];
+
     const [selectedState, setSelectedState] = useState(null);
     const [firstName, setFirstName] = useState("");
     const [middleName, setMiddleName] = useState("");
@@ -44,13 +41,14 @@ function RTA() {
     const [city, setcity] = useState("");
     const [region, setregion] = useState("");
     const [checkedScotland, setCheckedScotland] = useState(false);
-    const [checked, setChecked] = useState(false);
     const [displayBasic, setDisplayBasic] = useState(false);
     const [minor, setMinor] = useState(false);
     const [showMinorModal, setShowMinorModal] = useState(false);
     const [minorDetails, setMinorDetails] = useState();
     const [accidentDetails, setaccidentDetails] = useState();
     const [vehiclesDetails, setvehiclesDetails] = useState();
+    const [passengers, setpassengers] = useState([]);
+
     const handleMinorModal = React.useCallback(() => {
         if (minor) {
             setShowMinorModal(true);
@@ -59,9 +57,30 @@ function RTA() {
         }
     }, [minor]);
 
+    const handleAddPassenger = (passenger) => {
+        let newArr = JSON.parse(JSON.stringify(passengers));
+        newArr.push(passenger);
+        newArr[newArr.length - 1].id = newArr.length;
+        setpassengers(newArr);
+    };
+
+    const handleRemovePassenger = (id) => {
+        let newArr = JSON.parse(JSON.stringify(passengers));
+        setpassengers(newArr.filter((elm) => Number(elm?.id) !== Number(id)));
+    };
+
+    const handleUpdatePassenger = (passenger) => {
+        const filtered = passengers.filter((elm) => elm?.id !== passenger?.id);
+        const index = passengers.findIndex((elm) => elm?.id === passenger?.id);
+        filtered.splice(index, 0, passenger);
+        setpassengers(filtered);
+    };
+
     useEffect(() => {
         handleMinorModal();
     }, [handleMinorModal]);
+
+    console.log(passengers);
 
     return (
         <>
@@ -113,173 +132,16 @@ function RTA() {
 
             <Fieldset legend="Vehicles & Passenger Info" toggleable>
                 <VehiclesInfo handleVehicleInfoReturn={setvehiclesDetails} />
-                <div className="p-fluid p-formgrid p-grid">
-                    {/* PASSENGER */}
-                    <Button label="Add" icon="pi pi-external-link" onClick={() => setDisplayBasic(!displayBasic)} />
-                    <Dialog header="Add User" visible={displayBasic} style={{ width: "80%" }} onHide={() => setDisplayBasic(!displayBasic)}>
-                        <TabView>
-                            <TabPanel header="Personal Info">
-                                <div className="p-fluid p-formgrid p-grid">
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label htmlFor="Status">Status</label>
-                                        <Dropdown inputId="Status" value={selectedState} options={states} placeholder="Select" optionLabel="name" />
-                                    </div>
 
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>First Name</label>
-                                        <InputText value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-                                    </div>
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>Middle Name</label>
-                                        <InputText value={middleName} onChange={(e) => setMiddleName(e.target.value)} />
-                                    </div>
+                <PassengerModal status={states} show={displayBasic} hide={setDisplayBasic} handlePassengerReturn={handleAddPassenger} />
 
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>Last Name</label>
-                                        <InputText value={lastName} onChange={(e) => setLastName(e.target.value)} />
-                                    </div>
+                <Button label="Add" icon="pi pi-external-link" onClick={() => setDisplayBasic(!displayBasic)} />
 
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <Checkbox onChange={(e) => setChecked(e.checked)} checked={checked}></Checkbox>
-                                        <label>Did accident occur in scotland?</label>
-                                    </div>
+                <PassengersTable handleUpdatePassenger={handleUpdatePassenger} passengers={passengers} handleRemovePassenger={handleRemovePassenger} />
 
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>Date of Birth</label>
-                                        <InputText value={dateBirth} type="date" onChange={(e) => setDateBirth(e.target.value)} />
-                                    </div>
-
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>Ni Number</label>
-                                        <div className="p-inputgroup">
-                                            <InputText value={niNumber} type="number" onChange={(e) => setNiNumber(e.target.value)} />
-                                            <Dropdown inputId="Status" value={selectedState} options={states} placeholder="Select" optionLabel="name" />
-                                        </div>
-                                    </div>
-
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>Mobile</label>
-                                        <InputText value={mobile} type="number" onChange={(e) => setMobile(e.target.value)} />
-                                    </div>
-
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>Landline</label>
-                                        <InputText type="number" />
-                                    </div>
-
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>Email</label>
-                                        <InputText type="email" />
-                                    </div>
-
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>Address</label>
-                                        <div className="p-inputgroup">
-                                            <InputText />
-                                            <Dropdown inputId="Status" value={selectedState} options={states} placeholder="Select" optionLabel="name" />
-                                        </div>
-                                    </div>
-
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>Address line 1</label>
-                                        <InputText />
-                                    </div>
-
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>Address line 2</label>
-                                        <InputText />
-                                    </div>
-
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>Address line 3</label>
-                                        <InputText />
-                                    </div>
-
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>City</label>
-                                        <InputText />
-                                    </div>
-
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>Contact </label>
-                                        <InputText type="number" />
-                                    </div>
-                                </div>
-                            </TabPanel>
-                            <TabPanel header="Injury Info">
-                                <div className="p-fluid p-formgrid p-grid">
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <div className="p-field-radiobutton">
-                                            <RadioButton inputId="city1" name="city" value="Chicago" />
-                                            <label htmlFor="city1">Chicago</label>
-                                        </div>
-                                        <div className="p-field-radiobutton">
-                                            <RadioButton inputId="city2" name="city" value="Los Angeles" />
-                                            <label htmlFor="city2">Los Angeles</label>
-                                        </div>
-                                    </div>
-
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>Circumstances</label>
-                                        <Dropdown inputId="Status" value={selectedState} options={states} placeholder="Select" optionLabel="name" />
-                                    </div>
-
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>Description</label>
-                                        <InputTextarea />
-                                    </div>
-
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <div className="p-field-radiobutton">
-                                            <RadioButton inputId="city1" name="city" value="Chicago" />
-                                            <label htmlFor="city1">Chicago</label>
-                                        </div>
-                                        <div className="p-field-radiobutton">
-                                            <RadioButton inputId="city2" name="city" value="Los Angeles" />
-                                            <label htmlFor="city2">Los Angeles</label>
-                                        </div>
-                                    </div>
-
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>Injury Classification</label>
-                                        <InputText />
-                                    </div>
-
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>Injury Description</label>
-                                        <InputTextarea />
-                                    </div>
-
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>Length Of Injury</label>
-                                        <div className="p-inputgroup">
-                                            <InputText type="number" />
-                                            <span className="p-inputgroup-addon">Weeks</span>
-                                        </div>
-                                    </div>
-
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <Checkbox></Checkbox>
-                                        <label>Ongoing Injury</label>
-                                    </div>
-
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <Checkbox></Checkbox>
-                                        <label>Medical evidence avaliable</label>
-                                    </div>
-
-                                    <div className="p-field p-col-12 p-md-4">
-                                        <label>Details</label>
-                                        <InputTextarea />
-                                    </div>
-                                </div>
-                            </TabPanel>
-                        </TabView>
-                    </Dialog>
-                    <div className="p-field p-col-12 p-md-4">
-                        <label>Pasanger Info</label>
-                        <InputTextarea />
-                    </div>
+                <div className="p-field p-col-12 p-md-4">
+                    <label>Pasanger Info</label>
+                    <InputTextarea />
                 </div>
             </Fieldset>
             <MinorModal handleMinorReturn={setMinorDetails} show={showMinorModal} hide={setShowMinorModal} />

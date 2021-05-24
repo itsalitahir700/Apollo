@@ -11,6 +11,7 @@ import { TabView, TabPanel } from "primereact/tabview";
 import ClaimantInfo from "./claimantinfo";
 import MinorModal from "./minormodal";
 import AccidentInfo from "./AccidentInfo";
+import VehiclesInfo from "./VehiclesInfo";
 import "./rta.css";
 
 function RTA() {
@@ -49,6 +50,7 @@ function RTA() {
     const [showMinorModal, setShowMinorModal] = useState(false);
     const [minorDetails, setMinorDetails] = useState();
     const [accidentDetails, setaccidentDetails] = useState();
+    const [vehiclesDetails, setvehiclesDetails] = useState();
     const handleMinorModal = React.useCallback(() => {
         if (minor) {
             setShowMinorModal(true);
@@ -110,92 +112,8 @@ function RTA() {
             </Fieldset>
 
             <Fieldset legend="Vehicles & Passenger Info" toggleable>
+                <VehiclesInfo handleVehicleInfoReturn={setvehiclesDetails} />
                 <div className="p-fluid p-formgrid p-grid">
-                    <div className="p-field p-col-12 p-md-4">
-                        <div className="p-field-radiobutton">
-                            <RadioButton inputId="city1" name="city" value="Chicago" />
-                            <label htmlFor="city1">Chicago</label>
-                        </div>
-                        <div className="p-field-radiobutton">
-                            <RadioButton inputId="city2" name="city" value="Los Angeles" />
-                            <label htmlFor="city2">Los Angeles</label>
-                        </div>
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <Checkbox></Checkbox>
-                        <label>Reported To Police</label>
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <InputText placeholder="reported on" />
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <InputText placeholder="reference number" />
-                    </div>
-
-                    {/* THIRD PARTY */}
-                    <div className="p-field p-col-12 p-md-4">
-                        <label>Registeration Number</label>
-                        <div className="p-inputgroup">
-                            <InputText />
-                            <Dropdown inputId="Status" value={selectedState} options={states} placeholder="Select" optionLabel="name" />
-                        </div>
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <label>Make Model</label>
-                        <InputText />
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <label>Insurer</label>
-                        <InputText placeholder="insurer" />
-                        <InputText placeholder="policy number" />
-                        <InputText placeholder="claim number" />
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <label>Registeration Number</label>
-                        <div className="p-inputgroup">
-                            <InputText />
-                            <Dropdown inputId="Status" value={selectedState} options={states} placeholder="Select" optionLabel="name" />
-                        </div>
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <label>Make Model</label>
-                        <InputText />
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <label>Insurer</label>
-                        <InputText placeholder="insurer" />
-                        <InputText placeholder="policy number" />
-                        <InputText placeholder="claim number" />
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <label>Green Number</label>
-                        <InputText />
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <label>Third Party</label>
-                        <InputText />
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <label>Contact Number</label>
-                        <InputText type="number" />
-                    </div>
-
-                    <div className="p-field p-col-12 p-md-4">
-                        <label>Address</label>
-                        <InputTextarea />
-                    </div>
-
                     {/* PASSENGER */}
                     <Button label="Add" icon="pi pi-external-link" onClick={() => setDisplayBasic(!displayBasic)} />
                     <Dialog header="Add User" visible={displayBasic} style={{ width: "80%" }} onHide={() => setDisplayBasic(!displayBasic)}>

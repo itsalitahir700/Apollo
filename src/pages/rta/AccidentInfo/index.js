@@ -6,7 +6,7 @@ import { RadioButton } from "primereact/radiobutton";
 import { Checkbox } from "primereact/checkbox";
 import { getCircumstances, getInjuryClassification } from "../../../services/Lovs";
 
-function AccidentInfo(handleAccidentReturn) {
+function AccidentInfo({ handleAccidentReturn }) {
     const initialState = {
         date: "",
         time: "",

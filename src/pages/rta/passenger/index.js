@@ -9,18 +9,19 @@ import { Button } from "primereact/button";
 import { TabView, TabPanel } from "primereact/tabview";
 import MinorModal from "../minormodal";
 
-function PassengerModel({ status, show, hide, handlePassengerReturn }) {
+function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, isEdit }) {
     const footer = (
         <div>
             <Button
-                label="Add"
+                label={!isEdit ? "Add" : "Update"}
                 onClick={() => {
                     handlePassengerReturn(passengerDetails);
                     hide(false);
-                    handlePassengerReturn(passengerDetails);
+                    handleClear();
                 }}
                 icon="pi pi-check"
             />
+
             <Button label="Clear" onClick={() => handleClear()} icon="pi pi-times" />
         </div>
     );
@@ -87,8 +88,11 @@ function PassengerModel({ status, show, hide, handlePassengerReturn }) {
         updatePassengerDetails();
     }, [updatePassengerDetails]);
 
+    useEffect(() => {
+        if (passenger && Object.keys(passenger).length !== 0) setPassengerDetails(passenger);
+    }, [passenger]);
     return (
-        <Dialog header="Add User" footer={footer} visible={show} style={{ width: "80%" }} onHide={() => setShowMinorModal(false)}>
+        <Dialog header={isEdit ? "Edit Passenger" : "Add Passenger"} footer={footer} visible={show} style={{ width: "80%" }} onHide={() => hide(false)}>
             <TabView>
                 <TabPanel header="Personal Info">
                     <div className="p-fluid p-formgrid p-grid">
@@ -289,7 +293,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn }) {
                                     }}
                                     name="city"
                                     value="driver"
-                                    checked={"driver" === passengerDetails.injured}
+                                    checked={"driver" === passengerDetails?.injured}
                                 />
                                 <label htmlFor="city1">Driver</label>
                             </div>
@@ -301,7 +305,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn }) {
                                     inputId="city2"
                                     name="city"
                                     value="passenger"
-                                    checked={"passenger" === passengerDetails.injured}
+                                    checked={"passenger" === passengerDetails?.injured}
                                 />
                                 <label htmlFor="city2">Passenger</label>
                             </div>
@@ -350,7 +354,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn }) {
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, ongoinginjury: e.checked ? "Y" : "N" });
                                 }}
-                                checked={"Y" === passengerDetails.ongoinginjury}
+                                checked={"Y" === passengerDetails?.ongoinginjury}
                             ></Checkbox>
                             <label>Ongoing Injury</label>
                         </div>
@@ -360,7 +364,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn }) {
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, evidence: e.checked ? "Y" : "N" });
                                 }}
-                                checked={"Y" === passengerDetails.evidence}
+                                checked={"Y" === passengerDetails?.evidence}
                             ></Checkbox>
                             <label>Medical evidence avaliable</label>
                         </div>
@@ -377,7 +381,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn }) {
                     </div>
                 </TabPanel>
             </TabView>
-            <MinorModal handleMinorReturn={setMinorDetails} show={showMinorModal} hide={setShowMinorModal} />
+            <MinorModal handleMinorReturn={setMinorDetails} details={passengerDetails} show={showMinorModal} hide={setShowMinorModal} isEdit={isEdit} />
         </Dialog>
     );
 }

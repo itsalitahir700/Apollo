@@ -1,19 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 
-function MinorModal({ show, hide, handleMinorReturn }) {
+function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
     const footer = (
         <div>
             <Button
-                label="Add"
+                label={isEdit ? "Update" : "Add"}
                 onClick={() => {
                     handleMinorReturn(minorDetails);
                     hide(false);
                 }}
                 icon="pi pi-check"
+                isEdit
             />
             <Button label="Clear" onClick={() => handleClear()} icon="pi pi-times" />
         </div>
@@ -51,8 +52,26 @@ function MinorModal({ show, hide, handleMinorReturn }) {
         setMinorDetails(initialState);
     };
 
+    //Match Keys & Map Edit Values to Minor Details
+    const setValues = React.useCallback(() => {
+        if (details && Object.keys(details).length) {
+            let newObj = {};
+            Object.keys(details).forEach((dt) => {
+                Object.keys(initialState).forEach((ins) => {
+                    if (ins === dt) newObj[ins] = details[ins];
+                });
+            });
+            setMinorDetails(newObj);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [details]);
+
+    useEffect(() => {
+        setValues();
+    }, [setValues]);
+
     return (
-        <Dialog header="Litigation Friend" footer={footer} visible={show} onHide={() => hide(false)} breakpoints={breakpoints} style={{ width: "50vw" }}>
+        <Dialog header={isEdit ? "Update Litigation Friend" : "Litigation Friend"} footer={footer} visible={show} onHide={() => hide(false)} breakpoints={breakpoints} style={{ width: "50vw" }}>
             <div className="p-fluid p-formgrid p-grid">
                 <div className="p-field p-col-12 p-md-3">
                     <label htmlFor="Status"> Name</label>

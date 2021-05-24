@@ -25,6 +25,7 @@ function RTA() {
             type: null,
         },
     ];
+
     const [selectedState, setSelectedState] = useState(null);
     const [firstName, setFirstName] = useState("");
     const [middleName, setMiddleName] = useState("");
@@ -68,9 +69,18 @@ function RTA() {
         setpassengers(newArr.filter((elm) => Number(elm?.id) !== Number(id)));
     };
 
+    const handleUpdatePassenger = (passenger) => {
+        const filtered = passengers.filter((elm) => elm?.id !== passenger?.id);
+        const index = passengers.findIndex((elm) => elm?.id === passenger?.id);
+        filtered.splice(index, 0, passenger);
+        setpassengers(filtered);
+    };
+
     useEffect(() => {
         handleMinorModal();
     }, [handleMinorModal]);
+
+    console.log(passengers);
 
     return (
         <>
@@ -276,7 +286,7 @@ function RTA() {
 
                     <Button label="Add" icon="pi pi-external-link" onClick={() => setDisplayBasic(!displayBasic)} />
 
-                    <PassengersTable passengers={passengers} handleRemovePassenger={handleRemovePassenger} />
+                    <PassengersTable handleUpdatePassenger={handleUpdatePassenger} passengers={passengers} handleRemovePassenger={handleRemovePassenger} />
 
                     <div className="p-field p-col-12 p-md-4">
                         <label>Pasanger Info</label>

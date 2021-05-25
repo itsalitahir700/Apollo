@@ -8,6 +8,8 @@ import MinorModal from "./minormodal";
 import AccidentInfo from "./AccidentInfo";
 import VehiclesInfo from "./VehiclesInfo";
 import PassengersTable from "./passenger/passengertable";
+import ImagesUpload from "../../components/ImageUpload";
+
 import "./rta.css";
 
 function RTA() {
@@ -47,6 +49,7 @@ function RTA() {
     const [minorDetails, setMinorDetails] = useState();
     const [accidentDetails, setaccidentDetails] = useState();
     const [vehiclesDetails, setvehiclesDetails] = useState();
+    const [images, setimages] = useState();
     const [passengers, setpassengers] = useState([]);
 
     const handleMinorModal = React.useCallback(() => {
@@ -81,10 +84,11 @@ function RTA() {
     }, [handleMinorModal]);
 
     console.log(passengers);
+    console.log(images);
 
     return (
         <>
-            <Fieldset legend="Claimant Info" toggleable>
+            <Fieldset className="p-mt-2" legend="Claimant Info" toggleable>
                 <ClaimantInfo
                     selectedState={selectedState}
                     setSelectedState={setSelectedState}
@@ -126,11 +130,11 @@ function RTA() {
                 />
             </Fieldset>
 
-            <Fieldset legend="Accident Info" toggleable>
+            <Fieldset className="p-mt-2" legend="Accident Info" toggleable>
                 <AccidentInfo handleAccidentReturn={setaccidentDetails} />
             </Fieldset>
 
-            <Fieldset legend="Vehicles & Passenger Info" toggleable>
+            <Fieldset className="p-mt-2" legend="Vehicles & Passenger Info" toggleable>
                 <VehiclesInfo handleVehicleInfoReturn={setvehiclesDetails} />
 
                 <PassengerModal status={states} show={displayBasic} hide={setDisplayBasic} handlePassengerReturn={handleAddPassenger} />
@@ -144,6 +148,11 @@ function RTA() {
                     <InputTextarea />
                 </div>
             </Fieldset>
+
+            <Fieldset className="p-mt-2" legend="Attachments" toggleable>
+                <ImagesUpload handleImages={setimages} />
+            </Fieldset>
+
             <MinorModal handleMinorReturn={setMinorDetails} show={showMinorModal} hide={setShowMinorModal} />
         </>
     );

@@ -1,48 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
 
-function ClaimantInfo({
-    selectedState,
-    setSelectedState,
-    firstName,
-    setFirstName,
-    middleName,
-    setMiddleName,
-    lastName,
-    setLastName,
-    dateBirth,
-    setDateBirth,
-    niNumber,
-    setNiNumber,
-    strEng,
-    setStrEng,
-    mobile,
-    setMobile,
-    checkedScotland,
-    setCheckedScotland,
-    landLine,
-    setlandLine,
-    email,
-    setemail,
-    postCode,
-    setpostCode,
-    addressLine1,
-    setaddressLine1,
-    addressLine2,
-    setaddressLine2,
-    addressLine3,
-    setaddressLine3,
-    city,
-    setcity,
-    region,
-    setregion,
-    setMinor,
-    minor,
-    showMinorModal,
-}) {
+function ClaimantInfo({ showMinorModal, handleClaimantReturn }) {
+    const initialState = {
+        selectedState: "",
+        firstName: "",
+        middleName: "",
+        lastName: "",
+        dateBirth: "",
+        niNumber: "",
+        strEng: "",
+        mobile: "",
+        landLine: "",
+        email: "",
+        postCode: "",
+        addressLine1: "",
+        addressLine2: "",
+        addressLine3: "",
+        city: "",
+        region: "",
+        checkedScotland: "false",
+        displayBasic: "false",
+        minor: "",
+        showMinorModal: "",
+        claimantDetails: "",
+        minorDetails: "",
+        accidentDetails: "",
+        vehiclesDetails: "",
+        images: "",
+        passengers: "",
+    };
     let states = [
         {
             code: "Y",
@@ -55,8 +45,13 @@ function ClaimantInfo({
             type: null,
         },
     ];
+    const [claimantDetails, setclaimantDetails] = useState(initialState);
+
+    const [checkedScotland, setCheckedScotland] = useState(false);
+    const [minor, setMinor] = useState(false);
+
     const handleAge = (dob) => {
-        setDateBirth(dob);
+        setclaimantDetails({ ...claimantDetails, setDateBirth: dob });
         if (calculate_age(dob) < 15) {
             setMinor(true);
         } else {
@@ -79,10 +74,9 @@ function ClaimantInfo({
                 <div className="p-field p-col-12 p-md-3">
                     <label htmlFor="Status">Name</label>
                     <Dropdown
-                        inputId="Status"
-                        value={selectedState}
+                        value={claimantDetails?.selectedState}
                         onChange={(e) => {
-                            setSelectedState(e.value);
+                            setclaimantDetails({ ...claimantDetails, selectedState: e.value });
                         }}
                         options={states}
                         placeholder="Select"
@@ -92,16 +86,31 @@ function ClaimantInfo({
 
                 <div className="p-field p-col-12 p-md-3">
                     <label>First Name</label>
-                    <InputText value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                    <InputText
+                        value={claimantDetails?.firstName}
+                        onChange={(e) => {
+                            setclaimantDetails({ ...claimantDetails, firstName: e.value });
+                        }}
+                    />
                 </div>
                 <div className="p-field p-col-12 p-md-3">
                     <label>Middle Name</label>
-                    <InputText value={middleName} onChange={(e) => setMiddleName(e.target.value)} />
+                    <InputText
+                        value={claimantDetails?.middleName}
+                        onChange={(e) => {
+                            setclaimantDetails({ ...claimantDetails, middleName: e.value });
+                        }}
+                    />
                 </div>
 
                 <div className="p-field p-col-12 p-md-3">
                     <label>Last Name</label>
-                    <InputText value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                    <InputText
+                        value={claimantDetails?.lastName}
+                        onChange={(e) => {
+                            setclaimantDetails({ ...claimantDetails, lastName: e.value });
+                        }}
+                    />
                 </div>
 
                 <div className="p-field p-col-12 p-md-4" style={{ marginTop: "25px" }}>
@@ -112,71 +121,128 @@ function ClaimantInfo({
                 <div className="p-field p-col-12 p-md-4">
                     <label>Date of Birth</label>
                     {minor && <Button label="Minor" className="p-button-danger minor" onClick={() => showMinorModal(true)} style={{ float: "right" }}></Button>}
-                    <InputText value={dateBirth} type="date" onChange={(e) => handleAge(e.target.value)} />
+                    <InputText value={claimantDetails.dateBirth} type="date" onChange={(e) => handleAge(e.target.value)} />
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
                     <label>Ni Number</label>
                     <div className="p-inputgroup">
-                        <InputText value={niNumber} onChange={(e) => setNiNumber(e.target.value)} />
-                        <Dropdown inputId="Status" value={selectedState} options={states} placeholder="Select" optionLabel="name" />
+                        <InputText
+                            value={claimantDetails?.niNumber}
+                            onChange={(e) => {
+                                setclaimantDetails({ ...claimantDetails, niNumber: e.value });
+                            }}
+                        />
+                        <Dropdown inputId="Status" value={claimantDetails.selectedState} options={states} placeholder="Select" optionLabel="name" />
                     </div>
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
                     <label>Standard of English</label>
                     <div className="p-inputgroup">
-                        <InputText value={strEng} onChange={(e) => setStrEng(e.target.value)} />
-                        <Dropdown inputId="Status" value={selectedState} options={states} placeholder="Select" optionLabel="name" />
+                        <InputText
+                            value={claimantDetails?.strEng}
+                            onChange={(e) => {
+                                setclaimantDetails({ ...claimantDetails, strEng: e.value });
+                            }}
+                        />
+                        <Dropdown inputId="Status" value={claimantDetails.selectedState} options={states} placeholder="Select" optionLabel="name" />
                     </div>
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
                     <label>Mobile</label>
-                    <InputText value={mobile} onChange={(e) => setMobile(e.target.value)} />
+                    <InputText
+                        value={claimantDetails?.mobile}
+                        onChange={(e) => {
+                            setclaimantDetails({ ...claimantDetails, mobile: e.value });
+                        }}
+                    />
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
                     <label>Landline</label>
-                    <InputText value={landLine} onChange={(e) => setlandLine(e.target.value)} />
+                    <InputText
+                        value={claimantDetails?.landLine}
+                        onChange={(e) => {
+                            setclaimantDetails({ ...claimantDetails, landLine: e.value });
+                        }}
+                    />
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
                     <label>Email</label>
-                    <InputText value={email} onChange={(e) => setemail(e.target.value)} type="email" />
+                    <InputText
+                        value={claimantDetails?.email}
+                        onChange={(e) => {
+                            setclaimantDetails({ ...claimantDetails, email: e.value });
+                        }}
+                        type="email"
+                    />
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
                     <label>Address</label>
                     <div className="p-inputgroup">
-                        <InputText placeholder="PostCode" value={postCode} onChange={(e) => setpostCode(e.target.value)} />
-                        <Dropdown inputId="Status" value={selectedState} options={states} placeholder="Select" optionLabel="name" />
+                        <InputText
+                            placeholder="PostCode"
+                            value={claimantDetails?.postCode}
+                            onChange={(e) => {
+                                setclaimantDetails({ ...claimantDetails, postCode: e.value });
+                            }}
+                        />
+                        <Dropdown inputId="Status" value={claimantDetails.selectedState} options={states} placeholder="Select" optionLabel="name" />
                     </div>
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
                     <label>Address line 1</label>
-                    <InputText value={addressLine1} onChange={(e) => setaddressLine1(e.target.value)} />
+                    <InputText
+                        value={claimantDetails?.addressLine1}
+                        onChange={(e) => {
+                            setclaimantDetails({ ...claimantDetails, addressLine1: e.value });
+                        }}
+                    />
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
                     <label>Address line 2</label>
-                    <InputText value={addressLine2} onChange={(e) => setaddressLine2(e.target.value)} />
+                    <InputText
+                        value={claimantDetails?.addressLine2}
+                        onChange={(e) => {
+                            setclaimantDetails({ ...claimantDetails, addressLine2: e.value });
+                        }}
+                    />
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
                     <label>Address line 3</label>
-                    <InputText value={addressLine3} onChange={(e) => setaddressLine3(e.target.value)} />
+                    <InputText
+                        value={claimantDetails?.addressLine3}
+                        onChange={(e) => {
+                            setclaimantDetails({ ...claimantDetails, addressLine3: e.value });
+                        }}
+                    />
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
                     <label>City</label>
-                    <InputText value={city} onChange={(e) => setcity(e.target.value)} />
+                    <InputText
+                        value={claimantDetails?.city}
+                        onChange={(e) => {
+                            setclaimantDetails({ ...claimantDetails, city: e.value });
+                        }}
+                    />
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
                     <label>Region</label>
-                    <InputText value={region} onChange={(e) => setregion(e.target.value)} />
+                    <InputText
+                        value={claimantDetails?.region}
+                        onChange={(e) => {
+                            setclaimantDetails({ ...claimantDetails, region: e.value });
+                        }}
+                    />
                 </div>
             </div>
         </div>

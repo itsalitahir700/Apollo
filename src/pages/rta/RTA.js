@@ -54,19 +54,11 @@ function RTA() {
         setpassengers(filtered);
     };
 
-    // const handleSubmit = () => {
-    //     let post = [];
-    //    vehiclesDetails.passengers=passengers;
-    //     post.push({ ...claimantDetails, ...minorDetails }, accidentDetails, vehiclesDetails,);
-    //     console.log("POST ::: ", post);
-    // };
-
-    console.log("CLAIMANT :::", claimantDetails);
-    console.log("MINOR DETAILS :::", minorDetails);
-    console.log("ACCIDENT :::", accidentDetails);
-    console.log("VEHICLE :::", vehiclesDetails);
-    console.log("PASSENGER :::", passengers);
-    console.log("IMAGES :::", images);
+    //Add API call in this Function
+    const handleSubmit = () => {
+        let post = { ...claimantDetails, ...minorDetails, ...accidentDetails, ...vehiclesDetails, passengers: passengers, files: images };
+        console.log("POST ::: ", post);
+    };
 
     return (
         <>
@@ -97,7 +89,7 @@ function RTA() {
                 <ImagesUpload handleImages={setimages} />
             </Fieldset>
             <center className="p-mt-2 p-button-outlined" onClick={handleSubmit}>
-                <Button label="Submit" />
+                <Button label="NEXT" />
             </center>
             <MinorModal handleMinorReturn={setMinorDetails} show={showMinorModal} hide={setShowMinorModal} />
         </>

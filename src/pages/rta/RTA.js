@@ -34,14 +34,6 @@ function RTA() {
     const [passengers, setpassengers] = useState([]);
     const [displayBasic, setDisplayBasic] = useState(false);
     const [showMinorModal, setShowMinorModal] = useState(false);
-    const [minor, setMinor] = useState(false);
-    const handleMinorModal = React.useCallback(() => {
-        if (minor) {
-            setShowMinorModal(true);
-        } else {
-            setShowMinorModal(false);
-        }
-    }, [minor]);
 
     const handleAddPassenger = (passenger) => {
         let newArr = JSON.parse(JSON.stringify(passengers));
@@ -62,17 +54,24 @@ function RTA() {
         setpassengers(filtered);
     };
 
-    useEffect(() => {
-        handleMinorModal();
-    }, [handleMinorModal]);
+    // const handleSubmit = () => {
+    //     let post = [];
+    //    vehiclesDetails.passengers=passengers;
+    //     post.push({ ...claimantDetails, ...minorDetails }, accidentDetails, vehiclesDetails,);
+    //     console.log("POST ::: ", post);
+    // };
 
-    console.log(passengers);
-    console.log(images);
+    console.log("CLAIMANT :::", claimantDetails);
+    console.log("MINOR DETAILS :::", minorDetails);
+    console.log("ACCIDENT :::", accidentDetails);
+    console.log("VEHICLE :::", vehiclesDetails);
+    console.log("PASSENGER :::", passengers);
+    console.log("IMAGES :::", images);
 
     return (
         <>
             <Fieldset className="p-mt-2" legend="Claimant Info" toggleable>
-                <ClaimantInfo handleClaimantReturn={setclaimantDetails} showMinorModal={showMinorModal} />
+                <ClaimantInfo handleClaimantReturn={setclaimantDetails} showMinorModal={setShowMinorModal} />
             </Fieldset>
 
             <Fieldset className="p-mt-2" legend="Accident Info" toggleable>
@@ -97,7 +96,9 @@ function RTA() {
             <Fieldset className="p-mt-2" legend="Attachments" toggleable>
                 <ImagesUpload handleImages={setimages} />
             </Fieldset>
-
+            <center className="p-mt-2 p-button-outlined" onClick={handleSubmit}>
+                <Button label="Submit" />
+            </center>
             <MinorModal handleMinorReturn={setMinorDetails} show={showMinorModal} hide={setShowMinorModal} />
         </>
     );

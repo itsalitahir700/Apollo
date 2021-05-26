@@ -34,6 +34,10 @@ function VehiclesInfo({ handleVehicleInfoReturn }) {
         setvehiclesDetails({ ...vehiclesDetails, reportedToPolice: e.checked });
         vehiclesDetails.reportedToPolice ? setreportedToPoliceFlag(true) : setreportedToPoliceFlag(false);
     };
+
+    useEffect(() => {
+        handleVehicleInfoReturn(vehiclesDetails);
+    }, [vehiclesDetails, handleVehicleInfoReturn]);
     return (
         <div>
             <div className="p-fluid p-formgrid p-grid">

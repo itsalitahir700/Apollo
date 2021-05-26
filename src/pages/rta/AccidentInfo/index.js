@@ -41,6 +41,10 @@ function AccidentInfo({ handleAccidentReturn }) {
         funcgetlovInjuryClaims();
     }, []);
 
+    useEffect(() => {
+        handleAccidentReturn(accidentDetails);
+    }, [accidentDetails, handleAccidentReturn]);
+
     return (
         <div>
             <div className="p-fluid p-formgrid p-grid">

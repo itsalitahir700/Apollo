@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { Checkbox } from "primereact/checkbox";
@@ -46,7 +46,6 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn }) {
         },
     ];
     const [claimantDetails, setclaimantDetails] = useState(initialState);
-
     const [checkedScotland, setCheckedScotland] = useState(false);
     const [minor, setMinor] = useState(false);
 
@@ -68,6 +67,11 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn }) {
         }
         return age_now;
     };
+
+    useEffect(() => {
+        handleClaimantReturn(claimantDetails);
+    }, [claimantDetails, handleClaimantReturn]);
+
     return (
         <div>
             <div className="p-fluid p-formgrid p-grid">

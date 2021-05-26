@@ -7,7 +7,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { AppTopbar } from "./AppTopbar";
-import { AppFooter } from "./AppFooter";
 import { AppMenu } from "./AppMenu";
 import { AppProfile } from "./AppProfile";
 import { AppConfig } from "./AppConfig";
@@ -36,6 +35,7 @@ import { EmptyPage } from "./pages/EmptyPage";
 import Profile from "./pages/register/Profile";
 import CompanyDetails from "./pages/register/CompanyDetails";
 import RTA from "./pages/rta/RTA";
+import RTATable from "./pages/rta/rtatable";
 import Login from "./pages/login/Login";
 
 import { DisplayDemo } from "./utilities/DisplayDemo";
@@ -313,6 +313,7 @@ const App = () => {
                 <Route path="/profile" component={Profile} />
                 <Route path="/companydetails" component={CompanyDetails} />
                 <Route path="/rta" component={RTA} />
+                <Route path="/rtaList" component={RTATable} />
                 <Route path="/input" component={InputDemo} />
                 <Route path="/floatlabel" component={FloatLabelDemo} />
                 <Route path="/invalidstate" component={InvalidStateDemo} />
@@ -341,8 +342,6 @@ const App = () => {
                 <Route path="/empty" component={EmptyPage} />
                 <Route path="/documentation" component={Documentation} />
             </div>
-
-            <AppFooter />
         </div>
     );
 };

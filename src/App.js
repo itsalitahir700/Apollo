@@ -32,8 +32,6 @@ import "./layout/layout.scss";
 import "./App.scss";
 
 import { useSelector } from "react-redux";
-
-console.log("ROUTES::", routes);
 const App = () => {
     const [layoutMode, setLayoutMode] = useState("static");
     const [layoutColorMode, setLayoutColorMode] = useState("dark");

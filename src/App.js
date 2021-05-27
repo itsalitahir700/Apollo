@@ -42,7 +42,7 @@ const App = () => {
     const [ripple, setRipple] = useState(false);
     const [routes, setroutes] = useState([]);
     const auth = useSelector((state) => state?.authenticationSlice?.token);
-    const nav = JSON.parse(useSelector((state) => state?.authenticationSlice?.nav));
+    const nav = useSelector((state) => state?.authenticationSlice?.nav);
 
     const sidebar = useRef();
 
@@ -167,9 +167,9 @@ const App = () => {
     };
 
     useEffect(() => {
-        setroutes(traverse(nav, "to", []));
+        setroutes(traverse(JSON.parse(nav), "to", []));
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [nav]);
 
     return (
         <div className={wrapperClass} onClick={onWrapperClick}>
@@ -192,6 +192,7 @@ const App = () => {
 
             <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange} layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
 
+            {console.log(routes)}
             <div className="layout-main">
                 <Switch>
                     {!auth ? (

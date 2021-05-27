@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import classNames from "classnames";
-import { Route, useHistory } from "react-router-dom";
+import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 
 import { ToastContainer } from "react-toastify";
@@ -11,42 +11,11 @@ import { AppMenu } from "./AppMenu";
 import { AppProfile } from "./AppProfile";
 import { AppConfig } from "./AppConfig";
 
-import { Dashboard } from "./components/Dashboard";
-import { ButtonDemo } from "./components/ButtonDemo";
-import { ChartDemo } from "./components/ChartDemo";
-import { Documentation } from "./components/Documentation";
-import { FileDemo } from "./components/FileDemo";
-import { FloatLabelDemo } from "./components/FloatLabelDemo";
-import { FormLayoutDemo } from "./components/FormLayoutDemo";
-import { InputDemo } from "./components/InputDemo";
-import { ListDemo } from "./components/ListDemo";
-import { MenuDemo } from "./components/MenuDemo";
-import { MessagesDemo } from "./components/MessagesDemo";
-import { MiscDemo } from "./components/MiscDemo";
-import { OverlayDemo } from "./components/OverlayDemo";
-import { PanelDemo } from "./components/PanelDemo";
-import { TableDemo } from "./components/TableDemo";
-import { TreeDemo } from "./components/TreeDemo";
-import { InvalidStateDemo } from "./components/InvalidStateDemo";
-
-import { Calendar } from "./pages/Calendar";
-import { Crud } from "./pages/Crud";
-import { EmptyPage } from "./pages/EmptyPage";
 import Profile from "./pages/register/Profile";
 import CompanyDetails from "./pages/register/CompanyDetails";
 import RTA from "./pages/rta/RTA";
 import RTATable from "./pages/rta/rtatable";
 import Login from "./pages/login/Login";
-
-import { DisplayDemo } from "./utilities/DisplayDemo";
-import { ElevationDemo } from "./utilities/ElevationDemo";
-import { FlexBoxDemo } from "./utilities/FlexBoxDemo";
-import { GridDemo } from "./utilities/GridDemo";
-import { IconsDemo } from "./utilities/IconsDemo";
-import { SpacingDemo } from "./utilities/SpacingDemo";
-import { TextDemo } from "./utilities/TextDemo";
-import { TypographyDemo } from "./utilities/TypographyDemo";
-import { TimelineDemo } from "./utilities/TimelineDemo";
 
 import PrimeReact from "primereact/api";
 
@@ -62,6 +31,9 @@ import "./layout/flags/flags.css";
 import "./layout/layout.scss";
 import "./App.scss";
 
+import { useSelector } from "react-redux";
+
+console.log("ROUTES::", routes);
 const App = () => {
     const [layoutMode, setLayoutMode] = useState("static");
     const [layoutColorMode, setLayoutColorMode] = useState("dark");
@@ -70,6 +42,10 @@ const App = () => {
     const [mobileMenuActive, setMobileMenuActive] = useState(false);
     const [inputStyle, setInputStyle] = useState("outlined");
     const [ripple, setRipple] = useState(false);
+    const [routes, setroutes] = useState([]);
+    const auth = useSelector((state) => state?.authenticationSlice?.token);
+    const nav = JSON.parse(useSelector((state) => state?.authenticationSlice?.nav));
+
     const sidebar = useRef();
 
     const history = useHistory();
@@ -178,56 +154,63 @@ const App = () => {
         "layout-sidebar-light": layoutColorMode === "light",
     });
 
+    const traverse = (item, key, newRoutes) => {
+        item &&
+            item.length &&
+            item.forEach((elm) => {
+                if (key in elm && elm[key] !== null) {
+                    newRoutes.push(elm[key]);
+                }
+                if ("items" in elm) {
+                    traverse(elm.items, "to", newRoutes);
+                }
+            });
+        return newRoutes;
+    };
+
+    useEffect(() => {
+        setroutes(traverse(nav, "to", []));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <div className={wrapperClass} onClick={onWrapperClick}>
-            <AppTopbar onToggleMenu={onToggleMenu} />
-            <ToastContainer></ToastContainer>
-            <CSSTransition classNames="layout-sidebar" timeout={{ enter: 200, exit: 200 }} in={isSidebarVisible()} unmountOnExit>
-                <div ref={sidebar} className={sidebarClassName} onClick={onSidebarClick}>
-                    <div className="layout-logo" style={{ cursor: "pointer" }} onClick={() => history.push("/")}>
-                        <img alt="Logo" src={logo} />
-                    </div>
-                    <AppProfile />
-                    <AppMenu model={menu} onMenuItemClick={onMenuItemClick} />
-                </div>
-            </CSSTransition>
+            {auth && (
+                <>
+                    <AppTopbar onToggleMenu={onToggleMenu} />
+                    <ToastContainer></ToastContainer>
+
+                    <CSSTransition classNames="layout-sidebar" timeout={{ enter: 200, exit: 200 }} in={isSidebarVisible()} unmountOnExit>
+                        <div ref={sidebar} className={sidebarClassName} onClick={onSidebarClick}>
+                            <div className="layout-logo" style={{ cursor: "pointer" }} onClick={() => history.push("/")}>
+                                <img alt="Logo" src={logo} />
+                            </div>
+                            <AppProfile />
+                            <AppMenu model={menu} onMenuItemClick={onMenuItemClick} />
+                        </div>
+                    </CSSTransition>
+                </>
+            )}
 
             <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange} layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
 
             <div className="layout-main">
-                <Route path="/" exact render={() => <div>Home</div>} component={Login} />
-                <Route path="/formlayout" component={FormLayoutDemo} />
-                <Route path="/profile" component={Profile} />
-                <Route path="/companydetails" component={CompanyDetails} />
-                <Route path="/rta" component={RTA} />
-                <Route path="/rtaList" component={RTATable} />
-                <Route path="/input" component={InputDemo} />
-                <Route path="/floatlabel" component={FloatLabelDemo} />
-                <Route path="/invalidstate" component={InvalidStateDemo} />
-                <Route path="/button" component={ButtonDemo} />
-                <Route path="/table" component={TableDemo} />
-                <Route path="/list" component={ListDemo} />
-                <Route path="/tree" component={TreeDemo} />
-                <Route path="/panel" component={PanelDemo} />
-                <Route path="/overlay" component={OverlayDemo} />
-                <Route path="/menu" component={MenuDemo} />
-                <Route path="/messages" component={MessagesDemo} />
-                <Route path="/file" component={FileDemo} />
-                <Route path="/chart" component={ChartDemo} />
-                <Route path="/misc" component={MiscDemo} />
-                <Route path="/display" component={DisplayDemo} />
-                <Route path="/elevation" component={ElevationDemo} />
-                <Route path="/flexbox" component={FlexBoxDemo} />
-                <Route path="/icons" component={IconsDemo} />
-                <Route path="/grid" component={GridDemo} />
-                <Route path="/spacing" component={SpacingDemo} />
-                <Route path="/typography" component={TypographyDemo} />
-                <Route path="/text" component={TextDemo} />
-                <Route path="/calendar" component={Calendar} />
-                <Route path="/timeline" component={TimelineDemo} />
-                <Route path="/crud" component={Crud} />
-                <Route path="/empty" component={EmptyPage} />
-                <Route path="/documentation" component={Documentation} />
+                <Switch>
+                    {!auth ? (
+                        <Switch>
+                            <Route path="/" exact render={() => <div>Home</div>} component={Login} />
+                            <Redirect to="/" />
+                        </Switch>
+                    ) : (
+                        <Switch>
+                            {routes && routes.includes("/profile") && <Route exact path="/profile" component={Profile} />}
+                            {routes && routes.includes("/companydetails") && <Route exact path="/companydetails" component={CompanyDetails} />}
+                            {routes && routes.includes("/rta") && <Route exact path="/rta" component={RTA} />}
+                            {routes && routes.includes("/rtalist") && <Route exact path="/rtalist" component={RTATable} />}
+                            <Redirect to="/profile" />
+                        </Switch>
+                    )}
+                </Switch>
             </div>
         </div>
     );

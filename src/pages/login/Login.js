@@ -33,7 +33,7 @@ const Login = () => {
                             Firstname
                         </label>
                         <div className="p-col">
-                            <InputText id="firstname3" type="text" value={username} onChange={(e) => setusername(e.target.value)} type="text" placeholder="Username" autoComplete="username" />
+                            <InputText id="firstname3" type="text" value={username} onChange={(e) => setusername(e.target.value)} placeholder="Username" autoComplete="username" />
                         </div>
                     </div>
                     <div className="p-field p-grid">

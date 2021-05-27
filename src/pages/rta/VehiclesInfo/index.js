@@ -7,33 +7,33 @@ import { Checkbox } from "primereact/checkbox";
 
 function VehiclesInfo({ handleVehicleInfoReturn }) {
     const initialState = {
-        conditionOfVehicle: "",
+        vehiclecondition: "",
         location: "",
-        reportedToPolice: "",
+        reportedtopolice: "",
         reportedOn: "",
         referenceNumber: "",
-        registrationNumberClaimant: "",
-        makeModelClaimant: "",
-        insurerClaimant: "",
-        policyNumberClaimant: "",
-        claimReferenceNumberClaimant: "",
-        registrationNumberThirdParty: "",
-        makeModelThirdParty: "",
-        insurerThirdParty: "",
-        policyNumberThirdParty: "",
-        claimReferenceNumberThirdParty: "",
-        greenNumber: "",
-        thirdPartyName: "",
-        contactNumber: "",
-        address: "",
+        registerationno: "",
+        makemodel: "",
+        insurer: "",
+        policyno: "",
+        refno: "",
+        partyregno: "",
+        partymakemodel: "",
+        partyinsurer: "",
+        partypolicyno: "",
+        partyrefno: "",
+        greencardno: "",
+        partyname: "",
+        partycontactno: "",
+        partyaddress: "",
     };
     const [vehiclesDetails, setvehiclesDetails] = useState(initialState);
     const [urgentRecoveryFlag, seturgentRecoveryFlag] = useState(false);
-    const [reportedToPoliceFlag, setreportedToPoliceFlag] = useState(true);
-    const handleReportedToPolice = async (e) => {
-        setvehiclesDetails({ ...vehiclesDetails, reportedToPolice: e.checked });
-        vehiclesDetails.reportedToPolice ? setreportedToPoliceFlag(true) : setreportedToPoliceFlag(false);
-    };
+    const [reportedToPolice, setreportedToPolice] = useState(false);
+
+    useEffect(() => {
+        handleVehicleInfoReturn(vehiclesDetails);
+    }, [vehiclesDetails, handleVehicleInfoReturn]);
     return (
         <div>
             <div className="p-fluid p-formgrid p-grid">
@@ -42,9 +42,9 @@ function VehiclesInfo({ handleVehicleInfoReturn }) {
                         <RadioButton
                             value="D"
                             onChange={(e) => {
-                                setvehiclesDetails({ ...vehiclesDetails, conditionOfVehicle: e.value }, seturgentRecoveryFlag(false));
+                                setvehiclesDetails({ ...vehiclesDetails, vehiclecondition: e.value }, seturgentRecoveryFlag(false));
                             }}
-                            checked={vehiclesDetails.conditionOfVehicle === "D"}
+                            checked={vehiclesDetails.vehiclecondition === "D"}
                         />
                         <label htmlFor="city1"> Driveable</label>
                     </div>
@@ -52,9 +52,9 @@ function VehiclesInfo({ handleVehicleInfoReturn }) {
                         <RadioButton
                             value="Non-driveable"
                             onChange={(e) => {
-                                setvehiclesDetails({ ...vehiclesDetails, conditionOfVehicle: e.value }, seturgentRecoveryFlag(false));
+                                setvehiclesDetails({ ...vehiclesDetails, vehiclecondition: e.value }, seturgentRecoveryFlag(false));
                             }}
-                            checked={vehiclesDetails.conditionOfVehicle === "Non-driveable"}
+                            checked={vehiclesDetails.vehiclecondition === "Non-driveable"}
                         />
                         <label htmlFor="city2">Non-driveable</label>
                     </div>
@@ -62,21 +62,21 @@ function VehiclesInfo({ handleVehicleInfoReturn }) {
                         <RadioButton
                             value="Urgent recovery"
                             onChange={(e) => {
-                                setvehiclesDetails({ ...vehiclesDetails, conditionOfVehicle: e.value }, seturgentRecoveryFlag(true));
+                                setvehiclesDetails({ ...vehiclesDetails, vehiclecondition: e.value }, seturgentRecoveryFlag(true));
                             }}
-                            checked={vehiclesDetails.conditionOfVehicle === "Urgent recovery"}
+                            checked={vehiclesDetails.vehiclecondition === "Urgent recovery"}
                         />
                         <label htmlFor="city2">Urgent recovery</label>
                     </div>
                 </div>
                 {urgentRecoveryFlag ? (
-                    <div className="p-field p-col-12 p-md-2">
+                    <div className="p-field p-col-12 p-md-6">
                         <label>Location</label>
                         <div className="p-inputgroup">
                             <InputText
                                 value={vehiclesDetails?.location}
                                 onChange={(e) => {
-                                    setvehiclesDetails({ ...vehiclesDetails, location: e.value });
+                                    setvehiclesDetails({ ...vehiclesDetails, location: e.target.value });
                                 }}
                             />
                         </div>
@@ -85,37 +85,17 @@ function VehiclesInfo({ handleVehicleInfoReturn }) {
                     ""
                 )}
 
-                <div className="p-field p-col-12 p-md-2">
+                <div className="p-field p-col-12 p-md-6">
                     <Checkbox
                         value="Y"
                         onChange={(e) => {
-                            handleReportedToPolice(e);
+                            const reportedtopolice = e.checked ? "Y" : "N";
+                            setvehiclesDetails({ ...vehiclesDetails, reportedtopolice });
+                            setreportedToPolice(e.checked);
                         }}
-                        checked={vehiclesDetails.reportedToPolice}
+                        checked={vehiclesDetails.reportedtopolice}
                     ></Checkbox>
                     <label>Reported To Police</label>
-                </div>
-
-                <div className="p-field p-col-12 p-md-2">
-                    <InputText
-                        disabled={reportedToPoliceFlag}
-                        value={vehiclesDetails?.reportedOn}
-                        onChange={(e) => {
-                            setvehiclesDetails({ ...vehiclesDetails, reportedOn: e.value });
-                        }}
-                        placeholder="reported on"
-                    />
-                </div>
-
-                <div className="p-field p-col-12 p-md-3">
-                    <InputText
-                        disabled={reportedToPoliceFlag}
-                        value={vehiclesDetails?.referenceNumber}
-                        onChange={(e) => {
-                            setvehiclesDetails({ ...vehiclesDetails, referenceNumber: e.value });
-                        }}
-                        placeholder="reference number"
-                    />
                 </div>
 
                 {/* THIRD PARTY */}
@@ -123,15 +103,15 @@ function VehiclesInfo({ handleVehicleInfoReturn }) {
                     <label>Registration Number</label>
                     <div className="p-inputgroup">
                         <InputText
-                            value={vehiclesDetails?.registrationNumberClaimant}
+                            value={vehiclesDetails?.registerationno}
                             onChange={(e) => {
-                                setvehiclesDetails({ ...vehiclesDetails, registrationNumberClaimant: e.value });
+                                setvehiclesDetails({ ...vehiclesDetails, registerationno: e.target.value });
                             }}
                         />
                         <Dropdown
                             options={[{ name: "Will provide to solicitor" }]}
                             onChange={(e) => {
-                                setvehiclesDetails({ ...vehiclesDetails, registrationNumberClaimant: e.value.name });
+                                setvehiclesDetails({ ...vehiclesDetails, registerationno: e.value.name });
                             }}
                             placeholder="Select"
                             optionLabel="name"
@@ -142,9 +122,9 @@ function VehiclesInfo({ handleVehicleInfoReturn }) {
                 <div className="p-field p-col-12 p-md-4">
                     <label>Make Model</label>
                     <InputText
-                        value={vehiclesDetails?.makeModelClaimant}
+                        value={vehiclesDetails?.makemodel}
                         onChange={(e) => {
-                            setvehiclesDetails({ ...vehiclesDetails, makeModelClaimant: e.value });
+                            setvehiclesDetails({ ...vehiclesDetails, makemodel: e.target.value });
                         }}
                     />
                 </div>
@@ -152,23 +132,23 @@ function VehiclesInfo({ handleVehicleInfoReturn }) {
                 <div className="p-field p-col-12 p-md-4">
                     <label>Insurer</label>
                     <InputText
-                        value={vehiclesDetails?.insurerClaimant}
+                        value={vehiclesDetails?.insurer}
                         onChange={(e) => {
-                            setvehiclesDetails({ ...vehiclesDetails, insurerClaimant: e.value });
+                            setvehiclesDetails({ ...vehiclesDetails, insurer: e.target.value });
                         }}
                         placeholder="insurer"
                     />
                     <InputText
-                        value={vehiclesDetails?.policyNumberClaimant}
+                        value={vehiclesDetails?.policyno}
                         onChange={(e) => {
-                            setvehiclesDetails({ ...vehiclesDetails, policyNumberClaimant: e.value });
+                            setvehiclesDetails({ ...vehiclesDetails, policyno: e.target.value });
                         }}
                         placeholder="policy number"
                     />
                     <InputText
-                        value={vehiclesDetails?.claimReferenceNumberClaimant}
+                        value={vehiclesDetails?.refno}
                         onChange={(e) => {
-                            setvehiclesDetails({ ...vehiclesDetails, claimReferenceNumberClaimant: e.value });
+                            setvehiclesDetails({ ...vehiclesDetails, refno: e.target.value });
                         }}
                         placeholder="claim reference number"
                     />
@@ -178,15 +158,15 @@ function VehiclesInfo({ handleVehicleInfoReturn }) {
                     <label>Registration Number</label>
                     <div className="p-inputgroup">
                         <InputText
-                            value={vehiclesDetails?.registrationNumberThirdParty}
+                            value={vehiclesDetails?.partyregno}
                             onChange={(e) => {
-                                setvehiclesDetails({ ...vehiclesDetails, registrationNumberThirdParty: e.value });
+                                setvehiclesDetails({ ...vehiclesDetails, partyregno: e.target.value });
                             }}
                         />
                         <Dropdown
                             options={[{ name: "No TP Reg" }]}
                             onChange={(e) => {
-                                setvehiclesDetails({ ...vehiclesDetails, registrationNumberThirdParty: e.value.name });
+                                setvehiclesDetails({ ...vehiclesDetails, partyregno: e.value.name });
                             }}
                             placeholder="Select"
                             optionLabel="name"
@@ -197,9 +177,9 @@ function VehiclesInfo({ handleVehicleInfoReturn }) {
                 <div className="p-field p-col-12 p-md-4">
                     <label>Make Model</label>
                     <InputText
-                        value={vehiclesDetails?.makeModelThirdParty}
+                        value={vehiclesDetails?.partymakemodel}
                         onChange={(e) => {
-                            setvehiclesDetails({ ...vehiclesDetails, makeModelThirdParty: e.value });
+                            setvehiclesDetails({ ...vehiclesDetails, partymakemodel: e.target.value });
                         }}
                     />
                 </div>
@@ -207,23 +187,23 @@ function VehiclesInfo({ handleVehicleInfoReturn }) {
                 <div className="p-field p-col-12 p-md-4">
                     <label>Insurer</label>
                     <InputText
-                        value={vehiclesDetails?.insurerThirdParty}
+                        value={vehiclesDetails?.partyinsurer}
                         onChange={(e) => {
-                            setvehiclesDetails({ ...vehiclesDetails, insurerThirdParty: e.value });
+                            setvehiclesDetails({ ...vehiclesDetails, partyinsurer: e.target.value });
                         }}
                         placeholder="insurer"
                     />
                     <InputText
-                        value={vehiclesDetails?.policyNumberThirdParty}
+                        value={vehiclesDetails?.partypolicyno}
                         onChange={(e) => {
-                            setvehiclesDetails({ ...vehiclesDetails, policyNumberThirdParty: e.value });
+                            setvehiclesDetails({ ...vehiclesDetails, partypolicyno: e.target.value });
                         }}
                         placeholder="policy number"
                     />
                     <InputText
-                        value={vehiclesDetails?.claimReferenceNumberThirdParty}
+                        value={vehiclesDetails?.partyrefno}
                         onChange={(e) => {
-                            setvehiclesDetails({ ...vehiclesDetails, claimReferenceNumberThirdParty: e.value });
+                            setvehiclesDetails({ ...vehiclesDetails, partyrefno: e.target.value });
                         }}
                         placeholder="claim reference number"
                     />
@@ -232,9 +212,9 @@ function VehiclesInfo({ handleVehicleInfoReturn }) {
                 <div className="p-field p-col-12 p-md-4">
                     <label>Green Number</label>
                     <InputText
-                        value={vehiclesDetails?.greenNumber}
+                        value={vehiclesDetails?.greencardno}
                         onChange={(e) => {
-                            setvehiclesDetails({ ...vehiclesDetails, greenNumber: e.value });
+                            setvehiclesDetails({ ...vehiclesDetails, greencardno: e.target.value });
                         }}
                         placeholder="Green card if TP vehicle is foreign"
                     />
@@ -243,9 +223,9 @@ function VehiclesInfo({ handleVehicleInfoReturn }) {
                 <div className="p-field p-col-12 p-md-4">
                     <label>Third Party Name</label>
                     <InputText
-                        value={vehiclesDetails?.thirdPartyName}
+                        value={vehiclesDetails?.partyname}
                         onChange={(e) => {
-                            setvehiclesDetails({ ...vehiclesDetails, thirdPartyName: e.value });
+                            setvehiclesDetails({ ...vehiclesDetails, partyname: e.target.value });
                         }}
                     />
                 </div>
@@ -253,9 +233,9 @@ function VehiclesInfo({ handleVehicleInfoReturn }) {
                 <div className="p-field p-col-12 p-md-4">
                     <label>Contact Number</label>
                     <InputText
-                        value={vehiclesDetails?.contactNumber}
+                        value={vehiclesDetails?.partycontactno}
                         onChange={(e) => {
-                            setvehiclesDetails({ ...vehiclesDetails, contactNumber: e.value });
+                            setvehiclesDetails({ ...vehiclesDetails, partycontactno: e.target.value });
                         }}
                         type="number"
                     />
@@ -264,9 +244,9 @@ function VehiclesInfo({ handleVehicleInfoReturn }) {
                 <div className="p-field p-col-12 p-md-4">
                     <label>Address</label>
                     <InputTextarea
-                        value={vehiclesDetails?.address}
+                        value={vehiclesDetails?.partyaddress}
                         onChange={(e) => {
-                            setvehiclesDetails({ ...vehiclesDetails, address: e.value });
+                            setvehiclesDetails({ ...vehiclesDetails, partyaddress: e.target.value });
                         }}
                     />
                 </div>

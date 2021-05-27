@@ -8,32 +8,35 @@ import { getCircumstances, getInjuryClassification } from "../../../services/Lov
 
 function AccidentInfo({ handleAccidentReturn }) {
     const initialState = {
-        date: "",
-        time: "",
-        circumstancesValue: "",
+        accdate: "",
+        acctime: "",
+        circumcode: "",
         location: "",
         description: "",
-        roadWeatherConditions: "",
+        rdweathercond: "",
         driverpassenger: "",
-        passenger: "",
-        injuryClassificationValue: "",
-        injuryDescription: "",
-        lengthOfInjury: "",
-        ongoingInjury: "N",
-        medicalEvidenceAvaliable: "N",
+        injclasscode: "",
+        injdescription: "",
+        injlength: "",
+        ongoing: "N",
+        medicalinfo: "N",
     };
     const [accidentDetails, setaccidentDetails] = useState(initialState);
+    const [circumstancesValue, setcircumstancesValue] = useState("");
 
     const [injuryClassification, setinjuryClassification] = useState("");
+    const [injuryClassificationValue, setinjuryClassificationValue] = useState("");
     const [circumstances, setcircumstances] = useState("");
+    const [ongoingInjury, setongoingInjury] = useState("");
+    const [medicalEvidenceAvaliable, setmedicalEvidenceAvaliable] = useState("");
 
     async function funcgetlovCircumstances() {
         const res = await getCircumstances();
-        setinjuryClassification(res.data);
+        setcircumstances(res.data);
     }
     async function funcgetlovInjuryClaims() {
         const res = await getInjuryClassification();
-        setcircumstances(res.data);
+        setinjuryClassification(res.data);
     }
 
     useEffect(() => {
@@ -41,23 +44,27 @@ function AccidentInfo({ handleAccidentReturn }) {
         funcgetlovInjuryClaims();
     }, []);
 
+    useEffect(() => {
+        handleAccidentReturn(accidentDetails);
+    }, [accidentDetails, handleAccidentReturn]);
+
     return (
         <div>
             <div className="p-fluid p-formgrid p-grid">
                 <div className="p-field p-col-12 p-md-4">
                     <label>Date and Time</label>
                     <InputText
-                        value={accidentDetails?.date}
+                        value={accidentDetails?.accdate}
                         onChange={(e) => {
-                            setaccidentDetails({ ...accidentDetails, date: e.value });
+                            setaccidentDetails({ ...accidentDetails, accdate: e.target.value });
                         }}
                         placeholder="Date"
                         type="date"
                     />
                     <InputText
-                        value={accidentDetails?.time}
+                        value={accidentDetails?.acctime}
                         onChange={(e) => {
-                            setaccidentDetails({ ...accidentDetails, time: e.value });
+                            setaccidentDetails({ ...accidentDetails, acctime: e.target.value });
                         }}
                         placeholder="Time"
                         type="time"
@@ -68,9 +75,10 @@ function AccidentInfo({ handleAccidentReturn }) {
                     <label>Circumstances</label>
                     <Dropdown
                         options={circumstances}
-                        value={accidentDetails?.circumstancesValue}
+                        value={circumstancesValue}
                         onChange={(e) => {
-                            setaccidentDetails({ ...accidentDetails, circumstancesValue: e.value });
+                            setaccidentDetails({ ...accidentDetails, circumcode: e.value.code });
+                            setcircumstancesValue(e.value);
                         }}
                         placeholder="Select"
                         optionLabel="name"
@@ -82,7 +90,7 @@ function AccidentInfo({ handleAccidentReturn }) {
                     <InputText
                         value={accidentDetails?.location}
                         onChange={(e) => {
-                            setaccidentDetails({ ...accidentDetails, location: e.value });
+                            setaccidentDetails({ ...accidentDetails, location: e.target.value });
                         }}
                     />
                 </div>
@@ -92,7 +100,7 @@ function AccidentInfo({ handleAccidentReturn }) {
                     <InputTextarea
                         value={accidentDetails?.description}
                         onChange={(e) => {
-                            setaccidentDetails({ ...accidentDetails, description: e.value });
+                            setaccidentDetails({ ...accidentDetails, description: e.target.value });
                         }}
                     />
                 </div>
@@ -100,9 +108,9 @@ function AccidentInfo({ handleAccidentReturn }) {
                 <div className="p-field p-col-12 p-md-4">
                     <label>Road Weather Conditions</label>
                     <InputTextarea
-                        value={accidentDetails?.roadWeatherConditions}
+                        value={accidentDetails?.rdweathercond}
                         onChange={(e) => {
-                            setaccidentDetails({ ...accidentDetails, roadWeatherConditions: e.value });
+                            setaccidentDetails({ ...accidentDetails, rdweathercond: e.target.value });
                         }}
                     />
                 </div>
@@ -134,9 +142,10 @@ function AccidentInfo({ handleAccidentReturn }) {
                     <label>Injury Classification</label>
                     <Dropdown
                         options={injuryClassification}
-                        value={accidentDetails?.injuryClassificationValue}
+                        value={injuryClassificationValue}
                         onChange={(e) => {
-                            setaccidentDetails({ ...accidentDetails, injuryClassificationValue: e.value });
+                            setinjuryClassificationValue(e.value);
+                            setaccidentDetails({ ...accidentDetails, injclasscode: e.value.code });
                         }}
                         placeholder="Select"
                         optionLabel="name"
@@ -146,9 +155,9 @@ function AccidentInfo({ handleAccidentReturn }) {
                 <div className="p-field p-col-12 p-md-4">
                     <label>Injury Description</label>
                     <InputTextarea
-                        value={accidentDetails?.injuryDescription}
+                        value={accidentDetails?.injdescription}
                         onChange={(e) => {
-                            setaccidentDetails({ ...accidentDetails, injuryDescription: e.value });
+                            setaccidentDetails({ ...accidentDetails, injdescription: e.target.value });
                         }}
                     />
                 </div>
@@ -157,9 +166,9 @@ function AccidentInfo({ handleAccidentReturn }) {
                     <label>Length Of Injury</label>
                     <div className="p-inputgroup">
                         <InputText
-                            value={accidentDetails?.lengthOfInjury}
+                            value={accidentDetails?.injlength}
                             onChange={(e) => {
-                                setaccidentDetails({ ...accidentDetails, lengthOfInjury: e.value });
+                                setaccidentDetails({ ...accidentDetails, injlength: e.target.value });
                             }}
                             type="number"
                         />
@@ -169,11 +178,12 @@ function AccidentInfo({ handleAccidentReturn }) {
 
                 <div className="p-field p-col-12 p-md-4">
                     <Checkbox
-                        value="Y"
                         onChange={(e) => {
-                            setaccidentDetails({ ...accidentDetails, ongoingInjury: e.checked });
+                            const ongoing = e.checked ? "Y" : "N";
+                            setaccidentDetails({ ...accidentDetails, ongoing });
+                            setongoingInjury(e.checked);
                         }}
-                        checked={accidentDetails.ongoingInjury}
+                        checked={ongoingInjury}
                     ></Checkbox>
                     <label>Ongoing Injury</label>
                 </div>
@@ -182,9 +192,11 @@ function AccidentInfo({ handleAccidentReturn }) {
                     <Checkbox
                         value="Y"
                         onChange={(e) => {
-                            setaccidentDetails({ ...accidentDetails, medicalEvidanceAvaliable: e.checked });
+                            const medicalinfo = e.checked ? "Y" : "N";
+                            setaccidentDetails({ ...accidentDetails, medicalinfo });
+                            setmedicalEvidenceAvaliable(e.checked);
                         }}
-                        checked={accidentDetails.medicalEvidanceAvaliable}
+                        checked={medicalEvidenceAvaliable}
                     ></Checkbox>
                     <label>Medical evidence avaliable</label>
                 </div>

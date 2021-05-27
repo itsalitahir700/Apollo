@@ -9,6 +9,7 @@ import AccidentInfo from "./AccidentInfo";
 import VehiclesInfo from "./VehiclesInfo";
 import PassengersTable from "./passenger/passengertable";
 import ImagesUpload from "../../components/ImageUpload";
+import { postRta } from "../../services/Rta";
 
 import "./rta.css";
 
@@ -57,6 +58,7 @@ function RTA() {
     //Add API call in this Function
     const handleSubmit = () => {
         let post = { ...claimantDetails, ...minorDetails, ...accidentDetails, ...vehiclesDetails, passengers: passengers, files: images };
+        postRta(post, localStorage.getItem("token"));
         console.log("POST ::: ", post);
     };
 

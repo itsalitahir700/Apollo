@@ -9,7 +9,7 @@ export const postRta = async (data, token) => {
         data: data,
         headers: {
             "Content-Type": "application/json",
-            Authorization: "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJsYUp3dElkIiwiaWF0IjoxNjIyMDQ1MDE2LCJzdWIiOiIxMCIsImlzcyI6ImxhSnd0SXNzdWVyIiwiY29tcGFueUNvZGUiOiI5IiwidXNlck5hbWUiOiJNdXJ0YXphMSIsInVzZXJDb2RlIjoiMTAiLCJleHAiOjE2MjIwOTkwMTZ9.AcC3XDRvjkQLt1Y6nH6OnVg6Ins01kcPgsJizYMBlrE",
+            Authorization: token,
         },
     });
     if (response.status === 200) {

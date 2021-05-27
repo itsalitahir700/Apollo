@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
-import classNames from 'classnames';
-import { CSSTransition } from 'react-transition-group';
+import React, { useState } from "react";
+import classNames from "classnames";
+import { CSSTransition } from "react-transition-group";
 
 export const AppProfile = () => {
-
     const [expanded, setExpanded] = useState(false);
 
     const onClick = (event) => {
-        setExpanded(prevState => !prevState);
+        setExpanded((prevState) => !prevState);
         event.preventDefault();
-    }
+    };
 
     return (
         <div className="layout-profile">
-            <div>
+            {/* <div>
                 <img src="assets/layout/images/profile.png" alt="Profile" />
             </div>
             <button className="p-link layout-profile-link" onClick={onClick}>
@@ -26,8 +25,7 @@ export const AppProfile = () => {
                     <li><button type="button" className="p-link"><i className="pi pi-fw pi-inbox" /><span>Notifications</span><span className="menuitem-badge">2</span></button></li>
                     <li><button type="button" className="p-link"><i className="pi pi-fw pi-power-off" /><span>Logout</span></button></li>
                 </ul>
-            </CSSTransition>
+            </CSSTransition> */}
         </div>
     );
-
-}
+};

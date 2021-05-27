@@ -19,3 +19,15 @@ export const postRta = async (data, token) => {
         return false;
     }
 };
+export const getRta = async (token) => {
+    try {
+        const response = await axios.get(`${baseURL}rta/getAuthRtaCases`, {
+            headers: {
+                Authorization: token,
+            },
+        });
+        return response?.data?.data;
+    } catch (error) {
+        console.log(error.message);
+    }
+};

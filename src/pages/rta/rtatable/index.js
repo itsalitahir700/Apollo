@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { getRta } from "../../../services/RTA";
+import { getRta } from "../../../services/Rta";
 import { Skeleton } from "primereact/skeleton";
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";

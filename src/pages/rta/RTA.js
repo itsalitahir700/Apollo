@@ -9,6 +9,7 @@ import AccidentInfo from "./AccidentInfo";
 import VehiclesInfo from "./VehiclesInfo";
 import PassengersTable from "./passenger/passengertable";
 import ImagesUpload from "../../components/ImageUpload";
+import { postRta } from "../../services/Rta";
 
 import "./rta.css";
 
@@ -26,39 +27,14 @@ function RTA() {
         },
     ];
 
-    const [selectedState, setSelectedState] = useState(null);
-    const [firstName, setFirstName] = useState("");
-    const [middleName, setMiddleName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [dateBirth, setDateBirth] = useState("");
-    const [niNumber, setNiNumber] = useState("");
-    const [strEng, setStrEng] = useState("");
-    const [mobile, setMobile] = useState("");
-    const [landLine, setlandLine] = useState("");
-    const [email, setemail] = useState("");
-    const [postCode, setpostCode] = useState("");
-    const [addressLine1, setaddressLine1] = useState("");
-    const [addressLine2, setaddressLine2] = useState("");
-    const [addressLine3, setaddressLine3] = useState("");
-    const [city, setcity] = useState("");
-    const [region, setregion] = useState("");
-    const [checkedScotland, setCheckedScotland] = useState(false);
-    const [displayBasic, setDisplayBasic] = useState(false);
-    const [minor, setMinor] = useState(false);
-    const [showMinorModal, setShowMinorModal] = useState(false);
+    const [claimantDetails, setclaimantDetails] = useState();
     const [minorDetails, setMinorDetails] = useState();
     const [accidentDetails, setaccidentDetails] = useState();
     const [vehiclesDetails, setvehiclesDetails] = useState();
     const [images, setimages] = useState();
     const [passengers, setpassengers] = useState([]);
-
-    const handleMinorModal = React.useCallback(() => {
-        if (minor) {
-            setShowMinorModal(true);
-        } else {
-            setShowMinorModal(false);
-        }
-    }, [minor]);
+    const [displayBasic, setDisplayBasic] = useState(false);
+    const [showMinorModal, setShowMinorModal] = useState(false);
 
     const handleAddPassenger = (passenger) => {
         let newArr = JSON.parse(JSON.stringify(passengers));
@@ -79,55 +55,17 @@ function RTA() {
         setpassengers(filtered);
     };
 
-    useEffect(() => {
-        handleMinorModal();
-    }, [handleMinorModal]);
-
-    console.log(passengers);
-    console.log(images);
+    //Add API call in this Function
+    const handleSubmit = () => {
+        let post = { ...claimantDetails, ...minorDetails, ...accidentDetails, ...vehiclesDetails, passengers: passengers, files: images };
+        postRta(post, localStorage.getItem("token"));
+        console.log("POST ::: ", post);
+    };
 
     return (
         <>
             <Fieldset className="p-mt-2" legend="Claimant Info" toggleable>
-                <ClaimantInfo
-                    selectedState={selectedState}
-                    setSelectedState={setSelectedState}
-                    firstName={firstName}
-                    setFirstName={setFirstName}
-                    middleName={middleName}
-                    setMiddleName={setMiddleName}
-                    lastName={lastName}
-                    setLastName={setLastName}
-                    dateBirth={dateBirth}
-                    setDateBirth={setDateBirth}
-                    niNumber={niNumber}
-                    setNiNumber={setNiNumber}
-                    strEng={strEng}
-                    setStrEng={setStrEng}
-                    mobile={mobile}
-                    setMobile={setMobile}
-                    checkedScotland={checkedScotland}
-                    setCheckedScotland={setCheckedScotland}
-                    landLine={landLine}
-                    email={email}
-                    setemail={setemail}
-                    setlandLine={setlandLine}
-                    postCode={postCode}
-                    setpostCode={setpostCode}
-                    addressLine1={addressLine1}
-                    setaddressLine1={setaddressLine1}
-                    addressLine2={addressLine2}
-                    setaddressLine2={setaddressLine2}
-                    addressLine3={addressLine3}
-                    setaddressLine3={setaddressLine3}
-                    city={city}
-                    setcity={setcity}
-                    region={region}
-                    setregion={setregion}
-                    setMinor={setMinor}
-                    minor={minor}
-                    showMinorModal={setShowMinorModal}
-                />
+                <ClaimantInfo handleClaimantReturn={setclaimantDetails} showMinorModal={setShowMinorModal} />
             </Fieldset>
 
             <Fieldset className="p-mt-2" legend="Accident Info" toggleable>
@@ -152,7 +90,9 @@ function RTA() {
             <Fieldset className="p-mt-2" legend="Attachments" toggleable>
                 <ImagesUpload handleImages={setimages} />
             </Fieldset>
-
+            <center className="p-mt-2 p-button-outlined" onClick={handleSubmit}>
+                <Button label="NEXT" />
+            </center>
             <MinorModal handleMinorReturn={setMinorDetails} show={showMinorModal} hide={setShowMinorModal} />
         </>
     );

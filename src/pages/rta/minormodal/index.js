@@ -22,12 +22,12 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
     const breakpoints = { "960px": "75vw", "640px": "100vw" };
     let states = [
         {
-            code: "Y",
+            code: "Mr",
             name: "Mr",
             type: null,
         },
         {
-            code: "N",
+            code: "Ms",
             name: "Ms",
             type: null,
         },
@@ -38,7 +38,8 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
         gmiddleName: "",
         glastName: "",
         gdob: "",
-        gpostcode: "",
+        gpostalcode: "",
+        gemail: "",
         gaddress1: "",
         gaddress2: "",
         gaddress3: "",
@@ -47,6 +48,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
     };
 
     const [minorDetails, setMinorDetails] = useState(initialState);
+    const [titleValue, settitleValue] = useState("");
 
     const handleClear = () => {
         setMinorDetails(initialState);
@@ -77,9 +79,10 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
                     <label htmlFor="Status"> Name</label>
                     <Dropdown
                         inputId="Status"
-                        value={minorDetails?.gtitle}
+                        value={titleValue}
                         onChange={(e) => {
-                            setMinorDetails({ ...minorDetails, gtitle: e.value });
+                            setMinorDetails({ ...minorDetails, gtitle: e.value.code });
+                            settitleValue(e.value);
                         }}
                         options={states}
                         placeholder="Select"
@@ -128,9 +131,19 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
                     <label>Address</label>
                     <InputText
                         placeholder="Postal Code"
-                        value={minorDetails?.gpostcode}
+                        value={minorDetails?.gpostalcode}
                         onChange={(e) => {
-                            setMinorDetails({ ...minorDetails, gpostcode: e.target.value });
+                            setMinorDetails({ ...minorDetails, gpostalcode: e.target.value });
+                        }}
+                    />
+                </div>
+                <div className="p-field p-col-12 p-md-12">
+                    <label>Email</label>
+                    <InputText
+                        placeholder="Email Adress"
+                        value={minorDetails?.gemail}
+                        onChange={(e) => {
+                            setMinorDetails({ ...minorDetails, gemail: e.target.value });
                         }}
                     />
                 </div>

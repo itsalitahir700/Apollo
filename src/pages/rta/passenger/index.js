@@ -8,6 +8,7 @@ import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import { TabView, TabPanel } from "primereact/tabview";
 import MinorModal from "../minormodal";
+import { getInjuryClassification } from "../../../services/Lovs";
 
 function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, isEdit }) {
     const footer = (
@@ -43,19 +44,23 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
         city: "",
         region: "",
         contact: "",
-        injured: "",
+        driverpassen: "",
         classification: "",
-        description: "",
-        length: "",
+        injdescr: "",
+        injlength: "",
         ongoinginjury: "",
-        evidence: "",
+        medicalinfo: "",
         details: "",
         minor: false,
+        injclasscode: "",
     };
 
     const [passengerDetails, setPassengerDetails] = useState(initialState);
     const [showMinorModal, setShowMinorModal] = useState(false);
     const [minorDetails, setMinorDetails] = useState();
+    const [injuryClassification, setinjuryClassification] = useState("");
+    const [injuryClassificationValue, setinjuryClassificationValue] = useState("");
+    const [titleValue, settitleValue] = useState("");
 
     const handleAge = (dob) => {
         if (calculate_age(dob) < 15) {
@@ -84,6 +89,15 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
         setPassengerDetails((passengerDetails) => ({ ...passengerDetails, ...minorDetails }));
     }, [minorDetails]);
 
+    async function funcgetlovInjuryClaims() {
+        const res = await getInjuryClassification();
+        setinjuryClassification(res.data);
+    }
+
+    useEffect(() => {
+        funcgetlovInjuryClaims();
+    }, []);
+
     useEffect(() => {
         updatePassengerDetails();
     }, [updatePassengerDetails]);
@@ -97,12 +111,12 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                 <TabPanel header="Personal Info">
                     <div className="p-fluid p-formgrid p-grid">
                         <div className="p-field p-col-12 p-md-4">
-                            <label htmlFor="Status">Status</label>
+                            <label htmlFor="Status">Title</label>
                             <Dropdown
-                                inputId="Status"
-                                value={passengerDetails?.title}
+                                value={titleValue}
                                 onChange={(e) => {
-                                    setPassengerDetails({ ...passengerDetails, title: e.value });
+                                    setPassengerDetails({ ...passengerDetails, title: e.value.code });
+                                    settitleValue(e.value);
                                 }}
                                 options={status}
                                 placeholder="Select"
@@ -289,23 +303,23 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                                 <RadioButton
                                     inputId="city1"
                                     onChange={(e) => {
-                                        setPassengerDetails({ ...passengerDetails, injured: e.value });
+                                        setPassengerDetails({ ...passengerDetails, driverpassen: e.value });
                                     }}
                                     name="city"
                                     value="driver"
-                                    checked={"driver" === passengerDetails?.injured}
+                                    checked={"driver" === passengerDetails?.driverpassen}
                                 />
                                 <label htmlFor="city1">Driver</label>
                             </div>
                             <div className="p-field-radiobutton">
                                 <RadioButton
                                     onChange={(e) => {
-                                        setPassengerDetails({ ...passengerDetails, injured: e.value });
+                                        setPassengerDetails({ ...passengerDetails, driverpassen: e.value });
                                     }}
                                     inputId="city2"
                                     name="city"
                                     value="passenger"
-                                    checked={"passenger" === passengerDetails?.injured}
+                                    checked={"passenger" === passengerDetails?.driverpassen}
                                 />
                                 <label htmlFor="city2">Passenger</label>
                             </div>
@@ -314,12 +328,12 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                         <div className="p-field p-col-12 p-md-4">
                             <label> Injury Classification</label>
                             <Dropdown
-                                inputId="Status"
-                                value={passengerDetails?.classification}
+                                options={injuryClassification}
+                                value={injuryClassificationValue}
                                 onChange={(e) => {
-                                    setPassengerDetails({ ...passengerDetails, classification: e.value });
+                                    setinjuryClassificationValue(e.value);
+                                    setPassengerDetails({ ...passengerDetails, injclasscode: e.value.code });
                                 }}
-                                options={status}
                                 placeholder="Select"
                                 optionLabel="name"
                             />
@@ -330,7 +344,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             <InputTextarea
                                 value={passengerDetails?.description}
                                 onChange={(e) => {
-                                    setPassengerDetails({ ...passengerDetails, description: e.value });
+                                    setPassengerDetails({ ...passengerDetails, injdescr: e.target.value });
                                 }}
                             />
                         </div>
@@ -340,9 +354,9 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             <div className="p-inputgroup">
                                 <InputText
                                     type="number"
-                                    value={passengerDetails?.length}
+                                    value={passengerDetails?.injlength}
                                     onChange={(e) => {
-                                        setPassengerDetails({ ...passengerDetails, length: e.value });
+                                        setPassengerDetails({ ...passengerDetails, injlength: e.target.value });
                                     }}
                                 />
                                 <span className="p-inputgroup-addon">Weeks</span>
@@ -362,9 +376,9 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                         <div className="p-field p-col-12 p-md-4">
                             <Checkbox
                                 onChange={(e) => {
-                                    setPassengerDetails({ ...passengerDetails, evidence: e.checked ? "Y" : "N" });
+                                    setPassengerDetails({ ...passengerDetails, medicalinfo: e.checked ? "Y" : "N" });
                                 }}
-                                checked={"Y" === passengerDetails?.evidence}
+                                checked={"Y" === passengerDetails?.medicalinfo}
                             ></Checkbox>
                             <label>Medical evidence avaliable</label>
                         </div>
@@ -374,7 +388,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             <InputTextarea
                                 value={passengerDetails?.details}
                                 onChange={(e) => {
-                                    setPassengerDetails({ ...passengerDetails, details: e.value });
+                                    setPassengerDetails({ ...passengerDetails, details: e.target.value });
                                 }}
                             />
                         </div>

@@ -6,12 +6,15 @@ import { Skeleton } from "primereact/skeleton";
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { Chip } from "primereact/chip";
+import { useHistory } from "react-router-dom";
 import "./rtatable.css";
 
 function RTATable() {
     const [rtalist, setrtalist] = useState([]);
     const [loading, setloading] = useState(false);
     const [expandedRows, setExpandedRows] = useState();
+
+    const history = useHistory();
 
     const getRtaList = useCallback(async () => {
         setloading(true);
@@ -106,7 +109,7 @@ function RTATable() {
         return (
             <center>
                 <Button icon="pi pi-pencil" className="p-button-rounded p-button-warning p-mr-2" />
-                <Button icon="pi pi-eye" className="p-button-rounded p-button-primary" />
+                <Button icon="pi pi-eye" onClick={() => history.push({ pathname: "/rtaCase", search: "?id=32" })} className="p-button-rounded p-button-primary" />
             </center>
         );
     };

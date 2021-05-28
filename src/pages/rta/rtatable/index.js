@@ -109,7 +109,7 @@ function RTATable() {
         return (
             <center>
                 <Button icon="pi pi-pencil" className="p-button-rounded p-button-warning p-mr-2" />
-                <Button icon="pi pi-eye" onClick={() => history.push({ pathname: "/rtaCase", search: "?id=32" })} className="p-button-rounded p-button-primary" />
+                <Button icon="pi pi-eye" onClick={() => history.push(`rtaCase?id=${rowData?.rtacode}`)} className="p-button-rounded p-button-primary" />
             </center>
         );
     };

@@ -3,6 +3,7 @@ import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
+import { minordetails } from "../../../utilities/constants";
 
 function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minordata, viewmode }) {
     const footer = (
@@ -32,26 +33,12 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minordata,
             type: null,
         },
     ];
-    const initialState = {
-        gtitle: "",
-        gfirstname: "",
-        gmiddleName: "",
-        glastName: "",
-        gdob: "",
-        gpostalcode: "",
-        gemail: "",
-        gaddress1: "",
-        gaddress2: "",
-        gaddress3: "",
-        gcity: "",
-        gregion: "",
-    };
 
-    const [minorDetails, setMinorDetails] = useState(minordata && Object.keys(minordata).length ? minordata : initialState);
+    const [minorDetails, setMinorDetails] = useState(minordata && Object.keys(minordata).length ? minordata : minordetails);
     const [titleValue, settitleValue] = useState("");
 
     const handleClear = () => {
-        setMinorDetails(initialState);
+        setMinorDetails(minordetails);
     };
 
     //Match Keys & Map Edit Values to Minor Details
@@ -59,7 +46,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minordata,
         if (details && Object.keys(details).length) {
             let newObj = {};
             Object.keys(details).forEach((dt) => {
-                Object.keys(initialState).forEach((ins) => {
+                Object.keys(minordetails).forEach((ins) => {
                     if (ins === dt) newObj[ins] = details[ins];
                 });
             });

@@ -1,9 +1,8 @@
 import { getClaimant } from "../../services/Claimant";
 import { GETCLAIMANTSUCCESS, GETCLAIMANTERROR } from "../slices/claimantSlice";
 
-export const getClaimantDetails = () => async (dispatch) => {
-    console.log("FETCHING..");
-    const res = await getClaimant();
+export const getClaimantDetails = (rtaCode) => async (dispatch) => {
+    const res = await getClaimant(rtaCode);
     if (res) {
         dispatch(GETCLAIMANTSUCCESS(res));
         return res;

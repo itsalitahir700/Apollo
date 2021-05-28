@@ -3,36 +3,9 @@ import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
+import { claimantdetails } from "../../../utilities/constants";
 
 function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, viewmode }) {
-    const initialState = {
-        title: "",
-        firstname: "",
-        middlename: "",
-        lastname: "",
-        dob: "",
-        ninumber: "",
-        englishlevel: "",
-        mobile: "",
-        landLine: "",
-        email: "",
-        postalcode: "",
-        address1: "",
-        address2: "",
-        address3: "",
-        city: "",
-        region: "",
-        scotland: "N",
-        displayBasic: "false",
-        minor: "",
-        showMinorModal: "",
-        claimantDetails: "",
-        minorDetails: "",
-        accidentDetails: "",
-        vehiclesDetails: "",
-        images: "",
-        passengers: "",
-    };
     let states = [
         {
             code: "Mr",
@@ -45,7 +18,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
             type: null,
         },
     ];
-    const [claimantDetails, setclaimantDetails] = useState(claimantdata && Object.keys(claimantdata).length ? claimantdata : initialState);
+    const [claimantDetails, setclaimantDetails] = useState(claimantdata && Object.keys(claimantdata).length ? claimantdata : claimantdetails);
     const [scotland, setscotland] = useState("");
     const [minor, setMinor] = useState(false);
     const [titleValue, settitleValue] = useState("");

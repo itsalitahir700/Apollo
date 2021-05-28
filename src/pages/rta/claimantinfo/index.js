@@ -4,7 +4,7 @@ import { InputText } from "primereact/inputtext";
 import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
 
-function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, editmode }) {
+function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, viewmode }) {
     const initialState = {
         title: "",
         firstname: "",
@@ -84,7 +84,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, edit
                     <label htmlFor="Status">Name</label>
                     <Dropdown
                         value={titleValue}
-                        disabled={!editmode}
+                        disabled={viewmode}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, title: e.value.code });
                             settitleValue(e.value);
@@ -99,7 +99,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, edit
                     <label>First Name</label>
                     <InputText
                         value={claimantDetails?.firstname}
-                        disabled={!editmode}
+                        disabled={viewmode}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, firstname: e.target.value });
                         }}
@@ -108,7 +108,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, edit
                 <div className="p-field p-col-12 p-md-3">
                     <label>Middle Name</label>
                     <InputText
-                        disabled={!editmode}
+                        disabled={viewmode}
                         value={claimantDetails?.middlename}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, middlename: e.target.value });
@@ -119,7 +119,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, edit
                 <div className="p-field p-col-12 p-md-3">
                     <label>Last Name</label>
                     <InputText
-                        disabled={!editmode}
+                        disabled={viewmode}
                         value={claimantDetails?.lastname}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, lastname: e.target.value });
@@ -129,7 +129,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, edit
 
                 <div className="p-field p-col-12 p-md-4" style={{ marginTop: "25px" }}>
                     <Checkbox
-                        disabled={!editmode}
+                        disabled={viewmode}
                         onChange={(e) => {
                             const scotlandvalue = e.checked ? "Y" : "N";
                             setclaimantDetails({ ...claimantDetails, scotland: scotlandvalue });
@@ -142,22 +142,22 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, edit
 
                 <div className="p-field p-col-12 p-md-4">
                     <label>Date of Birth</label>
-                    {minor && <Button disabled={!editmode} label="Minor" className="p-button-danger minor" onClick={() => showMinorModal(true)} style={{ float: "right" }}></Button>}
-                    <InputText disabled={!editmode} value={claimantDetails?.dob} type="date" onChange={(e) => handleAge(e.target.value)} />
+                    {minor && <Button disabled={viewmode} label="Minor" className="p-button-danger minor" onClick={() => showMinorModal(true)} style={{ float: "right" }}></Button>}
+                    <InputText disabled={viewmode} value={claimantDetails?.dob} type="date" onChange={(e) => handleAge(e.target.value)} />
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
                     <label>Ni Number</label>
                     <div className="p-inputgroup">
                         <InputText
-                            disabled={!editmode}
+                            disabled={viewmode}
                             value={claimantDetails?.ninumber}
                             onChange={(e) => {
                                 setclaimantDetails({ ...claimantDetails, ninumber: e.target.value });
                             }}
                         />
                         <Dropdown
-                            disabled={!editmode}
+                            disabled={viewmode}
                             options={[{ name: "WILL BE PROVIDED TO SOLICITOR" }]}
                             onChange={(e) => {
                                 setclaimantDetails({ ...claimantDetails, ninumber: e.value.name });
@@ -172,14 +172,14 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, edit
                     <label>Standard of English</label>
                     <div className="p-inputgroup">
                         <InputText
-                            disabled={!editmode}
+                            disabled={viewmode}
                             value={claimantDetails?.englishlevel}
                             onChange={(e) => {
                                 setclaimantDetails({ ...claimantDetails, englishlevel: e.target.value });
                             }}
                         />
                         <Dropdown
-                            disabled={!editmode}
+                            disabled={viewmode}
                             options={[{ name: "Fluent" }, { name: "Good" }, { name: "Average" }, { name: "Poor" }]}
                             onChange={(e) => {
                                 setclaimantDetails({ ...claimantDetails, englishlevel: e.value.name });
@@ -193,7 +193,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, edit
                 <div className="p-field p-col-12 p-md-4">
                     <label>Mobile</label>
                     <InputText
-                        disabled={!editmode}
+                        disabled={viewmode}
                         value={claimantDetails?.mobile}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, mobile: e.target.value });
@@ -204,7 +204,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, edit
                 <div className="p-field p-col-12 p-md-4">
                     <label>Landline</label>
                     <InputText
-                        disabled={!editmode}
+                        disabled={viewmode}
                         value={claimantDetails?.landLine}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, landLine: e.target.value });
@@ -215,7 +215,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, edit
                 <div className="p-field p-col-12 p-md-4">
                     <label>Email</label>
                     <InputText
-                        disabled={!editmode}
+                        disabled={viewmode}
                         value={claimantDetails?.email}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, email: e.target.value });
@@ -228,7 +228,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, edit
                     <label>Address</label>
                     <div className="p-inputgroup">
                         <InputText
-                            disabled={!editmode}
+                            disabled={viewmode}
                             placeholder="postalcode"
                             value={claimantDetails?.postalcode}
                             onChange={(e) => {
@@ -242,7 +242,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, edit
                 <div className="p-field p-col-12 p-md-4">
                     <label>Address line 1</label>
                     <InputText
-                        disabled={!editmode}
+                        disabled={viewmode}
                         value={claimantDetails?.address1}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, address1: e.target.value });
@@ -253,7 +253,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, edit
                 <div className="p-field p-col-12 p-md-4">
                     <label>Address line 2</label>
                     <InputText
-                        disabled={!editmode}
+                        disabled={viewmode}
                         value={claimantDetails?.address2}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, address2: e.target.value });
@@ -264,7 +264,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, edit
                 <div className="p-field p-col-12 p-md-4">
                     <label>Address line 3</label>
                     <InputText
-                        disabled={!editmode}
+                        disabled={viewmode}
                         value={claimantDetails?.address3}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, address3: e.target.value });
@@ -275,7 +275,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, edit
                 <div className="p-field p-col-12 p-md-4">
                     <label>City</label>
                     <InputText
-                        disabled={!editmode}
+                        disabled={viewmode}
                         value={claimantDetails?.city}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, city: e.target.value });
@@ -286,7 +286,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, edit
                 <div className="p-field p-col-12 p-md-4">
                     <label>Region</label>
                     <InputText
-                        disabled={!editmode}
+                        disabled={viewmode}
                         value={claimantDetails?.region}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, region: e.target.value });

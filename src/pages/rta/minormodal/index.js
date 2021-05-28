@@ -4,7 +4,7 @@ import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 
-function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
+function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minordata, viewmode }) {
     const footer = (
         <div>
             <Button
@@ -47,7 +47,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
         gregion: "",
     };
 
-    const [minorDetails, setMinorDetails] = useState(initialState);
+    const [minorDetails, setMinorDetails] = useState(minordata && Object.keys(minordata).length ? minordata : initialState);
     const [titleValue, settitleValue] = useState("");
 
     const handleClear = () => {
@@ -78,6 +78,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
                 <div className="p-field p-col-12 p-md-3">
                     <label htmlFor="Status"> Name</label>
                     <Dropdown
+                        disabled={viewmode}
                         inputId="Status"
                         value={titleValue}
                         onChange={(e) => {
@@ -92,6 +93,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
                 <div className="p-field p-col-12 p-md-3">
                     <label> First Name</label>
                     <InputText
+                        disabled={viewmode}
                         value={minorDetails?.gfirstname}
                         onChange={(e) => {
                             setMinorDetails({ ...minorDetails, gfirstname: e.target.value });
@@ -101,6 +103,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
                 <div className="p-field p-col-12 p-md-3">
                     <label> Middle Name</label>
                     <InputText
+                        disabled={viewmode}
                         value={minorDetails?.gmiddleName}
                         onChange={(e) => {
                             setMinorDetails({ ...minorDetails, gmiddleName: e.target.value });
@@ -111,6 +114,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
                 <div className="p-field p-col-12 p-md-3">
                     <label> Last Name</label>
                     <InputText
+                        disabled={viewmode}
                         value={minorDetails?.glastName}
                         onChange={(e) => {
                             setMinorDetails({ ...minorDetails, glastName: e.target.value });
@@ -120,6 +124,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
                 <div className="p-field p-col-12 p-md-6">
                     <label>Date of Birth</label>
                     <InputText
+                        disabled={viewmode}
                         type="date"
                         value={minorDetails?.gdob}
                         onChange={(e) => {
@@ -130,6 +135,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
                 <div className="p-field p-col-12 p-md-6">
                     <label>Address</label>
                     <InputText
+                        disabled={viewmode}
                         placeholder="Postal Code"
                         value={minorDetails?.gpostalcode}
                         onChange={(e) => {
@@ -140,6 +146,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
                 <div className="p-field p-col-12 p-md-12">
                     <label>Email</label>
                     <InputText
+                        disabled={viewmode}
                         placeholder="Email Adress"
                         value={minorDetails?.gemail}
                         onChange={(e) => {
@@ -149,6 +156,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
                 </div>
                 <div className="p-field p-col-12 p-md-12">
                     <InputText
+                        disabled={viewmode}
                         placeholder="Address Line 1"
                         value={minorDetails?.gaddress1}
                         onChange={(e) => {
@@ -158,6 +166,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
                 </div>
                 <div className="p-field p-col-12 p-md-12">
                     <InputText
+                        disabled={viewmode}
                         placeholder="Address Line 2"
                         value={minorDetails?.gaddress2}
                         onChange={(e) => {
@@ -167,6 +176,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
                 </div>
                 <div className="p-field p-col-12 p-md-12">
                     <InputText
+                        disabled={viewmode}
                         placeholder="Address Line 3"
                         value={minorDetails?.gaddress3}
                         onChange={(e) => {
@@ -176,6 +186,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
                 </div>
                 <div className="p-field p-col-12 p-md-6">
                     <InputText
+                        disabled={viewmode}
                         placeholder="City"
                         value={minorDetails?.city}
                         onChange={(e) => {
@@ -185,6 +196,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details }) {
                 </div>
                 <div className="p-field p-col-12 p-md-6">
                     <InputText
+                        disabled={viewmode}
                         placeholder="Region"
                         value={minorDetails?.region}
                         onChange={(e) => {

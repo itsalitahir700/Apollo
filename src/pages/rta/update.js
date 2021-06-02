@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "primereact/button";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { claimantdetails, minordetails, accidentdetails, vehicledetails } from "../../utilities/constants";
+import { updataRta } from "../../services/Rta";
 
 function UpdateClaimant() {
     const url = require("url");
@@ -64,6 +65,14 @@ function UpdateClaimant() {
         mapData();
     }, [mapData]);
 
+    const token = localStorage.getItem("token");
+
+    const handleSubmit = () => {
+        const rtaCode = { rtacode: urlObj?.query?.id };
+        const post = { ...claimantDetails, ...accidentDetails, ...vehicleDetails, ...rtaCode };
+        updataRta(post, token);
+    };
+
     return (
         <div className="card">
             <Button onClick={() => setviewmode(!viewmode)} label={viewmode ? "Edit" : "Update"} icon={viewmode ? "pi pi-pencil" : "pi pi-check"} className="p-button-sm p-mr-2 p-mb-2" />
@@ -97,6 +106,9 @@ function UpdateClaimant() {
             </Accordion>
 
             <MinorModal handleMinorReturn={setMinorDetails} minorData={minorDetails} viewmode={viewmode} show={showMinorModal} hide={setShowMinorModal} />
+            <center className="p-mt-2 p-button-outlined" onClick={handleSubmit}>
+                <Button label="Update" />
+            </center>
         </div>
     );
 }

@@ -32,3 +32,21 @@ export const postRta = async (data, token) => {
         return false;
     }
 };
+
+export const updataRta = async (data, token) => {
+    const response = await axios({
+        method: "post",
+        url: `${baseURL}rta/updateRtaCase`,
+        data: data,
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+        },
+    });
+    if (response.status === 200) {
+        toast.success(response.data.messages);
+        return response;
+    } else {
+        return false;
+    }
+};

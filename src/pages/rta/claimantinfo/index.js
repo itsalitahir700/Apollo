@@ -5,7 +5,7 @@ import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
 import { claimantdetails } from "../../../utilities/constants";
 
-function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, viewmode }) {
+function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, viewmode, errors }) {
     let states = [
         {
             code: "Mr",
@@ -67,7 +67,6 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         optionLabel="name"
                     />
                 </div>
-
                 <div className="p-field p-col-12 p-md-3">
                     <label>First Name</label>
                     <InputText
@@ -76,7 +75,9 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, firstname: e.target.value });
                         }}
+                        className={errors?.firstname && "p-invalid p-d-block"}
                     />
+                    <small className="p-error p-d-block">{errors?.firstname}</small>
                 </div>
                 <div className="p-field p-col-12 p-md-3">
                     <label>Middle Name</label>
@@ -86,9 +87,10 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, middlename: e.target.value });
                         }}
+                        className={errors?.middlename && "p-invalid p-d-block"}
                     />
+                    <small className="p-error p-d-block">{errors?.middlename}</small>
                 </div>
-
                 <div className="p-field p-col-12 p-md-3">
                     <label>Last Name</label>
                     <InputText
@@ -97,9 +99,10 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, lastname: e.target.value });
                         }}
+                        className={errors?.lastname && "p-invalid p-d-block"}
                     />
+                    <small className="p-error p-d-block">{errors?.lastname}</small>
                 </div>
-
                 <div className="p-field p-col-12 p-md-4" style={{ marginTop: "25px" }}>
                     <Checkbox
                         disabled={viewmode}
@@ -112,13 +115,12 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     ></Checkbox>
                     <label style={{ paddingLeft: "1%" }}>Did accident occur in scotlands?</label>
                 </div>
-
                 <div className="p-field p-col-12 p-md-4">
                     <label>Date of Birth</label>
                     {minor && <Button disabled={viewmode} label="Minor" className="p-button-danger minor" onClick={() => showMinorModal(true)} style={{ float: "right" }}></Button>}
-                    <InputText disabled={viewmode} value={claimantDetails?.dob} type="date" onChange={(e) => handleAge(e.target.value)} />
+                    <InputText disabled={viewmode} value={claimantDetails?.dob} type="date" onChange={(e) => handleAge(e.target.value)} className={errors?.dob && "p-invalid p-d-block"} />
+                    <small className="p-error p-d-block">{errors?.dob}</small>
                 </div>
-
                 <div className="p-field p-col-12 p-md-4">
                     <label>Ni Number</label>
                     <div className="p-inputgroup">
@@ -128,6 +130,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                             onChange={(e) => {
                                 setclaimantDetails({ ...claimantDetails, ninumber: e.target.value });
                             }}
+                            className={errors?.ninumber && "p-invalid p-d-block"}
                         />
                         <Dropdown
                             disabled={viewmode}
@@ -139,8 +142,8 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                             optionLabel="name"
                         />
                     </div>
+                    <small className="p-error p-d-block">{errors?.ninulastnamember}</small>
                 </div>
-
                 <div className="p-field p-col-12 p-md-4">
                     <label>Standard of English</label>
                     <div className="p-inputgroup">
@@ -150,6 +153,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                             onChange={(e) => {
                                 setclaimantDetails({ ...claimantDetails, englishlevel: e.target.value });
                             }}
+                            className={errors?.englishlevel && "p-invalid p-d-block"}
                         />
                         <Dropdown
                             disabled={viewmode}
@@ -161,8 +165,8 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                             optionLabel="name"
                         />
                     </div>
+                    <small className="p-error p-d-block">{errors?.englishlevel}</small>
                 </div>
-
                 <div className="p-field p-col-12 p-md-4">
                     <label>Mobile</label>
                     <InputText
@@ -171,9 +175,11 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, mobile: e.target.value });
                         }}
+                        className={errors?.mobile && "p-invalid p-d-block"}
                     />
+                    <small className="p-error p-d-block">{errors?.mobile}</small>
                 </div>
-
+                dob
                 <div className="p-field p-col-12 p-md-4">
                     <label>Landline</label>
                     <InputText
@@ -184,7 +190,6 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         }}
                     />
                 </div>
-
                 <div className="p-field p-col-12 p-md-4">
                     <label>Email</label>
                     <InputText
@@ -196,7 +201,6 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         type="email"
                     />
                 </div>
-
                 <div className="p-field p-col-12 p-md-4">
                     <label>Address</label>
                     <div className="p-inputgroup">
@@ -207,11 +211,12 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                             onChange={(e) => {
                                 setclaimantDetails({ ...claimantDetails, postalcode: e.target.value });
                             }}
+                            className={errors?.postalcode && "p-invalid p-d-block"}
                         />
                         <Dropdown inputId="Status" value={claimantDetails?.title} options={states} placeholder="Select" optionLabel="name" />
                     </div>
+                    <small className="p-error p-d-block">{errors?.postalcode}</small>
                 </div>
-
                 <div className="p-field p-col-12 p-md-4">
                     <label>Address line 1</label>
                     <InputText
@@ -222,7 +227,6 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         }}
                     />
                 </div>
-
                 <div className="p-field p-col-12 p-md-4">
                     <label>Address line 2</label>
                     <InputText
@@ -233,7 +237,6 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         }}
                     />
                 </div>
-
                 <div className="p-field p-col-12 p-md-4">
                     <label>Address line 3</label>
                     <InputText
@@ -244,7 +247,6 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         }}
                     />
                 </div>
-
                 <div className="p-field p-col-12 p-md-4">
                     <label>City</label>
                     <InputText
@@ -255,7 +257,6 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         }}
                     />
                 </div>
-
                 <div className="p-field p-col-12 p-md-4">
                     <label>Region</label>
                     <InputText

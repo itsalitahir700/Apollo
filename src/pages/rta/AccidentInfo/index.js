@@ -6,7 +6,7 @@ import { Checkbox } from "primereact/checkbox";
 import { getCircumstances, getInjuryClassification } from "../../../services/Lovs";
 import { accidentdetails } from "../../../utilities/constants";
 
-function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode }) {
+function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) {
     const [accidentDetails, setaccidentDetails] = useState(accidentdata && Object.keys(accidentdata).length ? accidentdata : accidentdetails);
     const [circumstancesValue, setcircumstancesValue] = useState("");
     const [injuryClassification, setinjuryClassification] = useState("");
@@ -49,6 +49,7 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode }) {
                         }}
                         placeholder="Date"
                         type="date"
+                        className={errors?.accdate && "p-invalid p-d-block"}
                     />
                     <InputText
                         disabled={viewmode}
@@ -58,7 +59,9 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode }) {
                         }}
                         placeholder="Time"
                         type="time"
+                        className={errors?.acctime && "p-invalid p-d-block"}
                     />
+                    <small className="p-error p-d-block">{errors?.accdate || errors?.acctime}</small>
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
@@ -73,7 +76,9 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode }) {
                         }}
                         placeholder="Select"
                         optionLabel="name"
+                        className={errors?.circumcode && "p-invalid"}
                     />
+                    <small className="p-error p-d-block">{errors?.circumcode}</small>
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
@@ -84,7 +89,9 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode }) {
                         onChange={(e) => {
                             setaccidentDetails({ ...accidentDetails, location: e.target.value });
                         }}
+                        className={errors?.location && "p-invalid p-d-block"}
                     />
+                    <small className="p-error p-d-block">{errors?.location}</small>
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
@@ -96,7 +103,10 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode }) {
                         onChange={(e) => {
                             setaccidentDetails({ ...accidentDetails, description: e.target.value });
                         }}
+                        required
+                        className={errors?.description && "p-invalid p-d-block"}
                     />
+                    <small className="p-error p-d-block">{errors?.description}</small>
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
@@ -112,7 +122,8 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode }) {
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
-                    <div className="p-field-radiobutton">
+                    <label>Claimant</label>
+                    <div className="p-field-radiobutton p-d-flex">
                         <RadioButton
                             disabled={viewmode}
                             value="D"
@@ -122,8 +133,7 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode }) {
                             checked={accidentDetails?.driverpassenger === "D"}
                         />
                         <label>Driver</label>
-                    </div>
-                    <div className="p-field-radiobutton">
+                        &nbsp;
                         <RadioButton
                             disabled={viewmode}
                             value="P"
@@ -134,6 +144,7 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode }) {
                         />
                         <label>Passenger</label>
                     </div>
+                    <small className="p-error p-d-block">{errors?.driverpassenger}</small>
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
@@ -148,7 +159,9 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode }) {
                         }}
                         placeholder="Select"
                         optionLabel="name"
+                        className={errors?.injclasscode && "p-invalid "}
                     />
+                    <small className="p-error p-d-block">{errors?.injclasscode}</small>
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
@@ -160,7 +173,9 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode }) {
                         onChange={(e) => {
                             setaccidentDetails({ ...accidentDetails, injdescription: e.target.value });
                         }}
+                        className={errors?.injdescription && "p-invalid p-d-block"}
                     />
+                    <small className="p-error p-d-block">{errors?.injdescription}</small>
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
@@ -173,9 +188,11 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode }) {
                                 setaccidentDetails({ ...accidentDetails, injlength: e.target.value });
                             }}
                             type="number"
+                            className={errors?.firstname && "p-invalid p-d-block"}
                         />
                         <span className="p-inputgroup-addon">Weeks</span>
                     </div>
+                    <small className="p-error p-d-block">{errors?.injlength}</small>
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">

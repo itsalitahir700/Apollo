@@ -1,29 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
-import { InputTextarea } from "primereact/inputtextarea";
 import { RadioButton } from "primereact/radiobutton";
 import { Checkbox } from "primereact/checkbox";
 import { getCircumstances, getInjuryClassification } from "../../../services/Lovs";
+import { accidentdetails } from "../../../utilities/constants";
 
-function AccidentInfo({ handleAccidentReturn }) {
-    const initialState = {
-        accdate: "",
-        acctime: "",
-        circumcode: "",
-        location: "",
-        description: "",
-        rdweathercond: "",
-        driverpassenger: "",
-        injclasscode: "",
-        injdescription: "",
-        injlength: "",
-        ongoing: "N",
-        medicalinfo: "N",
-    };
-    const [accidentDetails, setaccidentDetails] = useState(initialState);
+function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode }) {
+    const [accidentDetails, setaccidentDetails] = useState(accidentdata && Object.keys(accidentdata).length ? accidentdata : accidentdetails);
     const [circumstancesValue, setcircumstancesValue] = useState("");
-
     const [injuryClassification, setinjuryClassification] = useState("");
     const [injuryClassificationValue, setinjuryClassificationValue] = useState("");
     const [circumstances, setcircumstances] = useState("");
@@ -48,12 +33,16 @@ function AccidentInfo({ handleAccidentReturn }) {
         handleAccidentReturn(accidentDetails);
     }, [accidentDetails, handleAccidentReturn]);
 
+    useEffect(() => {
+        setaccidentDetails(accidentdata);
+    }, [accidentdata]);
     return (
         <div>
             <div className="p-fluid p-formgrid p-grid">
                 <div className="p-field p-col-12 p-md-4">
                     <label>Date and Time</label>
                     <InputText
+                        disabled={viewmode}
                         value={accidentDetails?.accdate}
                         onChange={(e) => {
                             setaccidentDetails({ ...accidentDetails, accdate: e.target.value });
@@ -62,6 +51,7 @@ function AccidentInfo({ handleAccidentReturn }) {
                         type="date"
                     />
                     <InputText
+                        disabled={viewmode}
                         value={accidentDetails?.acctime}
                         onChange={(e) => {
                             setaccidentDetails({ ...accidentDetails, acctime: e.target.value });
@@ -74,6 +64,7 @@ function AccidentInfo({ handleAccidentReturn }) {
                 <div className="p-field p-col-12 p-md-4">
                     <label>Circumstances</label>
                     <Dropdown
+                        disabled={viewmode}
                         options={circumstances}
                         value={circumstancesValue}
                         onChange={(e) => {
@@ -88,6 +79,7 @@ function AccidentInfo({ handleAccidentReturn }) {
                 <div className="p-field p-col-12 p-md-4">
                     <label>Location</label>
                     <InputText
+                        disabled={viewmode}
                         value={accidentDetails?.location}
                         onChange={(e) => {
                             setaccidentDetails({ ...accidentDetails, location: e.target.value });
@@ -97,7 +89,9 @@ function AccidentInfo({ handleAccidentReturn }) {
 
                 <div className="p-field p-col-12 p-md-4">
                     <label>Description</label>
-                    <InputTextarea
+                    <InputText
+                        disabled={viewmode}
+                        area
                         value={accidentDetails?.description}
                         onChange={(e) => {
                             setaccidentDetails({ ...accidentDetails, description: e.target.value });
@@ -107,7 +101,9 @@ function AccidentInfo({ handleAccidentReturn }) {
 
                 <div className="p-field p-col-12 p-md-4">
                     <label>Road Weather Conditions</label>
-                    <InputTextarea
+                    <InputText
+                        disabled={viewmode}
+                        area
                         value={accidentDetails?.rdweathercond}
                         onChange={(e) => {
                             setaccidentDetails({ ...accidentDetails, rdweathercond: e.target.value });
@@ -118,21 +114,23 @@ function AccidentInfo({ handleAccidentReturn }) {
                 <div className="p-field p-col-12 p-md-4">
                     <div className="p-field-radiobutton">
                         <RadioButton
+                            disabled={viewmode}
                             value="D"
                             onChange={(e) => {
                                 setaccidentDetails({ ...accidentDetails, driverpassenger: e.value });
                             }}
-                            checked={accidentDetails.driverpassenger === "D"}
+                            checked={accidentDetails?.driverpassenger === "D"}
                         />
                         <label>Driver</label>
                     </div>
                     <div className="p-field-radiobutton">
                         <RadioButton
+                            disabled={viewmode}
                             value="P"
                             onChange={(e) => {
                                 setaccidentDetails({ ...accidentDetails, driverpassenger: e.value });
                             }}
-                            checked={accidentDetails.driverpassenger === "P"}
+                            checked={accidentDetails?.driverpassenger === "P"}
                         />
                         <label>Passenger</label>
                     </div>
@@ -141,6 +139,7 @@ function AccidentInfo({ handleAccidentReturn }) {
                 <div className="p-field p-col-12 p-md-4">
                     <label>Injury Classification</label>
                     <Dropdown
+                        disabled={viewmode}
                         options={injuryClassification}
                         value={injuryClassificationValue}
                         onChange={(e) => {
@@ -154,7 +153,9 @@ function AccidentInfo({ handleAccidentReturn }) {
 
                 <div className="p-field p-col-12 p-md-4">
                     <label>Injury Description</label>
-                    <InputTextarea
+                    <InputText
+                        disabled={viewmode}
+                        area
                         value={accidentDetails?.injdescription}
                         onChange={(e) => {
                             setaccidentDetails({ ...accidentDetails, injdescription: e.target.value });
@@ -166,6 +167,7 @@ function AccidentInfo({ handleAccidentReturn }) {
                     <label>Length Of Injury</label>
                     <div className="p-inputgroup">
                         <InputText
+                            disabled={viewmode}
                             value={accidentDetails?.injlength}
                             onChange={(e) => {
                                 setaccidentDetails({ ...accidentDetails, injlength: e.target.value });
@@ -178,6 +180,7 @@ function AccidentInfo({ handleAccidentReturn }) {
 
                 <div className="p-field p-col-12 p-md-4">
                     <Checkbox
+                        disabled={viewmode}
                         onChange={(e) => {
                             const ongoing = e.checked ? "Y" : "N";
                             setaccidentDetails({ ...accidentDetails, ongoing });
@@ -190,6 +193,7 @@ function AccidentInfo({ handleAccidentReturn }) {
 
                 <div className="p-field p-col-12 p-md-4">
                     <Checkbox
+                        disabled={viewmode}
                         value="Y"
                         onChange={(e) => {
                             const medicalinfo = e.checked ? "Y" : "N";

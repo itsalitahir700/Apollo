@@ -15,6 +15,7 @@ import Profile from "./pages/register/Profile";
 import CompanyDetails from "./pages/register/CompanyDetails";
 import RTA from "./pages/rta/RTA";
 import RTATable from "./pages/rta/rtatable";
+import RTACase from "./pages/rta/rtacase";
 import Login from "./pages/login/Login";
 
 import PrimeReact from "primereact/api";
@@ -206,7 +207,7 @@ const App = () => {
                             {routes && routes.includes("/companydetails") && <Route exact path="/companydetails" component={CompanyDetails} />}
                             {routes && routes.includes("/rta") && <Route exact path="/rta" component={RTA} />}
                             {routes && routes.includes("/rtalist") && <Route exact path="/rtalist" component={RTATable} />}
-                            <Redirect to="/profile" />
+                            <Route exact path="/rtaCase" component={RTACase} />
                         </Switch>
                     )}
                 </Switch>

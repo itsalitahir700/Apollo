@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import classNames from "classnames";
-import { CSSTransition } from "react-transition-group";
+import React from "react";
+// import classNames from "classnames";
+// import { CSSTransition } from "react-transition-group";
 
 export const AppProfile = () => {
-    const [expanded, setExpanded] = useState(false);
+    // const [expanded, setExpanded] = useState(false);
 
-    const onClick = (event) => {
-        setExpanded((prevState) => !prevState);
-        event.preventDefault();
-    };
+    // const onClick = (event) => {
+    //     setExpanded((prevState) => !prevState);
+    //     event.preventDefault();
+    // };
 
     return (
         <div className="layout-profile">

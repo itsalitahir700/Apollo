@@ -9,6 +9,7 @@ import { Button } from "primereact/button";
 import { TabView, TabPanel } from "primereact/tabview";
 import MinorModal from "../minormodal";
 import { getInjuryClassification } from "../../../services/Lovs";
+import { vehicledetails } from "../../../utilities/constants";
 
 function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, isEdit }) {
     const footer = (
@@ -26,36 +27,8 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
             <Button label="Clear" onClick={() => handleClear()} icon="pi pi-times" />
         </div>
     );
-    const initialState = {
-        title: "",
-        firstname: "",
-        middlename: "",
-        lastname: "",
-        dob: "",
-        ninumber: "",
-        options: "",
-        mobile: "",
-        landline: "",
-        address: "",
-        pCode: "",
-        address1: "",
-        address2: "",
-        address3: "",
-        city: "",
-        region: "",
-        contact: "",
-        driverpassen: "",
-        classification: "",
-        injdescr: "",
-        injlength: "",
-        ongoinginjury: "",
-        medicalinfo: "",
-        details: "",
-        minor: false,
-        injclasscode: "",
-    };
 
-    const [passengerDetails, setPassengerDetails] = useState(initialState);
+    const [passengerDetails, setPassengerDetails] = useState(vehicledetails);
     const [showMinorModal, setShowMinorModal] = useState(false);
     const [minorDetails, setMinorDetails] = useState();
     const [injuryClassification, setinjuryClassification] = useState("");
@@ -82,7 +55,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
     };
 
     const handleClear = () => {
-        setPassengerDetails(initialState);
+        setPassengerDetails(vehicledetails);
     };
 
     const updatePassengerDetails = React.useCallback(() => {

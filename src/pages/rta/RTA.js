@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Fieldset } from "primereact/fieldset";
 import { InputTextarea } from "primereact/inputtextarea";
 import PassengerModal from "./passenger";
@@ -59,7 +59,6 @@ function RTA() {
     const handleSubmit = () => {
         let post = { ...claimantDetails, ...minorDetails, ...accidentDetails, ...vehiclesDetails, passengers: passengers, files: images };
         postRta(post, localStorage.getItem("token"));
-        console.log("POST ::: ", post);
     };
 
     return (

@@ -63,15 +63,15 @@ function RTA() {
 
     return (
         <>
-            <Fieldset className="p-mt-2" legend="Claimant Info" toggleable>
+            <Fieldset className="p-mt-2" legend="Claimant Info">
                 <ClaimantInfo handleClaimantReturn={setclaimantDetails} showMinorModal={setShowMinorModal} />
             </Fieldset>
 
-            <Fieldset className="p-mt-2" legend="Accident Info" toggleable>
+            <Fieldset className="p-mt-2" legend="Accident Info">
                 <AccidentInfo handleAccidentReturn={setaccidentDetails} />
             </Fieldset>
 
-            <Fieldset className="p-mt-2" legend="Vehicles & Passenger Info" toggleable>
+            <Fieldset className="p-mt-2" legend="Vehicles & Passenger Info">
                 <VehiclesInfo handleVehicleInfoReturn={setvehiclesDetails} />
 
                 <PassengerModal status={states} show={displayBasic} hide={setDisplayBasic} handlePassengerReturn={handleAddPassenger} />
@@ -86,7 +86,7 @@ function RTA() {
                 </div>
             </Fieldset>
 
-            <Fieldset className="p-mt-2" legend="Attachments" toggleable>
+            <Fieldset className="p-mt-2" legend="Attachments">
                 <ImagesUpload handleImages={setimages} />
             </Fieldset>
             <center className="p-mt-2 p-button-outlined" onClick={handleSubmit}>

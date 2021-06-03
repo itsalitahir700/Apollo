@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { TabView, TabPanel } from "primereact/tabview";
 import UpdateClaimant from "../update";
+import Notes from "../../../components/Notes";
 
 const RTACase = () => {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -13,6 +14,9 @@ const RTACase = () => {
                         <UpdateClaimant />
                     </TabPanel>
                     <TabPanel header="Images">Images ***/</TabPanel>
+                    <TabPanel header="Notes">
+                        <Notes />
+                    </TabPanel>
                 </TabView>
             </div>
         </div>

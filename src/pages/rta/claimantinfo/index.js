@@ -54,7 +54,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
         <div>
             <div className="p-fluid p-formgrid p-grid">
                 <div className="p-field p-col-12 p-md-3">
-                    <label htmlFor="Status">Name</label>
+                    <label htmlFor="Status">Title</label>
                     <Dropdown
                         value={titleValue}
                         disabled={viewmode}

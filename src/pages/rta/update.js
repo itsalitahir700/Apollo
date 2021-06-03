@@ -3,12 +3,14 @@ import { getClaimantDetails } from "../../redux/actions/claimantAction";
 import ClaimantInfo from "./claimantinfo";
 import AccidentInfo from "./AccidentInfo";
 import VehiclesInfo from "./VehiclesInfo";
+import PassengersTable from "./passenger/passengertable";
 import MinorModal from "./minormodal";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "primereact/button";
 import { Accordion, AccordionTab } from "primereact/accordion";
+import { Fieldset } from "primereact/fieldset";
 import { claimantdetails, minordetails, accidentdetails, vehicledetails } from "../../utilities/constants";
-import { updataRta } from "../../services/Rta";
+import { updataRta, getPassengers } from "../../services/Rta";
 
 function UpdateClaimant() {
     const url = require("url");
@@ -19,8 +21,9 @@ function UpdateClaimant() {
     const [accidentDetails, setAccidentDetails] = useState(accidentdetails);
     const [vehicleDetails, setVehicleDetails] = useState(vehicledetails);
     const [showMinorModal, setShowMinorModal] = useState(false);
+    const [passengers, setpassengers] = useState("");
     const claimantstore = useSelector((state) => state.claimantSlice.claimantDetails);
-    const [viewmode, setviewmode] = useState(true);
+    const [viewmode, setviewmode] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -73,37 +76,44 @@ function UpdateClaimant() {
         updataRta(post, token);
     };
 
+    const funcGetPassengers = async () => {
+        const rtaCode = urlObj?.query?.id;
+        const res = await getPassengers(rtaCode, token);
+        setpassengers(res);
+    };
+
+    useEffect(() => {
+        funcGetPassengers();
+    }, []);
+
     return (
-        <div className="card">
-            <Button onClick={() => setviewmode(!viewmode)} label={viewmode ? "Edit" : "Update"} icon={viewmode ? "pi pi-pencil" : "pi pi-check"} className="p-button-sm p-mr-2 p-mb-2" />
-            <Button
-                onClick={() => {
-                    setviewmode(true);
-                    mapData();
-                }}
-                disabled={viewmode}
-                label="Reset"
-                icon="pi pi-undo"
-                className="p-button-sm p-button-secondary p-mr-2 p-mb-2"
-            />
+        <div>
+            <div style={{ textAlign: "right" }}>
+                <Button
+                    onClick={() => {
+                        mapData();
+                    }}
+                    label="Reset"
+                    icon="pi pi-undo"
+                    className="p-button-sm p-button-secondary p-mr-2 p-mb-2"
+                />
+            </div>
 
-            <Accordion className="p-mb-2" activeIndex={0}>
-                <AccordionTab header="Claimant Info">
-                    <ClaimantInfo handleClaimantReturn={setClaimantDetails} claimantdata={claimantDetails} viewmode={viewmode} showMinorModal={setShowMinorModal} />
-                </AccordionTab>
-            </Accordion>
+            <Fieldset className="p-mt-2" legend="Claimant Info">
+                <ClaimantInfo handleClaimantReturn={setClaimantDetails} claimantdata={claimantDetails} viewmode={viewmode} showMinorModal={setShowMinorModal} />
+            </Fieldset>
 
-            <Accordion className="p-mb-2" activeIndex={0}>
-                <AccordionTab header="Accident Info">
-                    <AccidentInfo viewmode={viewmode} accidentdata={accidentDetails} handleAccidentReturn={setAccidentDetails} />
-                </AccordionTab>
-            </Accordion>
+            <Fieldset className="p-mt-2" legend="Accident Info">
+                <AccidentInfo viewmode={viewmode} accidentdata={accidentDetails} handleAccidentReturn={setAccidentDetails} />
+            </Fieldset>
 
-            <Accordion className="p-mb-2" activeIndex={0}>
-                <AccordionTab header="Vehicle & Passenger Info">
-                    <VehiclesInfo viewmode={viewmode} vehicledata={vehicleDetails} handleVehicleInfoReturn={setVehicleDetails} />
-                </AccordionTab>
-            </Accordion>
+            <Fieldset className="p-mt-2" legend="Vehicles Info">
+                <VehiclesInfo viewmode={viewmode} vehicledata={vehicleDetails} handleVehicleInfoReturn={setVehicleDetails} />
+            </Fieldset>
+
+            <Fieldset className="p-mt-2" legend="Passenger Info">
+                <PassengersTable isView={true} passengers={passengers} />
+            </Fieldset>
 
             <MinorModal handleMinorReturn={setMinorDetails} minorData={minorDetails} viewmode={viewmode} show={showMinorModal} hide={setShowMinorModal} />
             <center className="p-mt-2 p-button-outlined" onClick={handleSubmit}>

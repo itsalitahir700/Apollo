@@ -141,10 +141,9 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             <label>Ni Number</label>
                             <div className="p-inputgroup">
                                 <InputText
-                                    type="number"
-                                    value={passengerDetails?.niNumber}
+                                    value={passengerDetails?.ninumber}
                                     onChange={(e) => {
-                                        setPassengerDetails({ ...passengerDetails, niNumber: e.target.value });
+                                        setPassengerDetails({ ...passengerDetails, ninumber: e.target.value });
                                     }}
                                 />
                                 <Dropdown
@@ -152,6 +151,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                                     value={passengerDetails?.options}
                                     onChange={(e) => {
                                         setPassengerDetails({ ...passengerDetails, options: e.value });
+                                        setPassengerDetails({ ...passengerDetails, ninumber: e.value.code });
                                     }}
                                     options={[
                                         {

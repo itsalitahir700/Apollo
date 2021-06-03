@@ -179,7 +179,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     />
                     <small className="p-error p-d-block">{errors?.mobile}</small>
                 </div>
-                dob
+
                 <div className="p-field p-col-12 p-md-4">
                     <label>Landline</label>
                     <InputText

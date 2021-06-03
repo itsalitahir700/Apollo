@@ -97,6 +97,7 @@ function RTA() {
                 <ImagesUpload handleImages={setimages} />
             </Fieldset>
             <center className="p-mt-2 p-button-outlined" onClick={handleSubmit}>
+                {Object.keys(errors).length && <p className="p-error p-d-block">Please fill out required fields</p>}
                 <Button label="NEXT" />
             </center>
             <MinorModal handleMinorReturn={setMinorDetails} show={showMinorModal} hide={setShowMinorModal} />

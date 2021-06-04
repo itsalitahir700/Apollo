@@ -83,7 +83,7 @@ function Notes() {
                 <div className="chat-input">
                     <input type="text" autoComplete="true" placeholder="Type a message" />
                     <button>
-                        <i className="pi pi-send pi-2x"></i>
+                        <i className="pi pi-send"></i>
                     </button>
                 </div>
             </section>

@@ -23,7 +23,7 @@
     flex: 0 0 auto;
     height: 60px;
     background: #40434e;
-    border-top: 1px solid #2671ff;
+    border-top: 1px solid #1ea40e;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
 }
 .chat-input input {
@@ -42,7 +42,7 @@
     float: right;
     outline: 0 none;
     border: none;
-    background: rgba(255, 255, 255, 0.25);
+    background: #1ea40e;
     height: 40px;
     width: 40px;
     border-radius: 50%;
@@ -50,16 +50,16 @@
     margin: 10px;
     transition: all 0.15s ease-in-out;
     cursor: pointer;
-    transition: 200ms;
+    transition: 100ms;
 }
 .chat-input button:hover {
-    transform: scale(1.1);
-    box-shadow: 0px 0px 4px grey;
+    transform: scale(1.07);
+    box-shadow: 0px 0px 4px rgb(34, 34, 34);
 }
 
 .chat-input input[good] + button {
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24);
-    background: #2671ff;
+    background: #1ea40e;
 }
 .chat-input input[good] + button:hover {
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -97,7 +97,7 @@
     border-radius: 50%;
     height: 40px;
     width: 40px;
-    background: #2671ff;
+    background: #1ea40e;
     margin: 0 10px 10px 0;
 }
 .flr {
@@ -133,7 +133,7 @@
 }
 .msg-self .msg-box {
     border-radius: 6px 0 0 6px;
-    background: #2671ff;
+    background: #1ea40e;
     float: right;
 }
 .msg-self .user-img {

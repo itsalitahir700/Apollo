@@ -4,7 +4,7 @@ import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 import PassengerModal from "../../passenger";
 
-function PassengerTable({ passengers, handleRemovePassenger, handleUpdatePassenger }) {
+function PassengerTable({ passengers, handleRemovePassenger, handleUpdatePassenger, isView }) {
     let states = [
         {
             code: "Y",
@@ -28,7 +28,13 @@ function PassengerTable({ passengers, handleRemovePassenger, handleUpdatePasseng
             </React.Fragment>
         );
     };
-
+    const actionTemplateView = (rowData) => {
+        return (
+            <React.Fragment>
+                <Button icon="pi pi-eye" onClick={() => handleEditPassenger(rowData)} className="p-button-rounded p-button-success p-mr-2" />
+            </React.Fragment>
+        );
+    };
     const handleEditPassenger = (passenger) => {
         setpassenger(passenger);
         setDisplayBasic(true);
@@ -39,7 +45,7 @@ function PassengerTable({ passengers, handleRemovePassenger, handleUpdatePasseng
             <DataTable value={passengers}>
                 <Column field="firstname" header="Name" sortable></Column>
                 <Column field="dob" header="DOB" sortable></Column>
-                <Column body={actionTemplate} header="Actions"></Column>
+                {isView === true ? <Column body={actionTemplateView} header="Actions"></Column> : <Column body={actionTemplate} header="Actions"></Column>}
             </DataTable>
             <PassengerModal status={states} show={displayBasic} hide={setDisplayBasic} passenger={passenger} handlePassengerReturn={handleUpdatePassenger} isEdit={true} />
         </div>

@@ -45,7 +45,7 @@ export const updataRta = async (data, token) => {
     });
     if (response.status === 200) {
         toast.success(response.data.messages);
-        return response;
+        return response?.data?.data;
     } else {
         return false;
     }
@@ -55,7 +55,7 @@ export const getPassengers = async (rtacode, token) => {
     try {
         const response = await axios.get(`${baseURL}rta/getAuthRtaCasePassengers/${rtacode}`, {
             headers: {
-                Authorization: token,
+                Authorization: localStorage.getItem("token"),
             },
         });
         return response?.data?.data;

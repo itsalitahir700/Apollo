@@ -3,7 +3,7 @@ import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { Checkbox } from "primereact/checkbox";
 
-function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode }) {
+function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }) {
     const initialState = {
         location: "",
         reportedtopolice: "",
@@ -48,6 +48,7 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode }) {
                             onChange={(e) => {
                                 setvehiclesDetails({ ...vehiclesDetails, registerationno: e.target.value });
                             }}
+                            className={errors?.registerationno && "p-invalid p-d-block"}
                         />
                         <Dropdown
                             options={[{ name: "Will provide to solicitor" }]}
@@ -58,6 +59,7 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode }) {
                             optionLabel="name"
                         />
                     </div>
+                    <small className="p-error p-d-block">{errors?.registerationno}</small>
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
@@ -68,7 +70,9 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode }) {
                         onChange={(e) => {
                             setvehiclesDetails({ ...vehiclesDetails, makemodel: e.target.value });
                         }}
+                        className={errors?.makemodel && "p-invalid p-d-block"}
                     />
+                    <small className="p-error p-d-block">{errors?.makemodel}</small>
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">

@@ -10,6 +10,8 @@ import VehiclesInfo from "./VehiclesInfo";
 import PassengersTable from "./passenger/passengertable";
 import ImagesUpload from "../../components/ImageUpload";
 import { postRta } from "../../services/Rta";
+import { validation } from "../../utilities/validation";
+import { claimantdetails, accidentdetails, minordetails, vehicledetails } from "../../utilities/constants";
 
 import "./rta.css";
 
@@ -27,14 +29,15 @@ function RTA() {
         },
     ];
 
-    const [claimantDetails, setclaimantDetails] = useState();
-    const [minorDetails, setMinorDetails] = useState();
-    const [accidentDetails, setaccidentDetails] = useState();
-    const [vehiclesDetails, setvehiclesDetails] = useState();
+    const [claimantDetails, setclaimantDetails] = useState(claimantdetails);
+    const [minorDetails, setMinorDetails] = useState(minordetails);
+    const [accidentDetails, setaccidentDetails] = useState(accidentdetails);
+    const [vehiclesDetails, setvehiclesDetails] = useState(vehicledetails);
     const [images, setimages] = useState();
     const [passengers, setpassengers] = useState([]);
     const [displayBasic, setDisplayBasic] = useState(false);
     const [showMinorModal, setShowMinorModal] = useState(false);
+    const [errors, seterrors] = useState({});
 
     const handleAddPassenger = (passenger) => {
         let newArr = JSON.parse(JSON.stringify(passengers));
@@ -56,40 +59,44 @@ function RTA() {
     };
 
     //Add API call in this Function
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         let post = { ...claimantDetails, ...minorDetails, ...accidentDetails, ...vehiclesDetails, passengers: passengers, files: images };
-        postRta(post, localStorage.getItem("token"));
+        const isvalid = await validation(post);
+        seterrors(isvalid?.errors);
+        if (!Object.keys(isvalid?.errors).length) {
+            postRta(post, localStorage.getItem("token"));
+        }
     };
 
     return (
         <>
-            <Fieldset className="p-mt-2" legend="Claimant Info" toggleable>
-                <ClaimantInfo handleClaimantReturn={setclaimantDetails} showMinorModal={setShowMinorModal} />
+            <Fieldset className="p-mt-2" legend="Claimant Info">
+                <ClaimantInfo handleClaimantReturn={setclaimantDetails} showMinorModal={setShowMinorModal} errors={errors} />
             </Fieldset>
 
-            <Fieldset className="p-mt-2" legend="Accident Info" toggleable>
-                <AccidentInfo handleAccidentReturn={setaccidentDetails} />
+            <Fieldset className="p-mt-2" legend="Accident Info">
+                <AccidentInfo handleAccidentReturn={setaccidentDetails} errors={errors} />
             </Fieldset>
 
-            <Fieldset className="p-mt-2" legend="Vehicles & Passenger Info" toggleable>
-                <VehiclesInfo handleVehicleInfoReturn={setvehiclesDetails} />
+            <Fieldset className="p-mt-2" legend="Vehicles & Passenger Info">
+                <VehiclesInfo handleVehicleInfoReturn={setvehiclesDetails} errors={errors} />
 
                 <PassengerModal status={states} show={displayBasic} hide={setDisplayBasic} handlePassengerReturn={handleAddPassenger} />
+            </Fieldset>
 
+            <Fieldset className="p-mt-2" legend="Passenger Info">
                 <Button label="Add" icon="pi pi-external-link" onClick={() => setDisplayBasic(!displayBasic)} />
-
                 <PassengersTable handleUpdatePassenger={handleUpdatePassenger} passengers={passengers} handleRemovePassenger={handleRemovePassenger} />
-
                 <div className="p-field p-col-12 p-md-4">
                     <label>Pasanger Info</label>
                     <InputTextarea />
                 </div>
             </Fieldset>
-
-            <Fieldset className="p-mt-2" legend="Attachments" toggleable>
+            <Fieldset className="p-mt-2" legend="Attachments">
                 <ImagesUpload handleImages={setimages} />
             </Fieldset>
             <center className="p-mt-2 p-button-outlined" onClick={handleSubmit}>
+                {Object.keys(errors).length ? <p className="p-error p-d-block">Please fill out required fields</p> : ""}
                 <Button label="NEXT" />
             </center>
             <MinorModal handleMinorReturn={setMinorDetails} show={showMinorModal} hide={setShowMinorModal} />

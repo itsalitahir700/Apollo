@@ -10,30 +10,26 @@ import { TabView, TabPanel } from "primereact/tabview";
 import MinorModal from "../minormodal";
 import { getInjuryClassification } from "../../../services/Lovs";
 import { vehicledetails } from "../../../utilities/constants";
+import { passengerValidation } from "../../../utilities/validation";
 
 function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, isEdit }) {
-    const footer = (
-        <div>
-            <Button
-                label={!isEdit ? "Add" : "Update"}
-                onClick={() => {
-                    handlePassengerReturn(passengerDetails);
-                    hide(false);
-                    handleClear();
-                }}
-                icon="pi pi-check"
-            />
-
-            <Button label="Clear" onClick={() => handleClear()} icon="pi pi-times" />
-        </div>
-    );
-
     const [passengerDetails, setPassengerDetails] = useState(vehicledetails);
     const [showMinorModal, setShowMinorModal] = useState(false);
     const [minorDetails, setMinorDetails] = useState();
     const [injuryClassification, setinjuryClassification] = useState("");
     const [injuryClassificationValue, setinjuryClassificationValue] = useState("");
     const [titleValue, settitleValue] = useState("");
+    const [errors, seterrors] = useState({});
+
+    const handlePassenger = async () => {
+        const isvalid = await passengerValidation(passengerDetails);
+        seterrors(isvalid?.errors);
+        if (!Object.keys(isvalid?.errors).length) {
+            handlePassengerReturn(passengerDetails);
+            hide(false);
+            !isEdit && handleClear();
+        }
+    };
 
     const handleAge = (dob) => {
         if (calculate_age(dob) < 15) {
@@ -56,6 +52,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
 
     const handleClear = () => {
         setPassengerDetails(vehicledetails);
+        seterrors({});
     };
 
     const updatePassengerDetails = React.useCallback(() => {
@@ -78,6 +75,13 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
     useEffect(() => {
         if (passenger && Object.keys(passenger).length !== 0) setPassengerDetails(passenger);
     }, [passenger]);
+
+    const footer = (
+        <div>
+            <Button label={!isEdit ? "Add" : "Update"} onClick={handlePassenger} icon="pi pi-check" />
+        </div>
+    );
+
     return (
         <Dialog header={isEdit ? "Edit Passenger" : "Add Passenger"} footer={footer} visible={show} style={{ width: "80%" }} onHide={() => hide(false)}>
             <TabView>
@@ -99,58 +103,67 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                         <div className="p-field p-col-12 p-md-4">
                             <label>First Name</label>
                             <InputText
-                                value={passengerDetails?.firstname}
+                                value={passengerDetails?.firstname || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, firstname: e.target.value });
                                 }}
+                                className={errors?.firstname && "p-invalid p-d-block"}
                             />
+                            <small className="p-error p-d-block">{errors?.firstname}</small>
                         </div>
                         <div className="p-field p-col-12 p-md-4">
                             <label>Middle Name</label>
                             <InputText
-                                value={passengerDetails?.middlename}
+                                value={passengerDetails?.middlename || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, middlename: e.target.value });
                                 }}
+                                className={errors?.middlename && "p-invalid p-d-block"}
                             />
+                            <small className="p-error p-d-block">{errors?.middlename}</small>
                         </div>
 
                         <div className="p-field p-col-12 p-md-4">
                             <label>Last Name</label>
                             <InputText
-                                value={passengerDetails?.lastname}
+                                value={passengerDetails?.lastname || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, lastname: e.target.value });
                                 }}
+                                className={errors?.lastname && "p-invalid p-d-block"}
                             />
+                            <small className="p-error p-d-block">{errors?.lastname}</small>
                         </div>
 
                         <div className="p-field p-col-12 p-md-4">
                             <label>Date of Birth</label> {passengerDetails?.minor && <Button label="Minor" onClick={() => setShowMinorModal(true)} className="p-button-danger minor" style={{ float: "right" }}></Button>}
                             <InputText
                                 type="date"
-                                value={passengerDetails?.dob}
+                                value={passengerDetails?.dob || ""}
                                 onChange={(e) => {
                                     handleAge(e.target.value);
                                 }}
+                                className={errors?.dob && "p-invalid p-d-block"}
                             />
+                            <small className="p-error p-d-block">{errors?.dob}</small>
                         </div>
 
                         <div className="p-field p-col-12 p-md-4">
                             <label>Ni Number</label>
                             <div className="p-inputgroup">
                                 <InputText
-                                    type="number"
                                     value={passengerDetails?.niNumber}
                                     onChange={(e) => {
                                         setPassengerDetails({ ...passengerDetails, niNumber: e.target.value });
                                     }}
+                                    className={errors?.niNumber && "p-invalid p-d-block"}
                                 />
                                 <Dropdown
                                     inputId="Status"
-                                    value={passengerDetails?.options}
+                                    value={passengerDetails?.options || ""}
                                     onChange={(e) => {
                                         setPassengerDetails({ ...passengerDetails, options: e.value });
+                                        setPassengerDetails({ ...passengerDetails, ninumber: e.value.code });
                                     }}
                                     options={[
                                         {
@@ -168,22 +181,25 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                                     optionLabel="name"
                                 />
                             </div>
+                            <small className="p-error p-d-block">{errors?.niNumber || ""}</small>
                         </div>
                         <div className="p-field p-col-12 p-md-4">
                             <label>Mobile</label>
                             <InputText
                                 type="number"
-                                value={passengerDetails?.mobile}
+                                value={passengerDetails?.mobile || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, mobile: e.target.value });
                                 }}
+                                className={errors?.mobile && "p-invalid p-d-block"}
                             />
+                            <small className="p-error p-d-block">{errors?.mobile}</small>
                         </div>
                         <div className="p-field p-col-12 p-md-4">
                             <label>Landline</label>
                             <InputText
                                 type="number"
-                                value={passengerDetails?.landline}
+                                value={passengerDetails?.landline || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, landline: e.target.value });
                                 }}
@@ -192,7 +208,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                         <div className="p-field p-col-12 p-md-4">
                             <label>Email</label>
                             <InputText
-                                value={passengerDetails?.email}
+                                value={passengerDetails?.email || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, email: e.target.value });
                                 }}
@@ -204,17 +220,19 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             <div className="p-inputgroup">
                                 <InputText
                                     placeholder="POSTCODE"
-                                    value={passengerDetails?.address}
+                                    value={passengerDetails?.address || ""}
                                     onChange={(e) => {
                                         setPassengerDetails({ ...passengerDetails, address: e.target.value });
                                     }}
+                                    className={errors?.address && "p-invalid p-d-block"}
                                 />
                             </div>
+                            <small className="p-error p-d-block">{errors?.address}</small>
                         </div>
                         <div className="p-field p-col-12 p-md-12">
                             <InputText
                                 placeholder="Address Line 1"
-                                value={passengerDetails?.address1}
+                                value={passengerDetails?.address1 || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, address1: e.target.value });
                                 }}
@@ -223,7 +241,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                         <div className="p-field p-col-12 p-md-12">
                             <InputText
                                 placeholder="Address Line 2"
-                                value={passengerDetails?.address2}
+                                value={passengerDetails?.address2 || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, address2: e.target.value });
                                 }}
@@ -232,7 +250,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                         <div className="p-field p-col-12 p-md-12">
                             <InputText
                                 placeholder="Address Line 3"
-                                value={passengerDetails?.address3}
+                                value={passengerDetails?.address3 || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, address3: e.target.value });
                                 }}
@@ -241,7 +259,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                         <div className="p-field p-col-12 p-md-4">
                             <label>City</label>
                             <InputText
-                                value={passengerDetails?.city}
+                                value={passengerDetails?.city || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, city: e.target.value });
                                 }}
@@ -251,7 +269,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             <label>Contact </label>
                             <InputText
                                 type="email"
-                                value={passengerDetails?.contact}
+                                value={passengerDetails?.contact || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, contact: e.target.value });
                                 }}
@@ -292,7 +310,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             <label> Injury Classification</label>
                             <Dropdown
                                 options={injuryClassification}
-                                value={injuryClassificationValue}
+                                value={injuryClassificationValue || ""}
                                 onChange={(e) => {
                                     setinjuryClassificationValue(e.value);
                                     setPassengerDetails({ ...passengerDetails, injclasscode: e.value.code });
@@ -305,7 +323,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                         <div className="p-field p-col-12 p-md-4">
                             <label>Injury Description</label>
                             <InputTextarea
-                                value={passengerDetails?.description}
+                                value={passengerDetails?.description || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, injdescr: e.target.value });
                                 }}
@@ -317,7 +335,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             <div className="p-inputgroup">
                                 <InputText
                                     type="number"
-                                    value={passengerDetails?.injlength}
+                                    value={passengerDetails?.injlength || ""}
                                     onChange={(e) => {
                                         setPassengerDetails({ ...passengerDetails, injlength: e.target.value });
                                     }}
@@ -349,7 +367,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                         <div className="p-field p-col-12 p-md-12">
                             <label>Details</label>
                             <InputTextarea
-                                value={passengerDetails?.details}
+                                value={passengerDetails?.details || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, details: e.target.value });
                                 }}

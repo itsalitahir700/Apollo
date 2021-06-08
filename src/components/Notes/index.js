@@ -1,84 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Notes.css";
 
 function Notes() {
+    const [messages] = useState([
+        { message: "Hello there", date: "2020/01/01", id: 1 },
+        { message: "Hello there", date: "2020/01/01", id: 2 },
+        { message: "How you doing", date: "2020/01/02", id: 1 },
+    ]);
     return (
         <div>
             <section className="chatbox">
                 <section className="chat-window">
-                    <article className="msg-container msg-remote" id="msg-0">
-                        <div className="msg-box">
-                            <div className="flr">
-                                <div className="messages">
-                                    <p className="msg" id="msg-0">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent varius, neque non tristique tincidunt, mauris nunc efficitur erat, elementum semper justo odio id nisi.
-                                    </p>
+                    {messages.map((item, index) =>
+                        item?.id === 1 ? (
+                            <article className="msg-container msg-remote" id="msg-0">
+                                <div className="msg-box">
+                                    <div className="flr">
+                                        <div className="messages">
+                                            <p className="msg" id="msg-0">
+                                                {item?.message}
+                                            </p>
+                                        </div>
+                                        <span className="timestamp">
+                                            <span className="username">Name</span>&bull;<span className="posttime">{item?.date}</span>
+                                        </span>
+                                    </div>
                                 </div>
-                                <span className="timestamp">
-                                    <span className="username">Name</span>&bull;<span className="posttime">3 minutes ago</span>
-                                </span>
-                            </div>
-                        </div>
-                    </article>
-                    <article className="msg-container msg-self" id="msg-0">
-                        <div className="msg-box">
-                            <div className="flr">
-                                <div className="messages">
-                                    <p className="msg" id="msg-1">
-                                        Lorem ipsum dolor sit amet
-                                    </p>
-                                    <p className="msg" id="msg-2">
-                                        Praesent varius
-                                    </p>
+                            </article>
+                        ) : (
+                            <article className="msg-container msg-self" id="msg-0">
+                                <div className="msg-box">
+                                    <div className="flr">
+                                        <div className="messages">
+                                            <p className="msg" id="msg-1">
+                                                {item?.message}
+                                            </p>
+                                        </div>
+                                        <span className="timestamp">
+                                            <span className="username">Name</span>&bull;<span className="posttime">{item?.date}</span>
+                                        </span>
+                                    </div>
                                 </div>
-                                <span className="timestamp">
-                                    <span className="username">Name</span>&bull;<span className="posttime">2 minutes ago</span>
-                                </span>
-                            </div>
-                        </div>
-                    </article>
-                    <article className="msg-container msg-remote" id="msg-0">
-                        <div className="msg-box">
-                            <div className="flr">
-                                <div className="messages">
-                                    <p className="msg" id="msg-0">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    </p>
-                                </div>
-                                <span className="timestamp">
-                                    <span className="username">Name</span>&bull;<span className="posttime">1 minute ago</span>
-                                </span>
-                            </div>
-                        </div>
-                    </article>
-                    <article className="msg-container msg-remote" id="msg-0">
-                        <div className="msg-box">
-                            <div className="flr">
-                                <div className="messages">
-                                    <p className="msg" id="msg-0">
-                                        Lorem ipsum dolor sit amet.
-                                    </p>
-                                </div>
-                                <span className="timestamp">
-                                    <span className="username">Name</span>&bull;<span className="posttime">Now</span>
-                                </span>
-                            </div>
-                        </div>
-                    </article>
-                    <article className="msg-container msg-self" id="msg-0">
-                        <div className="msg-box">
-                            <div className="flr">
-                                <div className="messages">
-                                    <p className="msg" id="msg-1">
-                                        Lorem ipsum
-                                    </p>
-                                </div>
-                                <span className="timestamp">
-                                    <span className="username">Name</span>&bull;<span className="posttime">Now</span>
-                                </span>
-                            </div>
-                        </div>
-                    </article>
+                            </article>
+                        )
+                    )}
                 </section>
                 <div className="chat-input">
                     <input type="text" autoComplete="true" placeholder="Type a message" />

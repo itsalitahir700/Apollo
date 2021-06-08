@@ -96,7 +96,6 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                                 optionLabel="name"
                             />
                         </div>
-
                         <div className="p-field p-col-12 p-md-4">
                             <label>First Name</label>
                             <InputText
@@ -170,7 +169,6 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                                 />
                             </div>
                         </div>
-
                         <div className="p-field p-col-12 p-md-4">
                             <label>Mobile</label>
                             <InputText
@@ -181,7 +179,6 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                                 }}
                             />
                         </div>
-
                         <div className="p-field p-col-12 p-md-4">
                             <label>Landline</label>
                             <InputText
@@ -192,7 +189,6 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                                 }}
                             />
                         </div>
-
                         <div className="p-field p-col-12 p-md-4">
                             <label>Email</label>
                             <InputText
@@ -203,7 +199,6 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                                 type="email"
                             />
                         </div>
-
                         <div className="p-field p-col-12 p-md-4">
                             <label>Address</label>
                             <div className="p-inputgroup">
@@ -216,7 +211,6 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                                 />
                             </div>
                         </div>
-
                         <div className="p-field p-col-12 p-md-12">
                             <InputText
                                 placeholder="Address Line 1"
@@ -226,7 +220,6 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                                 }}
                             />
                         </div>
-
                         <div className="p-field p-col-12 p-md-12">
                             <InputText
                                 placeholder="Address Line 2"
@@ -236,7 +229,6 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                                 }}
                             />
                         </div>
-
                         <div className="p-field p-col-12 p-md-12">
                             <InputText
                                 placeholder="Address Line 3"
@@ -246,7 +238,6 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                                 }}
                             />
                         </div>
-
                         <div className="p-field p-col-12 p-md-4">
                             <label>City</label>
                             <InputText
@@ -256,7 +247,6 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                                 }}
                             />
                         </div>
-
                         <div className="p-field p-col-12 p-md-4">
                             <label>Contact </label>
                             <InputText

@@ -13,6 +13,9 @@ import { AppConfig } from "./AppConfig";
 
 import Profile from "./pages/register/Profile";
 import CompanyDetails from "./pages/register/CompanyDetails";
+import Module from "./pages/register/Module";
+import Role from "./pages/register/Role";
+import Pages from "./pages/register/Pages";
 import RTA from "./pages/rta/RTA";
 import RTATable from "./pages/rta/rtatable";
 import RTACase from "./pages/rta/rtacase";
@@ -205,6 +208,9 @@ const App = () => {
                         <Switch>
                             {routes && routes.includes("/profile") && <Route exact path="/profile" component={Profile} />}
                             {routes && routes.includes("/companydetails") && <Route exact path="/companydetails" component={CompanyDetails} />}
+                            {routes && routes.includes("/module") && <Route exact path="/module" component={Module} />}
+                            {routes && routes.includes("/role") && <Route exact path="/role" component={Role} />}
+                            {routes && routes.includes("/pages") && <Route exact path="/pages" component={Pages} />}
                             {routes && routes.includes("/rta") && <Route exact path="/rta" component={RTA} />}
                             {routes && routes.includes("/rtalist") && <Route exact path="/rtalist" component={RTATable} />}
                             <Route exact path="/rtaCase" component={RTACase} />

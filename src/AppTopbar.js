@@ -2,7 +2,7 @@ import React from "react";
 
 export const AppTopbar = (props) => {
     const handleLogout = () => {
-        localStorage.removeItem("token");
+        localStorage.clear();
         window.location.reload();
     };
     return (

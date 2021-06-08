@@ -63,7 +63,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minordata,
         <Dialog header={isEdit ? "Update Litigation Friend" : "Litigation Friend"} footer={footer} visible={show} onHide={() => hide(false)} breakpoints={breakpoints} style={{ width: "50vw" }}>
             <div className="p-fluid p-formgrid p-grid">
                 <div className="p-field p-col-12 p-md-3">
-                    <label htmlFor="Status"> Name</label>
+                    <label htmlFor="Status"> Title</label>
                     <Dropdown
                         disabled={viewmode}
                         inputId="Status"

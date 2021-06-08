@@ -9,6 +9,7 @@ export const getClaimant = async (rtaCode) => {
         url: `${baseURL}rta/getAuthRtaCase/${rtaCode}`,
         headers: {
             "Content-Type": "application/json",
+            Authorization: localStorage.getItem("token"),
         },
     })
         .then((response) => {

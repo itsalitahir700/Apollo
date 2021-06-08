@@ -1,0 +1,12 @@
+.p-tabview .p-tabview-nav {
+    background: none !important;
+}
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    background: none !important;
+}
+.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+    background: none !important;
+}
+.p-tabview .p-tabview-panels {
+    background: none !important;
+}

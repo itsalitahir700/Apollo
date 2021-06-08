@@ -7,10 +7,11 @@
 }
 .chat-window {
     flex: auto;
+    flex-direction: row-reverse;
     max-height: calc(100% - 60px);
     background: #2f323b;
     overflow: auto;
-    padding: 1rem 0rem;
+    padding: 0.5rem 0rem;
 }
 .chat-window::-webkit-scrollbar {
     width: 8px;
@@ -81,7 +82,7 @@
 .msg-box {
     display: flex;
     background: #5b5e6c;
-    padding: 10px 10px 0 10px;
+    padding: 5px 10px 5px 10px;
     border-radius: 0 6px 6px 0;
     max-width: 80%;
     width: auto;
@@ -144,4 +145,22 @@
 }
 .msg-self .timestamp {
     text-align: right;
+}
+.sending {
+    opacity: 0.8;
+}
+.blink {
+    -webkit-animation: blink 1000ms step-end infinite;
+    animation: blink 1000ms step-end infinite;
+    transition: 200ms;
+}
+@-webkit-keyframes blink {
+    100% {
+        transform: scale(1.2);
+    }
+}
+@keyframes blink {
+    50% {
+        transform: scale(1.2);
+    }
 }

@@ -124,7 +124,7 @@ function RTATable() {
 
     return (
         <Card>
-            {!loading && rtalist.length ? (
+            {!loading && rtalist && rtalist.length ? (
                 <DataTable value={rtalist} expandedRows={expandedRows} dataKey="rtanumber" onRowToggle={(e) => setExpandedRows(e.data)} rowExpansionTemplate={rowExpansionTemplate}>
                     <Column expander style={{ width: "2.5rem" }}></Column>
                     <Column field="createdon" header="Creation On" filter sortable></Column>

@@ -71,7 +71,7 @@ function Notes() {
                                                 </p>
                                             </div>
                                             <span className="timestamp">
-                                                <span className="username"></span>&bull;<span className="posttime">{item?.createdon}</span>
+                                                <span className="username">{item?.userName}</span>&bull;<span className="posttime">{item?.createdon}</span>
                                             </span>
                                         </div>
                                     </div>
@@ -86,7 +86,7 @@ function Notes() {
                                                 </p>
                                             </div>
                                             <span className="timestamp">
-                                                <span className="username"></span>&bull;<span className="posttime">{item?.createdon}</span>
+                                                <span className="username">{item?.userName}</span>&bull;<span className="posttime">{item?.createdon}</span>
                                             </span>
                                         </div>
                                     </div>

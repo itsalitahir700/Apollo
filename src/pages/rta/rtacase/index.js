@@ -3,6 +3,7 @@ import { TabView, TabPanel } from "primereact/tabview";
 import UpdateClaimant from "../update";
 import ViewClaimant from "../View";
 import "./Rtacase.css";
+import Notes from "../../../components/Notes";
 
 const RTACase = () => {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -19,6 +20,9 @@ const RTACase = () => {
                         {mode && mode === "v" ? <ViewClaimant /> : ""}
                     </TabPanel>
                     <TabPanel header="Images">Images ***/</TabPanel>
+                    <TabPanel header="Notes">
+                        <Notes />
+                    </TabPanel>
                 </TabView>
             </div>
         </div>

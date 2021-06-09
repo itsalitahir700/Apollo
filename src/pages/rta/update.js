@@ -70,10 +70,10 @@ function UpdateClaimant() {
 
     const token = localStorage.getItem("token");
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const rtaCode = { rtacode: urlObj?.query?.id };
         const post = { ...claimantDetails, ...accidentDetails, ...vehicleDetails, ...rtaCode };
-        updataRta(post, token);
+        await updataRta(post, token);
     };
 
     const funcGetPassengers = async () => {

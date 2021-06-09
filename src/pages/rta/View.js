@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
+import { Badge } from "primereact/badge";
 import { getClaimantDetails, ActionOnRtaFromDirectIntro, ActionOnRta } from "../../redux/actions/claimantAction";
 import ClaimantInfo from "./claimantinfo";
 import AccidentInfo from "./AccidentInfo";
@@ -33,6 +34,8 @@ function ViewClaimant() {
     const [companyWiseUserValue, setcompanyWiseUserValue] = useState("");
     const [btnValue, setbtnValue] = useState("");
     const rtaActionButtons = useSelector((state) => state.claimantSlice.claimantDetails.rtaActionButtons);
+    const rtaNumber = useSelector((state) => state.claimantSlice.claimantDetails.rtanumber);
+    const status = useSelector((state) => state.claimantSlice.claimantDetails.status);
     const directIntroducer = useSelector((state) => state.authenticationSlice?.directIntroducer);
 
     const dispatch = useDispatch();
@@ -131,7 +134,7 @@ function ViewClaimant() {
 
     const handleSolicitor = async (e) => {
         setsolicitorRtaDataValue(e.value);
-        const res = await getCompanyWiseUser(solicitorRtaDataValue.code);
+        const res = await getCompanyWiseUser(e.value.code);
         setcompanyWiseUser(res.data);
     };
 
@@ -142,7 +145,8 @@ function ViewClaimant() {
             solicitioCode: companyWiseUserValue.code,
             solicitorUserCode: solicitorRtaDataValue.code,
         };
-        dispatch(ActionOnRtaFromDirectIntro(data));
+        await dispatch(ActionOnRtaFromDirectIntro(data));
+        setrtaHotkeyModal(false);
     };
 
     const footer = (
@@ -158,13 +162,12 @@ function ViewClaimant() {
         setbtnValue(value);
     };
 
-    const handleActionButton = (value) => {
-        setrtaHotkeyModal(true);
+    const handleActionButton = async (value) => {
         const data = {
             rtaCode,
             toStatus: value,
         };
-        dispatch(ActionOnRta(data));
+        await dispatch(ActionOnRta(data));
     };
 
     useEffect(() => {
@@ -173,7 +176,13 @@ function ViewClaimant() {
 
     return (
         <div>
-            <div style={{ textAlign: "right" }}>{actionButtons}</div>
+            <div>
+                <center>
+                    <Badge value={"Rta No. : " + rtaNumber} size="large" severity="info" className="p-mr-2"></Badge>
+                    <Badge value={"Status : " + status} size="large" severity="warning" className="p-mr-2"></Badge>
+                </center>
+                <div style={{ textAlign: "right" }}>{actionButtons}</div>
+            </div>
 
             <Fieldset className="p-mt-2" legend="Claimant Info">
                 <ClaimantInfo handleClaimantReturn={setClaimantDetails} claimantdata={claimantDetails} viewmode={viewmode} showMinorModal={setShowMinorModal} />

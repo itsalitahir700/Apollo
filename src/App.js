@@ -21,6 +21,7 @@ import RTATable from "./pages/rta/rtatable";
 import RTACase from "./pages/rta/rtacase";
 import Login from "./pages/login/Login";
 import ESign from "./pages/ESign";
+import RoleRights from "./pages/register/RoleRights";
 
 import PrimeReact from "primereact/api";
 
@@ -212,7 +213,9 @@ const App = () => {
                             {routes && routes.includes("/companydetails") && <Route exact path="/companydetails" component={CompanyDetails} />}
                             {routes && routes.includes("/module") && <Route exact path="/module" component={Module} />}
                             {routes && routes.includes("/role") && <Route exact path="/role" component={Role} />}
-                            {routes && routes.includes("/pages") && <Route exact path="/pages" component={Pages} />}
+                            {<Route exact path="/pages" component={Pages} />}
+                            {<Route exact path="/rolerights" component={RoleRights} />}
+                            {<Route exact path="/companydetails" component={CompanyDetails} />}
                             {routes && routes.includes("/rta") && <Route exact path="/rta" component={RTA} />}
                             {routes && routes.includes("/rtalist") && <Route exact path="/rtalist" component={RTATable} />}
                             <Route exact path="/rtaCase" component={RTACase} />

@@ -17,6 +17,7 @@ import RTA from "./pages/rta/RTA";
 import RTATable from "./pages/rta/rtatable";
 import RTACase from "./pages/rta/rtacase";
 import Login from "./pages/login/Login";
+import ESign from "./pages/ESign";
 
 import PrimeReact from "primereact/api";
 
@@ -199,6 +200,7 @@ const App = () => {
                     {!auth ? (
                         <Switch>
                             <Route path="/" exact render={() => <div>Home</div>} component={Login} />
+                            <Route exact path="/eSign" component={ESign} />
                             <Redirect to="/" />
                         </Switch>
                     ) : (
@@ -208,6 +210,7 @@ const App = () => {
                             {routes && routes.includes("/rta") && <Route exact path="/rta" component={RTA} />}
                             {routes && routes.includes("/rtalist") && <Route exact path="/rtalist" component={RTATable} />}
                             <Route exact path="/rtaCase" component={RTACase} />
+                            <Route exact path="/eSign" component={ESign} />
                         </Switch>
                     )}
                 </Switch>

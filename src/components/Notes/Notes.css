@@ -22,17 +22,31 @@
 }
 .chat-input {
     flex: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     height: 60px;
     background: #40434e;
     border-top: 1px solid #1ea40e;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
+}
+.chat-input span {
+    color: white;
+}
+.chat-input select {
+    color: white;
+    background-color: #40434e;
+    border: none;
+    padding: 8px;
+    font-weight: bold;
+    outline: none;
 }
 .chat-input input {
     height: 59px;
     line-height: 60px;
     outline: 0 none;
     border: none;
-    width: calc(100% - 60px);
+    width: calc(80% - 60px);
     color: white;
     text-indent: 10px;
     font-size: 12pt;

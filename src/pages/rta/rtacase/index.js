@@ -4,6 +4,7 @@ import UpdateClaimant from "../update";
 import ViewClaimant from "../View";
 import "./Rtacase.css";
 import Notes from "../../../components/Notes";
+import Messages from "../../../components/Messages";
 
 const RTACase = () => {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -22,6 +23,9 @@ const RTACase = () => {
                     <TabPanel header="Images">Images ***/</TabPanel>
                     <TabPanel header="Notes">
                         <Notes />
+                    </TabPanel>
+                    <TabPanel header="Messages">
+                        <Messages />
                     </TabPanel>
                 </TabView>
             </div>

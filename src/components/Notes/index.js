@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { addNotes, getNotes } from "../../redux/actions/notesAction";
 import { useDispatch, useSelector } from "react-redux";
 import "./Notes.css";
+import { getLovUserCategory } from "../../services/Lovs";
 
 function Notes() {
     const dispatch = useDispatch();
@@ -13,28 +14,29 @@ function Notes() {
     const messages = useSelector((state) => state.notesSlice?.notes);
 
     const [note, setnote] = useState("");
-    const [firstuser, setfirstuser] = useState("");
     const [sending, setsending] = useState(false);
+    const [usersLov, setUsersLov] = useState([]);
+    const [selectedUser, setSelectedUser] = useState();
 
     const messagesEndRef = useRef(null);
 
     const handleNotes = useCallback(async () => {
-        dispatch(getNotes(rtaCode));
+        await dispatch(getNotes(rtaCode));
     }, [dispatch, rtaCode]);
 
     const handleAddNote = async () => {
         if (note) {
             setsending(true);
-            await dispatch(addNotes({ note, rtaCode }));
+            await dispatch(addNotes({ note, rtaCode, userCatCode: selectedUser }));
             await handleNotes();
             setnote();
             setsending(false);
         }
     };
 
-    useEffect(() => {
-        setfirstuser(messages[0]?.userCode);
-    }, [messages]);
+    const handleUserLov = async () => {
+        setUsersLov(await getLovUserCategory());
+    };
 
     const sortmessages = () => {
         return (
@@ -52,6 +54,7 @@ function Notes() {
     useEffect(scrollToBottom, [messages]);
 
     useEffect(() => {
+        handleUserLov();
         handleNotes();
     }, [handleNotes]);
     return (
@@ -61,7 +64,7 @@ function Notes() {
                     {messages &&
                         messages.length &&
                         sortmessages().map((item, index) =>
-                            item?.userCode === firstuser ? (
+                            item?.self ? (
                                 <article key={item?.rtanotecode} className="msg-container msg-self" id="msg-0">
                                     <div className="msg-box">
                                         <div className="flritem?.rtanotecode === 1 ? (">
@@ -98,6 +101,16 @@ function Notes() {
                 </section>
                 <div className="chat-input">
                     <input type="text" disabled={sending} autoComplete="true" value={note || ""} onChange={(e) => setnote(e.target.value)} placeholder="Type a message" />
+                    <div>
+                        <select value={selectedUser || (usersLov && usersLov.length && usersLov[0]?.code)} onChange={(e) => setSelectedUser(e.target.value)}>
+                            {usersLov &&
+                                usersLov.map((user) => (
+                                    <option value={user?.code} key={user?.code}>
+                                        {user?.name}
+                                    </option>
+                                ))}
+                        </select>
+                    </div>
                     <button disabled={sending} onClick={handleAddNote}>
                         <i className={(sending ? "blink" : "") + "pi pi-send"}></i>
                     </button>

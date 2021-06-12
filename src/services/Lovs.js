@@ -36,3 +36,12 @@ export const getCompanyWiseUser = async (code) => {
     });
     return response.data;
 };
+
+export const getLovUserCategory = async (code) => {
+    const response = await axios.get(`${baseURL}lovUserCategory`, {
+        headers: {
+            Authorization: localStorage.getItem("token"),
+        },
+    });
+    return response?.data?.data;
+};

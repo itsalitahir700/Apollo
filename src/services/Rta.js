@@ -2,7 +2,9 @@ import { baseURL } from "../Config";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export const getRta = async (token) => {
+const token = localStorage.getItem("token");
+
+export const getRta = async () => {
     try {
         const response = await axios.get(`${baseURL}rta/getAuthRtaCases`, {
             headers: {
@@ -15,7 +17,7 @@ export const getRta = async (token) => {
     }
 };
 
-export const postRta = async (data, token) => {
+export const postRta = async (data) => {
     const response = await axios({
         method: "post",
         url: `${baseURL}rta/addNewRtaCase`,
@@ -33,7 +35,7 @@ export const postRta = async (data, token) => {
     }
 };
 
-export const updataRta = async (data, token) => {
+export const updataRta = async (data) => {
     const response = await axios({
         method: "post",
         url: `${baseURL}rta/updateRtaCase`,
@@ -51,7 +53,7 @@ export const updataRta = async (data, token) => {
     }
 };
 
-export const getPassengers = async (rtacode, token) => {
+export const getPassengers = async (rtacode) => {
     try {
         const response = await axios.get(`${baseURL}rta/getAuthRtaCasePassengers/${rtacode}`, {
             headers: {
@@ -61,5 +63,41 @@ export const getPassengers = async (rtacode, token) => {
         return response?.data?.data;
     } catch (error) {
         console.log(error.message);
+    }
+};
+
+export const performActionOnRtaFromDirectIntro = async (data) => {
+    const response = await axios({
+        method: "post",
+        url: `${baseURL}rta/performActionOnRtaFromDirectIntro`,
+        data: data,
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+        },
+    });
+    if (response.status === 200) {
+        toast.success(response.data.messages);
+        return response;
+    } else {
+        return false;
+    }
+};
+
+export const performActionOnRta = async (data) => {
+    const response = await axios({
+        method: "post",
+        url: `${baseURL}rta/performActionOnRta`,
+        data: data,
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+        },
+    });
+    if (response.status === 200) {
+        toast.success(response.data.messages);
+        return response;
+    } else {
+        return false;
     }
 };

@@ -4,7 +4,7 @@ import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 import PassengerModal from "../../passenger";
 
-function PassengerTable({ passengers, handleRemovePassenger, handleUpdatePassenger, isView }) {
+function PassengerTable({ passengers, handleRemovePassenger, handleUpdatePassenger, isView, viewmode }) {
     let states = [
         {
             code: "Y",
@@ -47,7 +47,7 @@ function PassengerTable({ passengers, handleRemovePassenger, handleUpdatePasseng
                 <Column field="dob" header="DOB" sortable></Column>
                 {isView === true ? <Column body={actionTemplateView} header="Actions"></Column> : <Column body={actionTemplate} header="Actions"></Column>}
             </DataTable>
-            <PassengerModal status={states} show={displayBasic} hide={setDisplayBasic} passenger={passenger} handlePassengerReturn={handleUpdatePassenger} isEdit={true} />
+            <PassengerModal status={states} viewmode={viewmode} show={displayBasic} hide={setDisplayBasic} passenger={passenger} handlePassengerReturn={handleUpdatePassenger} isEdit={true} />
         </div>
     );
 }

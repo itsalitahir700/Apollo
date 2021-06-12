@@ -1,5 +1,6 @@
 import { getClaimant } from "../../services/Claimant";
-import { GETCLAIMANTSUCCESS, GETCLAIMANTERROR } from "../slices/claimantSlice";
+import { performActionOnRtaFromDirectIntro, performActionOnRta } from "../../services/Rta";
+import { GETCLAIMANTSUCCESS, GETCLAIMANTERROR, PERFORMACTIONSUCCESS, PERFORMACTIONERROR } from "../slices/claimantSlice";
 
 export const getClaimantDetails = (rtaCode) => async (dispatch) => {
     const res = await getClaimant(rtaCode);
@@ -8,5 +9,23 @@ export const getClaimantDetails = (rtaCode) => async (dispatch) => {
         return res;
     } else {
         dispatch(GETCLAIMANTERROR(res));
+    }
+};
+export const ActionOnRtaFromDirectIntro = (data) => async (dispatch) => {
+    const res = await performActionOnRtaFromDirectIntro(data);
+    if (res) {
+        dispatch(PERFORMACTIONSUCCESS(res));
+        return res;
+    } else {
+        dispatch(PERFORMACTIONERROR(res));
+    }
+};
+export const ActionOnRta = (data) => async (dispatch) => {
+    const res = await performActionOnRta(data);
+    if (res) {
+        dispatch(PERFORMACTIONSUCCESS(res));
+        return res;
+    } else {
+        dispatch(PERFORMACTIONERROR(res));
     }
 };

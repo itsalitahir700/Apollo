@@ -18,8 +18,20 @@ const slice = createSlice({
                 claimantDetails: {},
             };
         },
+        PERFORMACTIONSUCCESS: (state, action) => {
+            return {
+                ...state,
+                claimantDetails: action.payload,
+            };
+        },
+        PERFORMACTIONERROR: (state, action) => {
+            return {
+                ...state,
+                claimantDetails: {},
+            };
+        },
     },
 });
 
-export const { GETCLAIMANTSUCCESS, GETCLAIMANTERROR } = slice.actions;
+export const { GETCLAIMANTSUCCESS, GETCLAIMANTERROR, PERFORMACTIONSUCCESS, PERFORMACTIONERROR } = slice.actions;
 export default slice.reducer;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import { getMessages } from "../../redux/actions/messagesAction";
 import { useDispatch, useSelector } from "react-redux";
 import MessagesTable from "../MessagesTable";

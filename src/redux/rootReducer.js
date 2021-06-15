@@ -5,6 +5,7 @@ import menuSlice from "./slices/menuSlice";
 import claimantSlice from "./slices/claimantSlice";
 import notesSlice from "./slices/notesSlice";
 import messagesSlice from "./slices/messageSlice";
+import documentsSlice from "./slices/documentsSlice";
 
 export default combineReducers({
     profileSlice,
@@ -13,4 +14,5 @@ export default combineReducers({
     claimantSlice,
     notesSlice,
     messagesSlice,
+    documentsSlice,
 });

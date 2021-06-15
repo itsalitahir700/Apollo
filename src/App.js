@@ -173,17 +173,18 @@ const App = () => {
     };
 
     useEffect(() => {
-        setroutes(traverse(JSON.parse(nav), "to", []));
+        if (nav) {
+            setroutes(traverse(JSON.parse(nav), "to", []));
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [nav]);
 
     return (
         <div className={wrapperClass} onClick={onWrapperClick}>
+            <ToastContainer></ToastContainer>
             {auth && (
                 <>
                     <AppTopbar onToggleMenu={onToggleMenu} />
-                    <ToastContainer></ToastContainer>
-
                     <CSSTransition classNames="layout-sidebar" timeout={{ enter: 200, exit: 200 }} in={isSidebarVisible()} unmountOnExit>
                         <div ref={sidebar} className={sidebarClassName} onClick={onSidebarClick}>
                             <div className="layout-logo" style={{ cursor: "pointer" }} onClick={() => history.push("/")}>

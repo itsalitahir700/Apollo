@@ -40,7 +40,8 @@ function ImagesUpload({ handleImages }) {
             reader.onload = function () {
                 if (!files.some((file) => file?.fileBase64 === reader.result)) {
                     let newfiles = JSON.parse(JSON.stringify(files));
-                    newfiles.push({ fileBase64: reader.result, fileName: file.name, fileSize: file.size });
+
+                    newfiles.push({ fileBase64: reader.result, fileName: file.name, fileSize: file.size, fileExt: file.type });
                     setfiles(newfiles);
                 }
             };

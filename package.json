@@ -32,6 +32,7 @@
         "react-signature-canvas": "^1.0.3",
         "react-toastify": "^7.0.4",
         "react-transition-group": "^4.4.1",
+        "simple-react-lightbox": "^3.6.6",
         "validator": "^13.6.0"
     },
     "scripts": {

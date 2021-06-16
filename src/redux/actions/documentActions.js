@@ -1,7 +1,7 @@
-import { getDocuments as gDocuments } from "../../services/Documents";
+import { getDocuments as gDocuments, addDocuments as aDocuments } from "../../services/Documents";
 import { GETDOCUMENTSSUCCESS, GETDOCUMENTSERROR } from "../slices/documentsSlice";
 
-export const getDocuments = (rtaCode) => async (dispatch) => {
+export const getDocuments = async (rtaCode) => async (dispatch) => {
     const res = await gDocuments(rtaCode);
     if (res) {
         dispatch(GETDOCUMENTSSUCCESS(res));
@@ -9,4 +9,9 @@ export const getDocuments = (rtaCode) => async (dispatch) => {
     } else {
         dispatch(GETDOCUMENTSERROR(res));
     }
+};
+
+export const addDocuments = async (data) => async (dispatch) => {
+    const res = await aDocuments(data);
+    return res;
 };

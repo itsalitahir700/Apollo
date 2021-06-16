@@ -21,3 +21,24 @@ export const getDocuments = async (rtaCode) => {
         });
     return res;
 };
+
+export const addDocuments = async (data) => {
+    let res;
+    await axios({
+        method: "POST",
+        url: `${baseURL}rta/addRtaDocument`,
+        headers: {
+            Authorization: localStorage.getItem("token"),
+            "Content-Type": "application/json",
+        },
+        data,
+    })
+        .then((response) => {
+            res = response.data.data;
+        })
+        .catch((err) => {
+            toast.warn(err.message);
+            res = false;
+        });
+    return res;
+};

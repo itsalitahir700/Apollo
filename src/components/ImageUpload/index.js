@@ -16,9 +16,7 @@ function ImagesUpload({ handleImages }) {
         return (
             <>
                 <input type="file" accept="image/gif, image/jpeg, image/png" style={{ display: "none" }} ref={upload} onChange={onFileChange} />
-                <Button onClick={() => upload.current.click()}>
-                    <i className="pi pi-upload p-mr-2"></i> Upload File
-                </Button>
+                <Button onClick={() => upload.current.click()}>Choose File</Button>
                 &nbsp;
                 <Button onClick={handleClear}>
                     <i className="pi pi-times p-mr-2"></i> Clear
@@ -40,8 +38,8 @@ function ImagesUpload({ handleImages }) {
             reader.onload = function () {
                 if (!files.some((file) => file?.fileBase64 === reader.result)) {
                     let newfiles = JSON.parse(JSON.stringify(files));
-
-                    newfiles.push({ fileBase64: reader.result, fileName: file.name, fileSize: file.size, fileExt: file.type });
+                    const filetype = file.type.split("/");
+                    newfiles.push({ fileBase64: reader.result, fileName: file.name, fileSize: file.size, fileExt: `.${filetype[1]}` });
                     setfiles(newfiles);
                 }
             };

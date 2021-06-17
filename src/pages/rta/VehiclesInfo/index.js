@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { Checkbox } from "primereact/checkbox";
+import { getMakeModelService } from "../../../services/Rta";
 
 function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }) {
     const initialState = {
@@ -27,6 +28,18 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }
     const [vehiclesDetails, setvehiclesDetails] = useState(vehicledata && Object.keys(vehicledata).length ? vehicledata : initialState);
     const [setreportedToPolice] = useState(false);
 
+    const getMakeModel = async () => {
+        const res = await getMakeModelService(`https://uk1.ukvehicledata.co.uk/api/datapackage/VehicleData?v=2&api_nullitems=1&auth_apikey=f0eb8944-03b9-4ead-a05b-fcb8d155d04c&user_tag=&key_VRM=${vehiclesDetails?.registerationno}`);
+        console.log(res);
+        setvehiclesDetails({ ...vehiclesDetails, makemodel: res?.Response?.DataItems?.VehicleRegistration?.MakeModel });
+    };
+
+    const getThirdPartyMakeModel = async () => {
+        const res = await getMakeModelService(`https://uk1.ukvehicledata.co.uk/api/datapackage/VehicleData?v=2&api_nullitems=1&auth_apikey=f0eb8944-03b9-4ead-a05b-fcb8d155d04c&user_tag=&key_VRM=${vehiclesDetails?.partyregno}`);
+        console.log(res);
+        setvehiclesDetails({ ...vehiclesDetails, partymakemodel: res?.Response?.DataItems?.VehicleRegistration?.MakeModel });
+    };
+
     useEffect(() => {
         handleVehicleInfoReturn(vehiclesDetails);
     }, [vehiclesDetails, handleVehicleInfoReturn]);
@@ -47,6 +60,9 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }
                             value={vehiclesDetails?.registerationno}
                             onChange={(e) => {
                                 setvehiclesDetails({ ...vehiclesDetails, registerationno: e.target.value });
+                            }}
+                            onBlur={(e) => {
+                                getMakeModel();
                             }}
                             className={errors?.registerationno && "p-invalid p-d-block"}
                         />
@@ -111,6 +127,9 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }
                             value={vehiclesDetails?.partyregno}
                             onChange={(e) => {
                                 setvehiclesDetails({ ...vehiclesDetails, partyregno: e.target.value });
+                            }}
+                            onBlur={(e) => {
+                                getThirdPartyMakeModel();
                             }}
                         />
                         <Dropdown

@@ -28,6 +28,7 @@ function Documents() {
         if (uploaddocs.length) {
             setloading(true);
             await dispatch(await addDocuments({ files: uploaddocs, rtaCode }));
+            await handleDocuments();
             setloading(false);
         }
     };

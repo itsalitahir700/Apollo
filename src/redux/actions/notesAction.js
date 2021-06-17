@@ -1,8 +1,8 @@
-import { getNotes as gNotes, addNotes as aNotes } from "../../services/Notes";
+import { notesService } from "../../services/Notes";
 import { GETNOTESSUCCESS, GETNOTESERROR } from "../slices/notesSlice";
 
 export const getNotes = (rtaCode) => async (dispatch) => {
-    const res = await gNotes(rtaCode);
+    const res = await notesService.getNotes(rtaCode);
     if (res) {
         dispatch(GETNOTESSUCCESS(res));
         return res;
@@ -12,6 +12,6 @@ export const getNotes = (rtaCode) => async (dispatch) => {
 };
 
 export const addNotes = (note) => async (dispatch) => {
-    const res = await aNotes(note);
+    const res = await notesService.addNotes(note);
     return res;
 };

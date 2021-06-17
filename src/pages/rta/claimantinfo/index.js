@@ -46,7 +46,17 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
     const hanleAddressValue = async (e) => {
         setaddressFurtherItemsValue("");
         setaddressItemsValue(e.target.value);
-        if (e.target.value.Highlight === "0-3") {
+        if (
+            e.target.value.Highlight === "0-1" ||
+            e.target.value.Highlight === "0-2" ||
+            e.target.value.Highlight === "0-3" ||
+            e.target.value.Highlight === "0-4" ||
+            e.target.value.Highlight === "0-5" ||
+            e.target.value.Highlight === "0-6" ||
+            e.target.value.Highlight === "0-7" ||
+            e.target.value.Highlight === "0-8" ||
+            e.target.value.Highlight === "0-9"
+        ) {
             getFurtherAddress(e.target.value);
         } else {
             setshowFurtherAddress(false);

@@ -101,3 +101,90 @@ export const performActionOnRta = async (data) => {
         return false;
     }
 };
+
+export const getAddress = async (url, postcode) => {
+    var FormData = require("form-data");
+    var data = new FormData();
+    data.append("Key", "CJ71-FW71-AK98-JH56");
+    data.append("Text", postcode);
+    data.append("IsMiddleware", "false");
+    data.append("Container", postcode);
+    data.append("Origin", "");
+    data.append("Countries", "GBR");
+    data.append("Limit", "10");
+    data.append("Language", "en-gb");
+    try {
+        const response = await axios({
+            method: "post",
+            url: url,
+            data: data,
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        return response.data;
+    } catch (error) {
+        return error.response;
+    }
+};
+
+export const getFurtherAddressService = async (url, data) => {
+    var FormData = require("form-data");
+    var data = new FormData();
+    data.append("Key", "CJ71-FW71-AK98-JH56");
+    data.append("Text", data.Text);
+    data.append("IsMiddleware", "false");
+    data.append("Container", data.Id);
+    data.append("Origin", "");
+    data.append("Countries", "GBR");
+    data.append("Limit", "10");
+    data.append("Language", "en-gb");
+    try {
+        const response = await axios({
+            method: "post",
+            url: url,
+            data: data,
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        return response.data;
+    } catch (error) {
+        return error.response;
+    }
+};
+
+export const getAddressValues = async (url, id) => {
+    console.log(id);
+    var FormData = require("form-data");
+    var data = new FormData();
+    data.append("Key", "CJ71-FW71-AK98-JH56");
+    data.append("Id", id);
+    data.append("Field1Format", "");
+    try {
+        const response = await axios({
+            method: "post",
+            url: url,
+            data: data,
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        return response.data;
+    } catch (error) {
+        return error.response;
+    }
+};
+
+export const getMakeModelService = async (url) => {
+    try {
+        const response = await axios.get(url, {
+            headers: {
+                Authorization: localStorage.getItem("token"),
+            },
+        });
+        return response?.data;
+    } catch (error) {
+        console.log(error.message);
+    }
+};

@@ -4,24 +4,19 @@ import { InputText } from "primereact/inputtext";
 import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
 import { claimantdetails } from "../../../utilities/constants";
+import { getAddress, getAddressValues, getFurtherAddressService } from "../../../services/Rta";
 
 function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, viewmode, errors }) {
-    let states = [
-        {
-            code: "Mr",
-            name: "Mr",
-            type: null,
-        },
-        {
-            code: "Ms",
-            name: "Ms",
-            type: null,
-        },
-    ];
+    let states = [];
     const [claimantDetails, setclaimantDetails] = useState(claimantdata && Object.keys(claimantdata).length ? claimantdata : claimantdetails);
     const [scotland, setscotland] = useState("");
     const [minor, setMinor] = useState(false);
     const [titleValue, settitleValue] = useState("");
+    const [addressItems, setaddressItems] = useState("");
+    const [addressItemsValue, setaddressItemsValue] = useState("");
+    const [addressFurtherItems, setaddressFurtherItems] = useState("");
+    const [addressFurtherItemsValue, setaddressFurtherItemsValue] = useState("");
+    const [showFurtherAddress, setshowFurtherAddress] = useState(false);
 
     const handleAge = (dob) => {
         setclaimantDetails({ ...claimantDetails, dob: dob });
@@ -40,6 +35,44 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
             age_now--;
         }
         return age_now;
+    };
+
+    const handleAdress = async () => {
+        const postcode = claimantDetails?.postalcode;
+        const res = await getAddress("https://services.postcodeanywhere.co.uk/Capture/Interactive/Find/v1.10/json3.ws", postcode);
+        setaddressItems(res.Items);
+    };
+
+    const hanleAddressValue = async (e) => {
+        setaddressFurtherItemsValue("");
+        setaddressItemsValue(e.target.value);
+        if (e.target.value.Highlight === "0-3") {
+            getFurtherAddress(e.target.value);
+        } else {
+            setshowFurtherAddress(false);
+            const res = await getAddressValues("https://services.postcodeanywhere.co.uk/Capture/Interactive/Retrieve/v1.00/json3.ws", e.target.value.Id);
+            setclaimantDetails({ ...claimantDetails, address1: res?.Items[0]?.Line1 });
+            setclaimantDetails({ ...claimantDetails, address2: res?.Items[0]?.Line2 });
+            setclaimantDetails({ ...claimantDetails, address3: res?.Items[0]?.Line3 });
+            setclaimantDetails({ ...claimantDetails, city: res?.Items[0]?.City });
+            setclaimantDetails({ ...claimantDetails, region: res?.Items[0]?.Province });
+        }
+    };
+
+    const hanleAddressFurtherValue = async (e) => {
+        setaddressFurtherItemsValue(e.target.value);
+        const res = await getAddressValues("https://services.postcodeanywhere.co.uk/Capture/Interactive/Retrieve/v1.00/json3.ws", e.target.value.Id);
+        setclaimantDetails({ ...claimantDetails, address1: res?.Items[0]?.Line1 });
+        setclaimantDetails({ ...claimantDetails, address2: res?.Items[0]?.Line2 });
+        setclaimantDetails({ ...claimantDetails, address3: res?.Items[0]?.Line3 });
+        setclaimantDetails({ ...claimantDetails, city: res?.Items[0]?.City });
+        setclaimantDetails({ ...claimantDetails, region: res?.Items[0]?.Province });
+    };
+
+    const getFurtherAddress = async (data) => {
+        setshowFurtherAddress(true);
+        const res = await getFurtherAddressService("https://services.postcodeanywhere.co.uk/Capture/Interactive/Find/v1.10/json3.ws", data);
+        setaddressFurtherItems(res.Items);
     };
 
     useEffect(() => {
@@ -201,7 +234,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         type="email"
                     />
                 </div>
-                <div className="p-field p-col-12 p-md-4">
+                <div className="p-field p-col-12 p-md-8">
                     <label>Address</label>
                     <div className="p-inputgroup">
                         <InputText
@@ -213,7 +246,34 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                             }}
                             className={errors?.postalcode && "p-invalid p-d-block"}
                         />
-                        <Dropdown inputId="Status" value={claimantDetails?.title} options={states} placeholder="Select" optionLabel="name" />
+                        <Button
+                            label="lookup"
+                            onClick={() => {
+                                handleAdress();
+                            }}
+                        ></Button>
+                        <Dropdown
+                            onChange={(e) => {
+                                hanleAddressValue(e);
+                            }}
+                            value={addressItemsValue}
+                            options={addressItems}
+                            placeholder="Select"
+                            optionLabel="Description"
+                        />
+                        {showFurtherAddress === true ? (
+                            <Dropdown
+                                onChange={(e) => {
+                                    hanleAddressFurtherValue(e);
+                                }}
+                                value={addressFurtherItemsValue}
+                                options={addressFurtherItems}
+                                placeholder="Select"
+                                optionLabel="Description"
+                            />
+                        ) : (
+                            ""
+                        )}
                     </div>
                     <small className="p-error p-d-block">{errors?.postalcode}</small>
                 </div>

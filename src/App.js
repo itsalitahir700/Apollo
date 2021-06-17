@@ -22,7 +22,7 @@ import RTACase from "./pages/rta/rtacase";
 import Login from "./pages/login/Login";
 import ESign from "./pages/ESign";
 import RoleRights from "./pages/register/RoleRights";
-
+import { Dashboard } from "./components/Dashboard";
 import PrimeReact from "primereact/api";
 
 import "primereact/resources/themes/saga-green/theme.css";
@@ -196,7 +196,6 @@ const App = () => {
                     </CSSTransition>
                 </>
             )}
-
             <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange} layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
 
             {console.log(routes)}
@@ -210,6 +209,7 @@ const App = () => {
                         </Switch>
                     ) : (
                         <Switch>
+                            <Route exact path="/" component={Dashboard} />
                             {routes && routes.includes("/profile") && <Route exact path="/profile" component={Profile} />}
                             {routes && routes.includes("/companydetails") && <Route exact path="/companydetails" component={CompanyDetails} />}
                             {routes && routes.includes("/module") && <Route exact path="/module" component={Module} />}

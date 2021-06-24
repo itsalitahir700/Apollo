@@ -6,6 +6,7 @@ import claimantSlice from "./slices/claimantSlice";
 import notesSlice from "./slices/notesSlice";
 import messagesSlice from "./slices/messageSlice";
 import documentsSlice from "./slices/documentsSlice";
+import eSignSlice from "./slices/eSignSlice";
 
 export default combineReducers({
     profileSlice,
@@ -15,4 +16,5 @@ export default combineReducers({
     notesSlice,
     messagesSlice,
     documentsSlice,
+    eSignSlice,
 });

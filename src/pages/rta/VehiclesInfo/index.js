@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { Checkbox } from "primereact/checkbox";
+import { Divider } from "primereact/divider";
 import { getMakeModelService } from "../../../services/Rta";
 
 function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }) {
@@ -26,7 +27,7 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }
         partyaddress: "",
     };
     const [vehiclesDetails, setvehiclesDetails] = useState(vehicledata && Object.keys(vehicledata).length ? vehicledata : initialState);
-    const [setreportedToPolice] = useState(false);
+    const [reportedToPolice, setreportedToPolice] = useState(false);
 
     const getMakeModel = async () => {
         const res = await getMakeModelService(`https://uk1.ukvehicledata.co.uk/api/datapackage/VehicleData?v=2&api_nullitems=1&auth_apikey=f0eb8944-03b9-4ead-a05b-fcb8d155d04c&user_tag=&key_VRM=${vehiclesDetails?.registerationno}`);
@@ -53,7 +54,7 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }
             <div className="p-fluid p-formgrid p-grid">
                 {/* THIRD PARTY */}
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Registration Number</label>
+                    <label>Clients Registration</label>
                     <div className="p-inputgroup">
                         <InputText
                             disabled={viewmode}
@@ -79,7 +80,7 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Make Model</label>
+                    <label>Make & Model</label>
                     <InputText
                         disabled={viewmode}
                         value={vehiclesDetails?.makemodel}
@@ -92,7 +93,7 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Insurer</label>
+                    <label>Clients Insurer Details</label>
                     <InputText
                         disabled={viewmode}
                         value={vehiclesDetails?.insurer}
@@ -119,8 +120,12 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }
                     />
                 </div>
 
+                <Divider align="center" type="dashed">
+                    <b>3rd Party Details</b>
+                </Divider>
+
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Registration Number</label>
+                    <label>TP Registration</label>
                     <div className="p-inputgroup">
                         <InputText
                             disabled={viewmode}
@@ -144,7 +149,7 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Make Model</label>
+                    <label>Make & Model</label>
                     <InputText
                         disabled={viewmode}
                         value={vehiclesDetails?.partymakemodel}
@@ -155,7 +160,7 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Insurer</label>
+                    <label>TP Insurer Details</label>
                     <InputText
                         disabled={viewmode}
                         value={vehiclesDetails?.partyinsurer}
@@ -183,7 +188,7 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Green Number</label>
+                    <label>Green Card Number</label>
                     <InputText
                         disabled={viewmode}
                         value={vehiclesDetails?.greencardno}
@@ -206,7 +211,7 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Contact Number</label>
+                    <label>TP Contact Number</label>
                     <InputText
                         disabled={viewmode}
                         value={vehiclesDetails?.partycontactno}
@@ -226,13 +231,30 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }
                             setvehiclesDetails({ ...vehiclesDetails, reportedtopolice });
                             setreportedToPolice(e.checked);
                         }}
-                        checked={vehiclesDetails?.reportedtopolice}
+                        checked={reportedToPolice}
                     ></Checkbox>
                     <label>Reported To Police</label>
                 </div>
 
+                {vehiclesDetails?.reportedtopolice === "Y" ? (
+                    <div className="p-field p-col-12 p-md-4">
+                        <label>Report On</label>
+                        <InputText
+                            disabled={viewmode}
+                            value={vehiclesDetails?.reportedOn}
+                            onChange={(e) => {
+                                setvehiclesDetails({ ...vehiclesDetails, reportedOn: e.target.value });
+                            }}
+                            placeholder="Date"
+                            type="date"
+                        />
+                    </div>
+                ) : (
+                    ""
+                )}
+
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Address</label>
+                    <label>TP Address</label>
                     <InputText
                         disabled={viewmode}
                         area

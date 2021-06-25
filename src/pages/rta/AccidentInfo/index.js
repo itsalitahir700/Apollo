@@ -11,22 +11,33 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
     const [circumstancesValue, setcircumstancesValue] = useState("");
     const [injuryClassification, setinjuryClassification] = useState("");
     const [injuryClassificationValue, setinjuryClassificationValue] = useState("");
+    const [airBagsValue, setairBagsValue] = useState("");
     const [circumstances, setcircumstances] = useState("");
     const [ongoingInjury, setongoingInjury] = useState("");
     const [medicalEvidenceAvaliable, setmedicalEvidenceAvaliable] = useState("");
+
+    const airBags = [
+        { name: "Yes", code: "y" },
+        { name: "No", code: "n" },
+    ];
 
     async function funcgetlovCircumstances() {
         const res = await getCircumstances();
         setcircumstances(res.data);
     }
-    async function funcgetlovInjuryClaims() {
-        const res = await getInjuryClassification();
+
+    const handleAirBags = (value) => {
+        setairBagsValue(value);
+        funcgetlovInjuryClaims(value.code);
+    };
+
+    async function funcgetlovInjuryClaims(airBagValue) {
+        const res = await getInjuryClassification(airBagValue);
         setinjuryClassification(res.data);
     }
 
     useEffect(() => {
         funcgetlovCircumstances();
-        funcgetlovInjuryClaims();
     }, []);
 
     useEffect(() => {
@@ -110,7 +121,7 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Road Weather Conditions</label>
+                    <label>Road & Weather Conditions</label>
                     <InputText
                         disabled={viewmode}
                         area
@@ -145,6 +156,20 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                         <label>Passenger</label>
                     </div>
                     <small className="p-error p-d-block">{errors?.driverpassenger}</small>
+                </div>
+
+                <div className="p-field p-col-12 p-md-4">
+                    <label>Were the airbags deployed</label>
+                    <Dropdown
+                        disabled={viewmode}
+                        options={airBags}
+                        value={airBagsValue}
+                        onChange={(e) => {
+                            handleAirBags(e.value);
+                        }}
+                        placeholder="Select"
+                        optionLabel="name"
+                    />
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
@@ -221,6 +246,22 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                     ></Checkbox>
                     <label>Medical evidence avaliable</label>
                 </div>
+
+                {accidentDetails?.medicalinfo === "Y" ? (
+                    <div className="p-field p-col-12 p-md-2">
+                        <label>Medical Evidence Details</label>
+                        <InputText
+                            disabled={viewmode}
+                            value={accidentDetails?.evidenceDetails}
+                            onChange={(e) => {
+                                setaccidentDetails({ ...accidentDetails, evidenceDetails: e.target.value });
+                            }}
+                            className={errors?.mobile && "p-invalid p-d-block"}
+                        />
+                    </div>
+                ) : (
+                    ""
+                )}
             </div>
         </div>
     );

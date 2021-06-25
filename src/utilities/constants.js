@@ -40,6 +40,9 @@ const claimantdetails = {
     vehiclesDetails: "",
     images: "",
     passengers: "",
+    language_details: "",
+    password: "",
+    alternativeNumber: "",
 };
 
 const accidentdetails = {
@@ -55,6 +58,7 @@ const accidentdetails = {
     injlength: "",
     ongoing: "N",
     medicalinfo: "N",
+    evidenceDetails: "",
 };
 
 const vehicledetails = {
@@ -77,6 +81,8 @@ const vehicledetails = {
     partyname: "",
     partycontactno: "",
     partyaddress: "",
+    evidenceDetails: "",
+    alternativeNumber: "",
 };
 
 export { claimantdetails, minordetails, accidentdetails, vehicledetails };

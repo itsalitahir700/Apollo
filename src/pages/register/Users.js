@@ -110,7 +110,7 @@ function Users() {
                         <Dropdown inputId="Status" value={selectedState} options={states} onChange={onStateChange} placeholder="Select" optionLabel="name" />
                     </div>
                 </div>
-                <div style={{ textAlign: "center" }}>
+                <div style={{ textAlign: "center", marginTop: "15%" }}>
                     <Button onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" />
                 </div>
             </Dialog>

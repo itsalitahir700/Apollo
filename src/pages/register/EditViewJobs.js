@@ -14,6 +14,8 @@ function EditViewJobs() {
     const [childfee, setchildfee] = useState(0);
     const [scotadultfee, setscotadultfee] = useState(0);
     const [scotchildfee, setscotchildfee] = useState(0);
+    const [adultpostreforms, setadultpostreforms] = useState(0);
+    const [childpostreforms, setchildpostreforms] = useState(0);
     const [companyJobCode, setcompanyJobCode] = useState("");
     const [compaignCode, setcompaignCode] = useState([]);
     const [compaignCodeValue, setcompaignCodeValue] = useState([]);
@@ -62,6 +64,8 @@ function EditViewJobs() {
             scotchildfee: scotchildfee,
             status: selectedState,
             companyjobcode: companyJobCode,
+            adultpostreforms,
+            childpostreforms,
         };
         setisloading(true);
         await dispatch(PostEditJobsAction(data));
@@ -76,6 +80,8 @@ function EditViewJobs() {
         setchildfee(rowData.childfee);
         setscotadultfee(rowData.scotadultfee);
         setscotchildfee(rowData.scotchildfee);
+        setadultpostreforms(rowData.adultpostreforms);
+        setchildpostreforms(rowData.childpostreforms);
         setcompanyJobCode(rowData.companyjobcode);
         setSelectedState(rowData.status);
     };
@@ -148,6 +154,16 @@ function EditViewJobs() {
                     <div className="p-field p-col-12 p-md-4">
                         <label htmlFor="Status">Status</label>
                         <Dropdown value={selectedState} options={states} onChange={(e) => setSelectedState(e.value)} optionValue="code" optionLabel="name" placeholder="Select status" />
+                    </div>
+                </div>
+                <div className="p-fluid p-formgrid p-grid">
+                    <div className="p-field p-col-12 p-md-6">
+                        <label htmlFor="adultpostreforms">Adult Post Reforms</label>
+                        <InputNumber id="adultpostreforms" value={adultpostreforms} onValueChange={(e) => setadultpostreforms(e.value)} mode="currency" currency="EUR" minFractionDigits={2} />
+                    </div>
+                    <div className="p-field p-col-12 p-md-6">
+                        <label htmlFor="childpostreforms">Minor Post Reforms</label>
+                        <InputNumber id="childpostreforms" value={childpostreforms} onValueChange={(e) => setchildpostreforms(e.value)} mode="currency" currency="EUR" minFractionDigits={2} />
                     </div>
                 </div>
                 <div style={{ textAlign: "center" }}>

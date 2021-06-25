@@ -135,7 +135,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <small className="p-error p-d-block">{errors?.middlename}</small>
                 </div>
                 <div className="p-field p-col-12 p-md-3">
-                    <label>Last Name</label>
+                    <label>Surname</label>
                     <InputText
                         disabled={viewmode}
                         value={claimantDetails?.lastname}
@@ -165,6 +165,17 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <small className="p-error p-d-block">{errors?.dob}</small>
                 </div>
                 <div className="p-field p-col-12 p-md-4">
+                    <label>Password</label>
+                    <InputText
+                        disabled={viewmode}
+                        value={claimantDetails?.dob}
+                        type="password"
+                        onChange={(e) => {
+                            setclaimantDetails({ ...claimantDetails, password: e.target.value });
+                        }}
+                    />
+                </div>
+                <div className="p-field p-col-12 p-md-6">
                     <label>Ni Number</label>
                     <div className="p-inputgroup">
                         <InputText
@@ -187,7 +198,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     </div>
                     <small className="p-error p-d-block">{errors?.ninulastnamember}</small>
                 </div>
-                <div className="p-field p-col-12 p-md-4">
+                <div className="p-field p-col-12 p-md-3">
                     <label>Standard of English</label>
                     <div className="p-inputgroup">
                         <InputText
@@ -210,6 +221,22 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     </div>
                     <small className="p-error p-d-block">{errors?.englishlevel}</small>
                 </div>
+                {claimantDetails?.englishlevel === "Poor" ? (
+                    <div className="p-field p-col-12 p-md-3">
+                        <label>Translator Details</label>
+                        <InputText
+                            disabled={viewmode}
+                            value={claimantDetails?.language_details}
+                            onChange={(e) => {
+                                setclaimantDetails({ ...claimantDetails, language_details: e.target.value });
+                            }}
+                            className={errors?.mobile && "p-invalid p-d-block"}
+                        />
+                    </div>
+                ) : (
+                    ""
+                )}
+
                 <div className="p-field p-col-12 p-md-4">
                     <label>Mobile</label>
                     <InputText
@@ -223,7 +250,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <small className="p-error p-d-block">{errors?.mobile}</small>
                 </div>
 
-                <div className="p-field p-col-12 p-md-4">
+                <div className="p-field p-col-12 p-md-2">
                     <label>Landline</label>
                     <InputText
                         disabled={viewmode}
@@ -233,8 +260,18 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         }}
                     />
                 </div>
-                <div className="p-field p-col-12 p-md-4">
-                    <label>Email</label>
+                <div className="p-field p-col-12 p-md-3">
+                    <label>Alternative Number</label>
+                    <InputText
+                        disabled={viewmode}
+                        value={claimantDetails?.alternativeNumber}
+                        onChange={(e) => {
+                            setclaimantDetails({ ...claimantDetails, alternativeNumber: e.target.value });
+                        }}
+                    />
+                </div>
+                <div className="p-field p-col-12 p-md-3">
+                    <label>Email Address</label>
                     <InputText
                         disabled={viewmode}
                         value={claimantDetails?.email}

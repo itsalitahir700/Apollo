@@ -13,6 +13,8 @@ function Jobs() {
     const [childfee, setchildfee] = useState(0);
     const [scotadultfee, setscotadultfee] = useState(0);
     const [scotchildfee, setscotchildfee] = useState(0);
+    const [adultpostreforms, setadultpostreforms] = useState(0);
+    const [childpostreforms, setchildpostreforms] = useState(0);
     const [compaignCode, setcompaignCode] = useState([]);
     const [compaignCodeValue, setcompaignCodeValue] = useState([]);
     const [selectedState, setSelectedState] = useState(null);
@@ -50,6 +52,8 @@ function Jobs() {
             scotadultfee: scotadultfee,
             scotchildfee: scotchildfee,
             status: selectedState.code,
+            adultpostreforms,
+            childpostreforms,
         };
         await dispatch(PostJobsFreshAction(data));
         setDisplayBasic(!displayBasic);
@@ -99,6 +103,16 @@ function Jobs() {
                     <div className="p-field p-col-12 p-md-4">
                         <label htmlFor="Status">Status</label>
                         <Dropdown inputId="Status" value={selectedState} options={states} onChange={onStateChange} placeholder="Select" optionLabel="name" />
+                    </div>
+                </div>
+                <div className="p-fluid p-formgrid p-grid">
+                    <div className="p-field p-col-12 p-md-6">
+                        <label htmlFor="adultpostreforms">Adult Post Reforms</label>
+                        <InputNumber id="adultpostreforms" value={adultpostreforms} onValueChange={(e) => setadultpostreforms(e.value)} mode="currency" currency="EUR" minFractionDigits={2} />
+                    </div>
+                    <div className="p-field p-col-12 p-md-6">
+                        <label htmlFor="childpostreforms">Minor Post Reforms</label>
+                        <InputNumber id="childpostreforms" value={childpostreforms} onValueChange={(e) => setchildpostreforms(e.value)} mode="currency" currency="EUR" minFractionDigits={2} />
                     </div>
                 </div>
                 <div style={{ textAlign: "center" }}>

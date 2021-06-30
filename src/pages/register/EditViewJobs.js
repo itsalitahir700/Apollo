@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { PostEditJobsAction, PostJobsAction } from "../../redux/actions/profileAction";
 import EditViewJobsData from "./EditViewJobsData";
 
-function EditViewJobs() {
+function EditViewJobs({ name, tag, userCat }) {
     const [adultfee, setadultfee] = useState(0);
     const [childfee, setchildfee] = useState(0);
     const [scotadultfee, setscotadultfee] = useState(0);
@@ -74,7 +74,6 @@ function EditViewJobs() {
     };
     const editRow = async (rowData) => {
         setadd(false);
-        console.log("rowData ::", rowData);
         setDisplayBasic(!displayBasic);
         setadultfee(rowData.adultfee);
         setchildfee(rowData.childfee);
@@ -86,7 +85,6 @@ function EditViewJobs() {
         setSelectedState(rowData.status);
     };
     const addRow = async () => {
-        console.log("compaigncode ::", compaignCodeValue);
         setadd(true);
         setDisplayBasic(!displayBasic);
         setadultfee(0);
@@ -115,7 +113,12 @@ function EditViewJobs() {
 
     return (
         <div>
-            <Button label="Add" icon="pi pi-external-link" onClick={addRow} />
+            <div style={{ display: "flex", justifyContent: "space-around", alignItems: "baseline" }}>
+                <h4>Name : {name}</h4>
+                <h4>Tag : {tag}</h4>
+                <h4>Category : {userCat}</h4>
+                <Button label="Add" icon="pi pi-external-link" onClick={addRow} />
+            </div>
             <EditViewJobsData editRow={editRow} companyJobsData={companyJobsData} />
             <Dialog header="Job" visible={displayBasic} style={{ width: "80%" }} onHide={() => setDisplayBasic(!displayBasic)} draggable={false}>
                 <div className="p-fluid p-formgrid p-grid">

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { InputText } from "primereact/inputtext";
 import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
+import { Dropdown } from "primereact/dropdown";
 import { useSelector, useDispatch } from "react-redux";
 import EditViewJobs from "./EditViewJobs";
 import EditViewUsers from "./EditViewUsers";
@@ -16,7 +17,8 @@ function EditViewProfile() {
     const [name, setname] = useState(singleCompanyProfileData?.name);
     const [tag, settag] = useState(singleCompanyProfileData?.tag);
     const [userCat, setuserCat] = useState([]);
-    const [userCatvalue, setuserCatvalue] = useState(singleCompanyProfileData?.tblUsercategory?.categoryname);
+    const [userCatvalue, setuserCatvalue] = useState({ code: singleCompanyProfileData?.tblUsercategory?.categorycode, name: singleCompanyProfileData?.tblUsercategory?.categoryname, type: null });
+    console.log("userCatvalue ::", userCatvalue);
     const [postCode, setpostCode] = useState(singleCompanyProfileData?.postcode);
     const [addressLine1, setaddressLine1] = useState(singleCompanyProfileData?.addressline1);
     const [addressLine2, setaddressLine2] = useState(singleCompanyProfileData?.addressline2);
@@ -108,7 +110,7 @@ function EditViewProfile() {
                         </div>
                         <div className="p-field p-col">
                             <label htmlFor="IntroducerCategory">Introducer Category</label>
-
+                            {/* 
                             <select className="p-inputtext p-dropdown" value={userCatvalue} onChange={(e) => setuserCatvalue(e.target.value)}>
                                 {userCat && userCat.length !== 0
                                     ? userCat.map((item, index) => {
@@ -119,7 +121,16 @@ function EditViewProfile() {
                                           );
                                       })
                                     : "No Records Found"}
-                            </select>
+                            </select> */}
+                            <Dropdown
+                                options={userCat}
+                                value={userCatvalue}
+                                onChange={(e) => {
+                                    setuserCatvalue(e.value);
+                                }}
+                                placeholder="Select"
+                                optionLabel="name"
+                            />
                         </div>
                     </div>
                     <div className="p-fluid p-formgrid p-grid">
@@ -269,10 +280,10 @@ function EditViewProfile() {
                     </div>
                 </TabPanel>
                 <TabPanel header="Jobs">
-                    <EditViewJobs />
+                    <EditViewJobs name={name} tag={tag} userCat={userCatvalue} />
                 </TabPanel>
                 <TabPanel header="Users">
-                    <EditViewUsers />
+                    <EditViewUsers name={name} tag={tag} userCat={userCatvalue} />
                 </TabPanel>
             </TabView>
         </div>

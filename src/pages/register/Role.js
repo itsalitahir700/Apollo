@@ -16,6 +16,8 @@ function Role() {
     const [description, setdescription] = useState("");
     const [selectedState, setSelectedState] = useState([]);
     const [displayBasic, setDisplayBasic] = useState(false);
+    const [loading, setloading] = useState(false);
+    const [loadingIcon, setloadingIcon] = useState("");
     let states = [
         {
             code: "Y",
@@ -37,12 +39,16 @@ function Role() {
 
     const dispatch = useDispatch();
     const handleSubmit = async () => {
+        setloading(true);
+        setloadingIcon("pi pi-spin pi-spinner");
         const data = {
             descr: description,
             rolename: name,
             rolestatus: selectedState.code,
         };
         await dispatch(PostRoleAction(data));
+        setloading(false);
+        setloadingIcon("");
         setDisplayBasic(!displayBasic);
     };
 
@@ -55,11 +61,11 @@ function Role() {
     const addRow = async () => {
         setDisplayBasic(!displayBasic);
         setname("");
+        setdescription("");
         setSelectedState([]);
     };
 
     const viewDetails = async (rowData) => {
-        console.log("rowData ::", rowData);
         history.push(`/rolerights?m=${rowData.rolecode}&n=${rowData.descr}`);
     };
 
@@ -88,7 +94,7 @@ function Role() {
                     </div>
                 </div>
                 <div style={{ textAlign: "center" }}>
-                    <Button onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" />
+                    <Button icon={loadingIcon} disabled={loading} onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" />
                 </div>
             </Dialog>
         </div>

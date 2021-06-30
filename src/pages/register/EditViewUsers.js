@@ -11,7 +11,7 @@ import { getLovRole } from "../../services/UsersRegister";
 import { PostUsersAction } from "../.../../../redux/actions/profileAction";
 import EditViewUsersData from "./EditViewUsersData";
 
-function EditViewUsers() {
+function EditViewUsers({ name, tag, userCat }) {
     const [userName, setuserName] = useState("");
     const [password, setpassword] = useState("");
     const [userRole, setuserRole] = useState([]);
@@ -93,7 +93,12 @@ function EditViewUsers() {
 
     return (
         <div>
-            <Button label="Add" icon="pi pi-external-link" onClick={addRow} />
+            <div style={{ display: "flex", justifyContent: "space-around", alignItems: "baseline" }}>
+                <h4>Name : {name}</h4>
+                <h4>Tag : {tag}</h4>
+                <h4>Category : {userCat}</h4>
+                <Button label="Add" icon="pi pi-external-link" onClick={addRow} />
+            </div>
             <EditViewUsersData companyUsersData={companyUsersData} editRow={editRow} />
 
             <Dialog header="Add User" visible={displayBasic} style={{ width: "80%" }} onHide={() => setDisplayBasic(!displayBasic)}>

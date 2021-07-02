@@ -19,7 +19,7 @@ const Login = () => {
             password: password,
         };
         const res = await dispatch(loginAction(data));
-        if (res?.login) history.push("/profile");
+        if (res?.login) history.push("/");
     };
     return (
         <div className="p-d-flex p-jc-center" style={{ marginTop: "4%" }}>

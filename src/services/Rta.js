@@ -13,7 +13,7 @@ export const getRta = async () => {
         });
         return response?.data?.data;
     } catch (error) {
-        console.log(error.message);
+        console.log(error.response.data.messages);
     }
 };
 
@@ -62,7 +62,7 @@ export const getPassengers = async (rtacode) => {
         });
         return response?.data?.data;
     } catch (error) {
-        console.log(error.message);
+        console.log(error.response.data.messages);
     }
 };
 
@@ -185,6 +185,6 @@ export const getMakeModelService = async (url) => {
         });
         return response?.data;
     } catch (error) {
-        console.log(error.message);
+        console.log(error.response.data.messages);
     }
 };

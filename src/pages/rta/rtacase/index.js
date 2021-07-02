@@ -23,7 +23,7 @@ const RTACase = () => {
                         {mode && mode === "e" ? <UpdateClaimant /> : ""}
                         {mode && mode === "v" ? <ViewClaimant /> : ""}
                     </TabPanel>
-                    <TabPanel header="Images">Images ***/</TabPanel>
+
                     <TabPanel header="Notes">
                         <Notes />
                     </TabPanel>

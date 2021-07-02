@@ -13,21 +13,22 @@ export const getLovUserCategory = async () => {
 };
 
 export const postProfile = async (data) => {
-    console.log("service :: yes");
-    const response = await axios({
-        method: "post",
-        url: `${baseURL}userManagement/saveCompanyProfile`,
-        data: data,
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: localStorage.getItem("token"),
-        },
-    });
-    if (response.status === 200) {
+    try {
+        const response = await axios({
+            method: "post",
+            url: `${baseURL}userManagement/saveCompanyProfile`,
+            data: data,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: localStorage.getItem("token"),
+            },
+        });
         toast.success(response.data.messages);
-        return response;
-    } else {
-        return false;
+        return response.data;
+    } catch (error) {
+        toast.warn(error.response.data.messages);
+
+        return error.response;
     }
 };
 

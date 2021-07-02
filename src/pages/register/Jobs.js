@@ -13,10 +13,14 @@ function Jobs() {
     const [childfee, setchildfee] = useState(0);
     const [scotadultfee, setscotadultfee] = useState(0);
     const [scotchildfee, setscotchildfee] = useState(0);
+    const [adultpostreforms, setadultpostreforms] = useState(0);
+    const [childpostreforms, setchildpostreforms] = useState(0);
     const [compaignCode, setcompaignCode] = useState([]);
     const [compaignCodeValue, setcompaignCodeValue] = useState([]);
     const [selectedState, setSelectedState] = useState(null);
     const [displayBasic, setDisplayBasic] = useState(false);
+    const [loading, setloading] = useState(false);
+    const [loadingIcon, setloadingIcon] = useState("");
     let states = [
         {
             code: "Y",
@@ -40,8 +44,10 @@ function Jobs() {
     const onStateChange = (e) => {
         setSelectedState(e.value);
     };
-    const CompanyCode = useSelector((state) => state.profileSlice.profileData?.data?.companycode);
+    const CompanyCode = useSelector((state) => state.profileSlice.profileData?.companycode);
     const handleSubmit = async () => {
+        setloading(true);
+        setloadingIcon("pi pi-spin pi-spinner");
         const data = {
             adultfee: adultfee,
             childfee: childfee,
@@ -50,9 +56,27 @@ function Jobs() {
             scotadultfee: scotadultfee,
             scotchildfee: scotchildfee,
             status: selectedState.code,
+            adultpostreforms,
+            childpostreforms,
         };
-        await dispatch(PostJobsFreshAction(data));
-        setDisplayBasic(!displayBasic);
+        const res = await dispatch(PostJobsFreshAction(data));
+        if (res?.responsecode !== 0) {
+            setDisplayBasic(!displayBasic);
+            setInitialValues();
+        }
+        setloading(false);
+        setloadingIcon("");
+    };
+
+    const setInitialValues = () => {
+        setadultfee("");
+        setchildfee("");
+        setcompaignCodeValue("");
+        setscotadultfee("");
+        setscotchildfee("");
+        setSelectedState("");
+        setadultpostreforms("");
+        setchildpostreforms("");
     };
 
     useEffect(() => {
@@ -61,9 +85,11 @@ function Jobs() {
 
     return (
         <div>
+            <div align="right">
+                <Button label="Add" icon="pi pi-external-link" onClick={() => setDisplayBasic(!displayBasic)} />
+            </div>
             <JobsData />
-            <Button label="Add" icon="pi pi-external-link" onClick={() => setDisplayBasic(!displayBasic)} />
-            <Dialog header="Murtaza" visible={displayBasic} style={{ width: "80%" }} onHide={() => setDisplayBasic(!displayBasic)} draggable={false}>
+            <Dialog header="Add Job" visible={displayBasic} style={{ width: "80%" }} onHide={() => setDisplayBasic(!displayBasic)} draggable={false}>
                 <div className="p-fluid p-formgrid p-grid">
                     <div className="p-field p-col-12 p-md-4">
                         <label htmlFor="childfee">Compaign</label>
@@ -101,8 +127,18 @@ function Jobs() {
                         <Dropdown inputId="Status" value={selectedState} options={states} onChange={onStateChange} placeholder="Select" optionLabel="name" />
                     </div>
                 </div>
+                <div className="p-fluid p-formgrid p-grid">
+                    <div className="p-field p-col-12 p-md-6">
+                        <label htmlFor="adultpostreforms">Adult Post Reforms</label>
+                        <InputNumber id="adultpostreforms" value={adultpostreforms} onValueChange={(e) => setadultpostreforms(e.value)} mode="currency" currency="EUR" minFractionDigits={2} />
+                    </div>
+                    <div className="p-field p-col-12 p-md-6">
+                        <label htmlFor="childpostreforms">Minor Post Reforms</label>
+                        <InputNumber id="childpostreforms" value={childpostreforms} onValueChange={(e) => setchildpostreforms(e.value)} mode="currency" currency="EUR" minFractionDigits={2} />
+                    </div>
+                </div>
                 <div style={{ textAlign: "center" }}>
-                    <Button onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" />
+                    <Button icon={loadingIcon} disabled={loading} onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" />
                 </div>
             </Dialog>
         </div>

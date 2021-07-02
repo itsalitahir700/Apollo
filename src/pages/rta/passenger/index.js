@@ -231,6 +231,16 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             />
                         </div>
                         <div className="p-field p-col-12 p-md-4">
+                            <label>Alternative Number</label>
+                            <InputText
+                                disabled={viewmode}
+                                value={passengerDetails?.alternativeNumber}
+                                onChange={(e) => {
+                                    setPassengerDetails({ ...passengerDetails, alternativeNumber: e.target.value });
+                                }}
+                            />
+                        </div>
+                        <div className="p-field p-col-12 p-md-4">
                             <label>Email</label>
                             <InputText
                                 disabled={viewmode}
@@ -366,7 +376,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             />
                         </div>
 
-                        <div className="p-field p-col-12 p-md-4">
+                        <div className="p-field p-col-12 p-md-3">
                             <label>Length Of Injury</label>
                             <div className="p-inputgroup">
                                 <InputText
@@ -381,7 +391,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             </div>
                         </div>
 
-                        <div className="p-field p-col-12 p-md-4">
+                        <div className="p-field p-col-12 p-md-3">
                             <Checkbox
                                 disabled={viewmode}
                                 onChange={(e) => {
@@ -392,7 +402,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             <label>Ongoing Injury</label>
                         </div>
 
-                        <div className="p-field p-col-12 p-md-4">
+                        <div className="p-field p-col-12 p-md-3">
                             <Checkbox
                                 disabled={viewmode}
                                 onChange={(e) => {
@@ -402,6 +412,22 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             ></Checkbox>
                             <label>Medical evidence avaliable</label>
                         </div>
+
+                        {passengerDetails?.medicalinfo === "Y" ? (
+                            <div className="p-field p-col-12 p-md-3">
+                                <label>Medical Evidence Details</label>
+                                <InputText
+                                    disabled={viewmode}
+                                    value={passengerDetails?.evidenceDetails}
+                                    onChange={(e) => {
+                                        setPassengerDetails({ ...passengerDetails, evidenceDetails: e.target.value });
+                                    }}
+                                    className={errors?.mobile && "p-invalid p-d-block"}
+                                />
+                            </div>
+                        ) : (
+                            ""
+                        )}
 
                         <div className="p-field p-col-12 p-md-12">
                             <label>Details</label>

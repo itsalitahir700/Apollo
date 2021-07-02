@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { InputText } from "primereact/inputtext";
 import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
+import { Dropdown } from "primereact/dropdown";
 import { useSelector, useDispatch } from "react-redux";
 import EditViewJobs from "./EditViewJobs";
 import EditViewUsers from "./EditViewUsers";
@@ -16,7 +17,7 @@ function EditViewProfile() {
     const [name, setname] = useState(singleCompanyProfileData?.name);
     const [tag, settag] = useState(singleCompanyProfileData?.tag);
     const [userCat, setuserCat] = useState([]);
-    const [userCatvalue, setuserCatvalue] = useState(singleCompanyProfileData?.tblUsercategory?.categoryname);
+    const [userCatvalue, setuserCatvalue] = useState({ code: singleCompanyProfileData?.tblUsercategory?.categorycode, name: singleCompanyProfileData?.tblUsercategory?.categoryname, type: null });
     const [postCode, setpostCode] = useState(singleCompanyProfileData?.postcode);
     const [addressLine1, setaddressLine1] = useState(singleCompanyProfileData?.addressline1);
     const [addressLine2, setaddressLine2] = useState(singleCompanyProfileData?.addressline2);
@@ -29,6 +30,8 @@ function EditViewProfile() {
     const [vatchecked, setVatChecked] = useState(false);
     const [vatRegNo, setvatRegNo] = useState("");
     const [directIntroducerchecked, setdirectIntroducerchecked] = useState(false);
+    const [loading, setloading] = useState(false);
+    const [loadingIcon, setloadingIcon] = useState("");
 
     let states = [
         {
@@ -49,6 +52,8 @@ function EditViewProfile() {
         setuserCat(res.data);
     }
     const handleSubmit = async () => {
+        setloading(true);
+        setloadingIcon("pi pi-spin pi-spinner");
         const phone_num = contactNumber1 + " " + contactNumber2;
         let directIntroducerValue = "N";
         if (directIntroducerchecked) {
@@ -65,13 +70,15 @@ function EditViewProfile() {
             phone: phone_num,
             postcode: postCode,
             region: region,
-            userCategoryCode: userCatvalue.code,
+            userCategoryCode: userCatvalue?.code,
             directIntroducer: directIntroducerValue,
             companycode: singleCompanyProfileData?.companycode,
             companystatus: selectedState,
         };
 
-        dispatch(ProfileRegisterEditAction(data));
+        await dispatch(ProfileRegisterEditAction(data));
+        setloading(false);
+        setloadingIcon("");
     };
 
     useEffect(() => {
@@ -108,18 +115,15 @@ function EditViewProfile() {
                         </div>
                         <div className="p-field p-col">
                             <label htmlFor="IntroducerCategory">Introducer Category</label>
-
-                            <select className="p-inputtext p-dropdown" value={userCatvalue} onChange={(e) => setuserCatvalue(e.target.value)}>
-                                {userCat && userCat.length !== 0
-                                    ? userCat.map((item, index) => {
-                                          return (
-                                              <option value={item.code} key={item.code}>
-                                                  {item.name}
-                                              </option>
-                                          );
-                                      })
-                                    : "No Records Found"}
-                            </select>
+                            <Dropdown
+                                options={userCat}
+                                value={userCatvalue}
+                                onChange={(e) => {
+                                    setuserCatvalue(e.value);
+                                }}
+                                placeholder="Select"
+                                optionLabel="name"
+                            />
                         </div>
                     </div>
                     <div className="p-fluid p-formgrid p-grid">
@@ -265,14 +269,14 @@ function EditViewProfile() {
                         )}
                     </div>
                     <div style={{ textAlign: "center" }}>
-                        <Button onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" />
+                        <Button icon={loadingIcon} disabled={loading} onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" />
                     </div>
                 </TabPanel>
                 <TabPanel header="Jobs">
-                    <EditViewJobs />
+                    <EditViewJobs name={name} tag={tag} userCat={userCatvalue} />
                 </TabPanel>
                 <TabPanel header="Users">
-                    <EditViewUsers />
+                    <EditViewUsers name={name} tag={tag} userCat={userCatvalue} />
                 </TabPanel>
             </TabView>
         </div>

@@ -10,8 +10,8 @@ export const getCircumstances = async () => {
     return response.data;
 };
 
-export const getInjuryClassification = async () => {
-    const response = await axios.get(`${baseURL}lovInjuryClaims`, {
+export const getInjuryClassification = async (airBagValue) => {
+    const response = await axios.get(`${baseURL}lovInjuryClaims/${airBagValue}`, {
         headers: {
             Authorization: localStorage.getItem("token"),
         },

@@ -120,7 +120,7 @@ function RoleRights() {
                         />
                     </div>
                 </div>
-                <div style={{ textAlign: "center" }}>
+                <div style={{ textAlign: "center", marginTop: "20%" }}>
                     <Button onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" />
                 </div>
             </Dialog>

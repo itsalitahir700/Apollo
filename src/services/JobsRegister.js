@@ -12,20 +12,21 @@ export const getLovCampaign = async () => {
 };
 
 export const postJobs = async (data) => {
-    const response = await axios({
-        method: "post",
-        url: `${baseURL}userManagement/saveCompanyCompaign`,
-        data: data,
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: localStorage.getItem("token"),
-        },
-    });
-    if (response.status === 200) {
+    try {
+        const response = await axios({
+            method: "post",
+            url: `${baseURL}userManagement/saveCompanyCompaign`,
+            data: data,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: localStorage.getItem("token"),
+            },
+        });
         toast.success(response.data.messages);
         return response.data;
-    } else {
-        return false;
+    } catch (error) {
+        toast.warn(error.response.data.messages);
+        return error.response;
     }
 };
 

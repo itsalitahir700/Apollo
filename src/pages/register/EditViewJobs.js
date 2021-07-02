@@ -9,11 +9,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { PostEditJobsAction, PostJobsAction } from "../../redux/actions/profileAction";
 import EditViewJobsData from "./EditViewJobsData";
 
-function EditViewJobs() {
+function EditViewJobs({ name, tag, userCat }) {
     const [adultfee, setadultfee] = useState(0);
     const [childfee, setchildfee] = useState(0);
     const [scotadultfee, setscotadultfee] = useState(0);
     const [scotchildfee, setscotchildfee] = useState(0);
+    const [adultpostreforms, setadultpostreforms] = useState(0);
+    const [childpostreforms, setchildpostreforms] = useState(0);
     const [companyJobCode, setcompanyJobCode] = useState("");
     const [compaignCode, setcompaignCode] = useState([]);
     const [compaignCodeValue, setcompaignCodeValue] = useState([]);
@@ -62,6 +64,8 @@ function EditViewJobs() {
             scotchildfee: scotchildfee,
             status: selectedState,
             companyjobcode: companyJobCode,
+            adultpostreforms,
+            childpostreforms,
         };
         setisloading(true);
         await dispatch(PostEditJobsAction(data));
@@ -70,17 +74,17 @@ function EditViewJobs() {
     };
     const editRow = async (rowData) => {
         setadd(false);
-        console.log("rowData ::", rowData);
         setDisplayBasic(!displayBasic);
         setadultfee(rowData.adultfee);
         setchildfee(rowData.childfee);
         setscotadultfee(rowData.scotadultfee);
         setscotchildfee(rowData.scotchildfee);
+        setadultpostreforms(rowData.adultpostreforms);
+        setchildpostreforms(rowData.childpostreforms);
         setcompanyJobCode(rowData.companyjobcode);
         setSelectedState(rowData.status);
     };
     const addRow = async () => {
-        console.log("compaigncode ::", compaignCodeValue);
         setadd(true);
         setDisplayBasic(!displayBasic);
         setadultfee(0);
@@ -109,7 +113,19 @@ function EditViewJobs() {
 
     return (
         <div>
-            <Button label="Add" icon="pi pi-external-link" onClick={addRow} />
+            <div style={{ display: "flex", justifyContent: "space-around", alignItems: "baseline" }}>
+                <label>
+                    {" "}
+                    <b> Name : {name}</b>
+                </label>
+                <label>
+                    <b>Tag : {tag}</b>{" "}
+                </label>
+                <label>
+                    <b>Category : {userCat?.name}</b>{" "}
+                </label>
+                <Button label="Add" icon="pi pi-external-link" onClick={addRow} />
+            </div>
             <EditViewJobsData editRow={editRow} companyJobsData={companyJobsData} />
             <Dialog header="Job" visible={displayBasic} style={{ width: "80%" }} onHide={() => setDisplayBasic(!displayBasic)} draggable={false}>
                 <div className="p-fluid p-formgrid p-grid">
@@ -148,6 +164,16 @@ function EditViewJobs() {
                     <div className="p-field p-col-12 p-md-4">
                         <label htmlFor="Status">Status</label>
                         <Dropdown value={selectedState} options={states} onChange={(e) => setSelectedState(e.value)} optionValue="code" optionLabel="name" placeholder="Select status" />
+                    </div>
+                </div>
+                <div className="p-fluid p-formgrid p-grid">
+                    <div className="p-field p-col-12 p-md-6">
+                        <label htmlFor="adultpostreforms">Adult Post Reforms</label>
+                        <InputNumber id="adultpostreforms" value={adultpostreforms} onValueChange={(e) => setadultpostreforms(e.value)} mode="currency" currency="EUR" minFractionDigits={2} />
+                    </div>
+                    <div className="p-field p-col-12 p-md-6">
+                        <label htmlFor="childpostreforms">Minor Post Reforms</label>
+                        <InputNumber id="childpostreforms" value={childpostreforms} onValueChange={(e) => setchildpostreforms(e.value)} mode="currency" currency="EUR" minFractionDigits={2} />
                     </div>
                 </div>
                 <div style={{ textAlign: "center" }}>

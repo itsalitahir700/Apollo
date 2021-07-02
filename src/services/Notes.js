@@ -17,7 +17,7 @@ export const notesService = {
                 res = response.data.data;
             })
             .catch((err) => {
-                toast.warn(err.message);
+                toast.warn(err.response.data.messages);
                 res = false;
             });
         return res;
@@ -38,7 +38,7 @@ export const notesService = {
                 res = response.data.data;
             })
             .catch((err) => {
-                toast.warn(err.message);
+                toast.warn(err.response.data.messages);
                 res = false;
             });
         return res;

@@ -89,7 +89,7 @@ const ESign = () => {
             </div>
             <div className={styles.buttons}>
                 <Button label="Clear" disabled={loading} className="p-button-secondary" onClick={clear} />
-                <Button label={loading ? "Submitting..." : "Submit"} disabled={loading} className="p-ml-2" onClick={trim} />
+                <Button label="Submit" disabled={loading} className="p-ml-2" onClick={trim} />
             </div>
         </div>
     );

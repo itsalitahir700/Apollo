@@ -6,6 +6,8 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import "./Documents.css";
 import ImagesUpload from "../ImageUpload";
+import { FaFilePdf } from "react-icons/all";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 function Documents() {
     const dispatch = useDispatch();
@@ -19,9 +21,12 @@ function Documents() {
     const [showdocumentsmodal, setshowdocumentsmodal] = useState(false);
     const [uploaddocs, setuploaddocs] = useState([]);
     const [loading, setloading] = useState(false);
+    const [pdfBase64, setPDFBase64] = useState();
 
     const handleDocuments = useCallback(async () => {
+        setloading(true);
         await dispatch(await getDocuments(rtaCode));
+        setloading(false);
     }, [dispatch, rtaCode]);
 
     const handleUpload = async () => {
@@ -39,18 +44,21 @@ function Documents() {
 
     return (
         <div className="documents">
-            <Button label="+ Add Documents" onClick={() => setshowdocumentsmodal(true)} />
+            <Button label="+ Add Documents " className="p-mb-2" onClick={() => setshowdocumentsmodal(true)} />
+
             <SimpleReactLightBox>
-                <SRLWrapper>{documents && documents.length ? documents.map((docs, idx) => <img height="160" className="doc-img" key={docs?.rtadoccode} src={docs?.docbase64} alt={docs?.docname} />) : ""}</SRLWrapper>
+                <SRLWrapper>{documents && documents.length ? documents.map((docs, idx) => docs.doctype === "Image" && <img height="160" className="doc-img" key={docs?.rtadoccode} src={docs?.docbase64} alt={docs?.docname} />) : ""}</SRLWrapper>
             </SimpleReactLightBox>
+            {documents && documents.length && documents.map((docs, idx) => docs.doctype === "Esign" && <FaFilePdf title="Click to view" onClick={() => setPDFBase64(docs?.docbase64)} className="pdf-file" />)}
             <Dialog header={"Add Documents"} visible={showdocumentsmodal} style={{ width: "80%" }} onHide={() => setshowdocumentsmodal(false)}>
                 <ImagesUpload handleImages={setuploaddocs} />
                 <center className="p-mt-4">
                     <Button disabled={loading} onClick={handleUpload}>
-                        <i className="pi pi-upload p-mr-2"></i>&nbsp;{loading ? "Uploading ..." : "Upload"}{" "}
+                        <i className="pi pi-upload p-mr-2"></i>&nbsp;Upload
                     </Button>
                 </center>
             </Dialog>
+            {pdfBase64 ? <embed className="p-mt-4" width="100%" style={{ height: "90vh" }} src={`data:application/pdf;base64,${pdfBase64}`} type="application/pdf" /> : null}
         </div>
     );
 }

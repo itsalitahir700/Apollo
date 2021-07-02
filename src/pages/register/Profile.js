@@ -30,6 +30,8 @@ function Profile() {
     const [vatchecked, setVatChecked] = useState(false);
     const [vatRegNo, setvatRegNo] = useState("");
     const [directIntroducerchecked, setdirectIntroducerchecked] = useState(false);
+    const [loading, setloading] = useState(false);
+    const [loadingIcon, setloadingIcon] = useState("");
 
     let states = [
         {
@@ -60,6 +62,8 @@ function Profile() {
     }
 
     const handleSubmit = async () => {
+        setloading(true);
+        setloadingIcon("pi pi-spin pi-spinner");
         let directIntroducerValue = "N";
         if (directIntroducerchecked) {
             directIntroducerValue = "Y";
@@ -78,11 +82,13 @@ function Profile() {
             postcode: postCode,
             region: region,
             tag: tag,
-            userCategoryCode: userCatvalue.code,
+            userCategoryCode: userCatvalue?.code,
             directIntroducer: directIntroducerValue,
         };
 
-        dispatch(ProfileRegisterAction(data));
+        await dispatch(ProfileRegisterAction(data));
+        setloading(false);
+        setloadingIcon("");
     };
 
     useEffect(() => {
@@ -128,6 +134,7 @@ function Profile() {
                                         options={userCat}
                                         onChange={(e) => {
                                             setuserCatvalue(e.value);
+                                            console.log(userCatvalue);
                                         }}
                                         placeholder="Select"
                                         optionLabel="name"
@@ -267,7 +274,7 @@ function Profile() {
                                 )}
                             </div>
                             <div style={{ textAlign: "center" }}>
-                                <Button onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" />
+                                <Button icon={loadingIcon} disabled={loading} onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" />
                             </div>
                         </TabPanel>
                         <TabPanel header="Jobs">

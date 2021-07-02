@@ -50,7 +50,7 @@ function Users() {
         setSelectedState(e.value);
     };
 
-    const CompanyCode = useSelector((state) => state.profileSlice.profileData?.data?.companycode);
+    const CompanyCode = useSelector((state) => state.profileSlice.profileData?.companycode);
     const dispatch = useDispatch();
     const handleSubmit = async () => {
         const userRolevalues = userRoleValue.map((role) => {

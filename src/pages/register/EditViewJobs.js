@@ -114,9 +114,16 @@ function EditViewJobs({ name, tag, userCat }) {
     return (
         <div>
             <div style={{ display: "flex", justifyContent: "space-around", alignItems: "baseline" }}>
-                <h4>Name : {name}</h4>
-                <h4>Tag : {tag}</h4>
-                <h4>Category : {userCat}</h4>
+                <label>
+                    {" "}
+                    <b> Name : {name}</b>
+                </label>
+                <label>
+                    <b>Tag : {tag}</b>{" "}
+                </label>
+                <label>
+                    <b>Category : {userCat?.name}</b>{" "}
+                </label>
                 <Button label="Add" icon="pi pi-external-link" onClick={addRow} />
             </div>
             <EditViewJobsData editRow={editRow} companyJobsData={companyJobsData} />

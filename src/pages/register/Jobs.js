@@ -19,6 +19,8 @@ function Jobs() {
     const [compaignCodeValue, setcompaignCodeValue] = useState([]);
     const [selectedState, setSelectedState] = useState(null);
     const [displayBasic, setDisplayBasic] = useState(false);
+    const [loading, setloading] = useState(false);
+    const [loadingIcon, setloadingIcon] = useState("");
     let states = [
         {
             code: "Y",
@@ -42,8 +44,10 @@ function Jobs() {
     const onStateChange = (e) => {
         setSelectedState(e.value);
     };
-    const CompanyCode = useSelector((state) => state.profileSlice.profileData?.data?.companycode);
+    const CompanyCode = useSelector((state) => state.profileSlice.profileData?.companycode);
     const handleSubmit = async () => {
+        setloading(true);
+        setloadingIcon("pi pi-spin pi-spinner");
         const data = {
             adultfee: adultfee,
             childfee: childfee,
@@ -55,8 +59,24 @@ function Jobs() {
             adultpostreforms,
             childpostreforms,
         };
-        await dispatch(PostJobsFreshAction(data));
-        setDisplayBasic(!displayBasic);
+        const res = await dispatch(PostJobsFreshAction(data));
+        if (res?.responsecode !== 0) {
+            setDisplayBasic(!displayBasic);
+            setInitialValues();
+        }
+        setloading(false);
+        setloadingIcon("");
+    };
+
+    const setInitialValues = () => {
+        setadultfee("");
+        setchildfee("");
+        setcompaignCodeValue("");
+        setscotadultfee("");
+        setscotchildfee("");
+        setSelectedState("");
+        setadultpostreforms("");
+        setchildpostreforms("");
     };
 
     useEffect(() => {
@@ -65,9 +85,11 @@ function Jobs() {
 
     return (
         <div>
+            <div align="right">
+                <Button label="Add" icon="pi pi-external-link" onClick={() => setDisplayBasic(!displayBasic)} />
+            </div>
             <JobsData />
-            <Button label="Add" icon="pi pi-external-link" onClick={() => setDisplayBasic(!displayBasic)} />
-            <Dialog header="Murtaza" visible={displayBasic} style={{ width: "80%" }} onHide={() => setDisplayBasic(!displayBasic)} draggable={false}>
+            <Dialog header="Add Job" visible={displayBasic} style={{ width: "80%" }} onHide={() => setDisplayBasic(!displayBasic)} draggable={false}>
                 <div className="p-fluid p-formgrid p-grid">
                     <div className="p-field p-col-12 p-md-4">
                         <label htmlFor="childfee">Compaign</label>
@@ -116,7 +138,7 @@ function Jobs() {
                     </div>
                 </div>
                 <div style={{ textAlign: "center" }}>
-                    <Button onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" />
+                    <Button icon={loadingIcon} disabled={loading} onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" />
                 </div>
             </Dialog>
         </div>

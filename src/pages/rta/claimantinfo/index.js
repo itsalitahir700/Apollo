@@ -7,11 +7,25 @@ import { claimantdetails } from "../../../utilities/constants";
 import { getAddress, getAddressValues, getFurtherAddressService } from "../../../services/Rta";
 
 function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, viewmode, errors }) {
-    let states = [];
+    let states = [
+        {
+            code: "Mr",
+            name: "Mr",
+            type: null,
+        },
+        {
+            code: "Ms",
+            name: "Ms",
+            type: null,
+        },
+    ];
+    console.log(claimantdata?.title);
     const [claimantDetails, setclaimantDetails] = useState(claimantdata && Object.keys(claimantdata).length ? claimantdata : claimantdetails);
     const [scotland, setscotland] = useState("");
     const [minor, setMinor] = useState(false);
-    const [titleValue, settitleValue] = useState("");
+    const [titleValue, settitleValue] = useState({ code: claimantdata?.title, name: claimantdata?.title, type: null });
+
+    console.log(titleValue);
     const [addressItems, setaddressItems] = useState("");
     const [addressItemsValue, setaddressItemsValue] = useState("");
     const [addressFurtherItems, setaddressFurtherItems] = useState("");
@@ -99,10 +113,10 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                 <div className="p-field p-col-12 p-md-3">
                     <label htmlFor="Status">Title</label>
                     <Dropdown
-                        value={titleValue}
+                        value={{ code: claimantDetails?.title, name: claimantDetails?.title, type: null }}
                         disabled={viewmode}
                         onChange={(e) => {
-                            setclaimantDetails({ ...claimantDetails, title: e.value.code });
+                            setclaimantDetails({ ...claimantDetails, title: e.value.name });
                             settitleValue(e.value);
                         }}
                         options={states}

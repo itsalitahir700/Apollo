@@ -15,6 +15,7 @@ const slice = createSlice({
                 loginData: action.payload,
                 token: localStorage.getItem("token"),
                 nav: localStorage.getItem("nav"),
+                directIntroducer: localStorage.getItem("directIntroducer"),
             };
         },
         LOGIN_ERROR: (state) => {

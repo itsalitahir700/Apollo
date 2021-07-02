@@ -116,7 +116,7 @@ function ViewClaimant() {
                                   className="p-button-sm p-button-primary p-mr-2 p-mb-2"
                               />
                           );
-                      else if (item.apiflag === "N" && directIntroducer === "false")
+                      else if (item.apiflag === "N")
                           return (
                               <Button
                                   value={item.buttonvalue}

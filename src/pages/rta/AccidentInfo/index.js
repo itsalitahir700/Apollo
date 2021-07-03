@@ -80,7 +80,7 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                     <Dropdown
                         disabled={viewmode}
                         options={circumstances}
-                        value={{ code: accidentDetails?.circumcode.toString(), name: accidentDetails?.circumdescr, type: null }}
+                        value={{ code: accidentDetails?.circumcode?.toString(), name: accidentDetails?.circumdescr, type: null }}
                         onChange={(e) => {
                             setaccidentDetails({ ...accidentDetails, circumcode: e.value.code, circumdescr: e.value.name });
                         }}
@@ -176,7 +176,7 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                     <Dropdown
                         disabled={viewmode}
                         options={injuryClassification}
-                        value={{ code: accidentDetails?.injclasscode.toString(), name: accidentDetails?.injdescr, type: accidentDetails?.injlevel }}
+                        value={{ code: accidentDetails?.injclasscode?.toString(), name: accidentDetails?.injdescr, type: accidentDetails?.injlevel }}
                         onChange={(e) => {
                             setaccidentDetails({ ...accidentDetails, injclasscode: e.value.code, injdescr: e.value.name, injlevel: e.value.type });
                         }}

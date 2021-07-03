@@ -99,7 +99,7 @@ function RTA() {
             </Fieldset>
             <center className="p-mt-2 p-button-outlined" disabled={loading} onClick={handleSubmit}>
                 {Object.keys(errors).length ? <p className="p-error p-d-block">Please fill out required fields</p> : ""}
-                <Button label="Create RTA" disabled={loading} icon={loading && "pi pi-spin pi-spinner"} />
+                <Button label="Create RTA" disabled={loading} icon={loading ? "pi pi-spin pi-spinner" : ""} />
             </center>
             <MinorModal handleMinorReturn={setMinorDetails} show={showMinorModal} hide={setShowMinorModal} />
         </>

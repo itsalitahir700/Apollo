@@ -126,7 +126,7 @@ function UpdateClaimant() {
 
             <MinorModal handleMinorReturn={setMinorDetails} minorData={minorDetails} viewmode={viewmode} show={showMinorModal} hide={setShowMinorModal} />
             <center className="p-mt-2 p-button-outlined" onClick={handleSubmit}>
-                <Button disabled={loading} icon={loading && "pi pi-spin pi-spinner"} label="Update" />
+                <Button disabled={loading} icon={loading ? "pi pi-spin pi-spinner" : ""} label="Update" />
             </center>
         </div>
     );

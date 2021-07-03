@@ -16,7 +16,7 @@ export const getDocuments = async (rtaCode) => {
             res = response.data.data;
         })
         .catch((err) => {
-            toast.warn(err.response.data.messages);
+            toast.warn(err?.response?.data?.messages);
             res = false;
         });
     return res;
@@ -37,7 +37,7 @@ export const addDocuments = async (data) => {
             res = response.data.data;
         })
         .catch((err) => {
-            toast.warn(err.response.data.messages);
+            toast.warn(err?.response?.data?.messages);
             res = false;
         });
     return res;

@@ -60,6 +60,15 @@ const JobsData = () => {
         );
     };
 
+    const adultpostreformsBodyTemplate = (rowData) => {
+        return (
+            <React.Fragment>
+                <span className="p-column-title">Adult Post Reforms</span>
+                {rowData.adultpostreforms}
+            </React.Fragment>
+        );
+    };
+
     const scotchildfeeBodyTemplate = (rowData) => {
         return (
             <React.Fragment>
@@ -87,6 +96,7 @@ const JobsData = () => {
                     <Column field="childfee" header="Child Fee" body={childfeeBodyTemplate} filter sortable />
                     <Column field="scotadultfee" header="Scot Adult Fee" body={scotadultfeeBodyTemplate} filter sortable />
                     <Column field="childpostreforms" header="Child Post Reforms" body={childpostreformsBodyTemplate} filter sortable />
+                    <Column field="adultpostreforms" header="Adult Post Reforms" body={adultpostreformsBodyTemplate} filter sortable />
                     <Column field="scotchildfee" header="Scot Child Fee" body={scotchildfeeBodyTemplate} filter sortable />
                     <Column field="status" header="Status" body={statusBodyTemplate} filter sortable />
                 </DataTable>

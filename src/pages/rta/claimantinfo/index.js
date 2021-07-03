@@ -23,9 +23,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
     const [claimantDetails, setclaimantDetails] = useState(claimantdata && Object.keys(claimantdata).length ? claimantdata : claimantdetails);
     const [scotland, setscotland] = useState("");
     const [minor, setMinor] = useState(false);
-    const [titleValue, settitleValue] = useState({ code: claimantdata?.title, name: claimantdata?.title, type: null });
 
-    console.log(titleValue);
     const [addressItems, setaddressItems] = useState("");
     const [addressItemsValue, setaddressItemsValue] = useState("");
     const [addressFurtherItems, setaddressFurtherItems] = useState("");
@@ -117,7 +115,6 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         disabled={viewmode}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, title: e.value.name });
-                            settitleValue(e.value);
                         }}
                         options={states}
                         placeholder="Select"

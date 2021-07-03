@@ -48,7 +48,7 @@ function Documents() {
             <SimpleReactLightBox>
                 <SRLWrapper>{documents && documents.length ? documents.map((docs, idx) => docs.doctype === "Image" && <img height="160" className="doc-img" key={docs?.rtadoccode} src={docs?.docbase64} alt={docs?.docname} />) : ""}</SRLWrapper>
             </SimpleReactLightBox>
-            {documents && documents.length ? documents.map((docs, idx) => docs.doctype === "Esign" && <FaFilePdf title="Click to view" onClick={() => setPDFBase64(docs?.docbase64)} className="pdf-file" />) : null}
+            {documents && documents.length ? documents.map((docs, idx) => docs.doctype === "Esign" && <FaFilePdf key={docs?.docbase64} title="Click to view" onClick={() => setPDFBase64(docs?.docbase64)} className="pdf-file" />) : null}
             <Dialog header={"Add Documents"} visible={showdocumentsmodal} style={{ width: "80%" }} onHide={() => setshowdocumentsmodal(false)}>
                 <ImagesUpload handleImages={setuploaddocs} />
                 <center className="p-mt-4">

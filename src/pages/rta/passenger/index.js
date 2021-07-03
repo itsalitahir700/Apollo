@@ -11,29 +11,13 @@ import MinorModal from "../minormodal";
 import { getInjuryClassification } from "../../../services/Lovs";
 import { vehicledetails } from "../../../utilities/constants";
 import { passengerValidation } from "../../../utilities/validation";
+import { getAddress, getAddressValues, getFurtherAddressService } from "../../../services/Rta";
 
 function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, isEdit, viewmode }) {
     if (viewmode) {
         isEdit = "View";
     }
-    const footer = (
-        <div>
-            {!viewmode ? (
-                <Button
-                    label={!isEdit ? "Add" : "Update"}
-                    onClick={() => {
-                        handlePassengerReturn(passengerDetails);
-                        hide(false);
-                        handleClear();
-                    }}
-                    icon="pi pi-check"
-                />
-            ) : (
-                ""
-            )}
-            {!viewmode ? <Button label="Clear" onClick={() => handleClear()} icon="pi pi-times" /> : ""}
-        </div>
-    );
+    const footer = <div>{!viewmode ? <Button label={!isEdit ? "Add" : "Update"} onClick={() => handlePassenger()} icon="pi pi-check" /> : ""}</div>;
 
     const [passengerDetails, setPassengerDetails] = useState(vehicledetails);
     const [showMinorModal, setShowMinorModal] = useState(false);
@@ -42,6 +26,11 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
     const [injuryClassificationValue, setinjuryClassificationValue] = useState("");
     const [titleValue, settitleValue] = useState("");
     const [errors, seterrors] = useState({});
+    const [addressItems, setaddressItems] = useState("");
+    const [addressItemsValue, setaddressItemsValue] = useState("");
+    const [addressFurtherItems, setaddressFurtherItems] = useState("");
+    const [addressFurtherItemsValue, setaddressFurtherItemsValue] = useState("");
+    const [showFurtherAddress, setshowFurtherAddress] = useState(false);
 
     const handlePassenger = async () => {
         const isvalid = await passengerValidation(passengerDetails);
@@ -85,6 +74,50 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
         const res = await getInjuryClassification();
         setinjuryClassification(res.data);
     }
+
+    const getFurtherAddress = async (data) => {
+        setshowFurtherAddress(true);
+        const res = await getFurtherAddressService("https://services.postcodeanywhere.co.uk/Capture/Interactive/Find/v1.10/json3.ws", data);
+        setaddressFurtherItems(res.Items);
+    };
+
+    const handleAddressFurtherValue = async (e) => {
+        setaddressFurtherItemsValue(e.target.value);
+        const res = await getAddressValues("https://services.postcodeanywhere.co.uk/Capture/Interactive/Retrieve/v1.00/json3.ws", e.target.value.Id);
+        setPassengerDetails({ ...passengerDetails, address1: res?.Items[0]?.Line1 });
+        setPassengerDetails({ ...passengerDetails, address2: res?.Items[0]?.Line2 });
+        setPassengerDetails({ ...passengerDetails, address3: res?.Items[0]?.Line3 });
+        setPassengerDetails({ ...passengerDetails, city: res?.Items[0]?.City });
+        setPassengerDetails({ ...passengerDetails, region: res?.Items[0]?.Province });
+    };
+
+    const handleAdress = async () => {
+        const postcode = passengerDetails?.postalcode;
+        const res = await getAddress("https://services.postcodeanywhere.co.uk/Capture/Interactive/Find/v1.10/json3.ws", postcode);
+        setaddressItems(res.Items);
+    };
+
+    const handleAddressValue = async (e) => {
+        setaddressFurtherItemsValue("");
+        setaddressItemsValue(e.target.value);
+        if (
+            e.target.value.Highlight === "0-1" ||
+            e.target.value.Highlight === "0-2" ||
+            e.target.value.Highlight === "0-3" ||
+            e.target.value.Highlight === "0-4" ||
+            e.target.value.Highlight === "0-5" ||
+            e.target.value.Highlight === "0-6" ||
+            e.target.value.Highlight === "0-7" ||
+            e.target.value.Highlight === "0-8" ||
+            e.target.value.Highlight === "0-9"
+        ) {
+            getFurtherAddress(e.target.value);
+        } else {
+            setshowFurtherAddress(false);
+            const res = await getAddressValues("https://services.postcodeanywhere.co.uk/Capture/Interactive/Retrieve/v1.00/json3.ws", e.target.value.Id);
+            setPassengerDetails({ ...passengerDetails, address1: res?.Items[0]?.Line1, address2: res?.Items[0]?.Line2, address3: res?.Items[0]?.Line3, city: res?.Items[0]?.City, region: res?.Items[0]?.Province });
+        }
+    };
 
     useEffect(() => {
         funcgetlovInjuryClaims();
@@ -174,11 +207,11 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             <div className="p-inputgroup">
                                 <InputText
                                     disabled={viewmode}
-                                    value={passengerDetails?.ninumber}
+                                    value={passengerDetails?.ninumber || ""}
                                     onChange={(e) => {
-                                        setPassengerDetails({ ...passengerDetails, niNumber: e.target.value });
+                                        setPassengerDetails({ ...passengerDetails, ninumber: e.target.value });
                                     }}
-                                    className={errors?.niNumber && "p-invalid p-d-block"}
+                                    className={errors?.ninumber && "p-invalid p-d-block"}
                                 />
                                 <Dropdown
                                     disabled={viewmode}
@@ -251,45 +284,73 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                                 type="email"
                             />
                         </div>
-                        <div className="p-field p-col-12 p-md-4">
+                        <div className="p-field p-col-12 p-md-8">
                             <label>Address</label>
                             <div className="p-inputgroup">
                                 <InputText
                                     disabled={viewmode}
-                                    placeholder="POSTCODE"
-                                    value={passengerDetails?.address || ""}
+                                    placeholder="postalcode"
+                                    value={passengerDetails?.postalcode || ""}
                                     onChange={(e) => {
-                                        setPassengerDetails({ ...passengerDetails, address: e.target.value });
+                                        setPassengerDetails({ ...passengerDetails, postalcode: e.target.value });
                                     }}
-                                    className={errors?.address && "p-invalid p-d-block"}
+                                    className={errors?.postalcode && "p-invalid p-d-block"}
                                 />
+                                <Button
+                                    label="lookup"
+                                    onClick={() => {
+                                        handleAdress();
+                                    }}
+                                ></Button>
+                                <Dropdown
+                                    onChange={(e) => {
+                                        handleAddressValue(e);
+                                    }}
+                                    value={addressItemsValue || ""}
+                                    options={addressItems}
+                                    placeholder="Select"
+                                    optionLabel="Description"
+                                />
+                                {showFurtherAddress === true ? (
+                                    <Dropdown
+                                        onChange={(e) => {
+                                            handleAddressFurtherValue(e);
+                                        }}
+                                        value={addressFurtherItemsValue || ""}
+                                        options={addressFurtherItems}
+                                        placeholder="Select"
+                                        optionLabel="Description"
+                                    />
+                                ) : (
+                                    ""
+                                )}
                             </div>
-                            <small className="p-error p-d-block">{errors?.address}</small>
+                            <small className="p-error p-d-block">{errors?.postalcode}</small>
                         </div>
-                        <div className="p-field p-col-12 p-md-12">
+                        <div className="p-field p-col-12 p-md-4">
+                            <label>Address line 1</label>
                             <InputText
                                 disabled={viewmode}
-                                placeholder="Address Line 1"
                                 value={passengerDetails?.address1 || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, address1: e.target.value });
                                 }}
                             />
                         </div>
-                        <div className="p-field p-col-12 p-md-12">
+                        <div className="p-field p-col-12 p-md-4">
+                            <label>Address line 2</label>
                             <InputText
                                 disabled={viewmode}
-                                placeholder="Address Line 2"
                                 value={passengerDetails?.address2 || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, address2: e.target.value });
                                 }}
                             />
                         </div>
-                        <div className="p-field p-col-12 p-md-12">
+                        <div className="p-field p-col-12 p-md-4">
+                            <label>Address line 3</label>
                             <InputText
                                 disabled={viewmode}
-                                placeholder="Address Line 3"
                                 value={passengerDetails?.address3 || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, address3: e.target.value });
@@ -300,12 +361,23 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             <label>City</label>
                             <InputText
                                 disabled={viewmode}
-                                value={passengerDetails?.city}
+                                value={passengerDetails?.city || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, city: e.target.value });
                                 }}
                             />
                         </div>
+                        <div className="p-field p-col-12 p-md-4">
+                            <label>Region</label>
+                            <InputText
+                                disabled={viewmode}
+                                value={passengerDetails?.region || ""}
+                                onChange={(e) => {
+                                    setPassengerDetails({ ...passengerDetails, region: e.target.value });
+                                }}
+                            />
+                        </div>
+
                         <div className="p-field p-col-12 p-md-4">
                             <label>Contact </label>
                             <InputText
@@ -369,7 +441,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             <label>Injury Description</label>
                             <InputTextarea
                                 disabled={viewmode}
-                                value={passengerDetails?.description}
+                                value={passengerDetails?.description || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, injdescr: e.target.value });
                                 }}
@@ -397,6 +469,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, ongoinginjury: e.checked ? "Y" : "N" });
                                 }}
+                                p
                                 checked={"Y" === passengerDetails?.ongoinginjury}
                             ></Checkbox>
                             <label>Ongoing Injury</label>

@@ -55,7 +55,7 @@ function Jobs() {
             companycode: CompanyCode,
             scotadultfee: scotadultfee,
             scotchildfee: scotchildfee,
-            status: selectedState.code,
+            status: selectedState?.code,
             adultpostreforms,
             childpostreforms,
         };

@@ -31,20 +31,20 @@ export const postJobs = async (data) => {
 };
 
 export const postEditJobs = async (data) => {
-    const response = await axios({
-        method: "post",
-        url: `${baseURL}userManagement/updateCompanyCompaign`,
-        data: data,
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: localStorage.getItem("token"),
-        },
-    });
-    if (response.status === 200) {
+    try {
+        const response = await axios({
+            method: "post",
+            url: `${baseURL}userManagement/updateCompanyCompaign`,
+            data: data,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: localStorage.getItem("token"),
+            },
+        });
         toast.success(response.data.messages);
-        console.log("this", response.data.data);
         return response.data;
-    } else {
-        return false;
+    } catch (error) {
+        toast.warn(error.response.data.messages);
+        return error.response;
     }
 };

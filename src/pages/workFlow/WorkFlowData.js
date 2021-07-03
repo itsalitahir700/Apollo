@@ -30,6 +30,8 @@ const WorkFlowData = () => {
     const [buttonname, setbuttonname] = useState("");
     const [apiFlagValue, setapiFlagValue] = useState("");
     const [rtaflowcode, setrtaflowcode] = useState("");
+    const [taskflag, settaskflag] = useState("");
+    const [editflag, seteditflag] = useState("");
     const dt = useRef(null);
 
     const funcGetWorkFlow = async () => {
@@ -64,8 +66,11 @@ const WorkFlowData = () => {
             companycode: companyCodeValue.code,
             compaingcode: compaignValue.code,
             statuscode: statusValue.code,
+            editflag: editflag.code,
+            taskflag: taskflag.code,
         };
         await handlePostRequest(data, "rta/addWorkFlow");
+        setInitialValue();
         funcGetWorkFlow();
         setloading(false);
         setshowModal(false);
@@ -73,6 +78,10 @@ const WorkFlowData = () => {
 
     const setInitialValue = async () => {
         setapiFlagValue("");
+        seteditflag("");
+        settaskflag("");
+        setcompanyCodeValue("");
+        setcompaignValue("");
         setbuttonname("");
         setuserCategoryValue("");
         setrtaflowcode("");
@@ -216,7 +225,7 @@ const WorkFlowData = () => {
             </div>
             <Dialog header="Add Work Flow" visible={showModal} style={{ width: "50vw" }} footer={renderFooter("displayBasic")} onHide={() => setshowModal(false)}>
                 <div className="p-fluid p-formgrid p-grid" style={{ paddingBottom: "30%" }}>
-                    <div className="p-field p-col">
+                    <div className="p-field p-col-4">
                         <label>Comapany</label>
                         <Dropdown
                             options={companyCode}
@@ -228,7 +237,7 @@ const WorkFlowData = () => {
                             optionLabel="name"
                         />
                     </div>
-                    <div className="p-field p-col">
+                    <div className="p-field p-col-4">
                         <label>Status</label>
                         <Dropdown
                             options={status}
@@ -240,13 +249,43 @@ const WorkFlowData = () => {
                             optionLabel="name"
                         />
                     </div>
-                    <div className="p-field p-col">
+                    <div className="p-field p-col-4">
                         <label>Compaign</label>
                         <Dropdown
                             options={compaign}
                             value={compaignValue}
                             onChange={(e) => {
                                 setcompaignValue(e.value);
+                            }}
+                            placeholder="Select"
+                            optionLabel="name"
+                        />
+                    </div>
+                    <div className="p-field p-col-6">
+                        <label>Task Flag</label>
+                        <Dropdown
+                            options={[
+                                { code: "Y", name: "Yes" },
+                                { code: "N", name: "No" },
+                            ]}
+                            value={taskflag}
+                            onChange={(e) => {
+                                settaskflag(e.value);
+                            }}
+                            placeholder="Select"
+                            optionLabel="name"
+                        />
+                    </div>
+                    <div className="p-field p-col-6">
+                        <label>Edit Flag</label>
+                        <Dropdown
+                            options={[
+                                { code: "Y", name: "Yes" },
+                                { code: "N", name: "No" },
+                            ]}
+                            value={editflag}
+                            onChange={(e) => {
+                                seteditflag(e.value);
                             }}
                             placeholder="Select"
                             optionLabel="name"

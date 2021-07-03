@@ -170,7 +170,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                 </div>
                 <div className="p-field p-col-12 p-md-4">
                     <label>Date of Birth</label>
-                    {minor && <Button disabled={viewmode} label="Minor" className="p-button-danger minor" onClick={() => showMinorModal(true)} style={{ float: "right" }}></Button>}
+                    {minor && <Button disabled={viewmode} label="Minor" className="p-bPassworutton-danger minor" onClick={() => showMinorModal(true)} style={{ float: "right" }}></Button>}
                     <InputText disabled={viewmode} value={claimantDetails?.dob} type="date" onChange={(e) => handleAge(e.target.value)} className={errors?.dob && "p-invalid p-d-block"} />
                     <small className="p-error p-d-block">{errors?.dob}</small>
                 </div>
@@ -178,7 +178,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <label>Password</label>
                     <InputText
                         disabled={viewmode}
-                        value={claimantDetails?.dob}
+                        value={claimantDetails?.password}
                         type="text"
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, password: e.target.value });

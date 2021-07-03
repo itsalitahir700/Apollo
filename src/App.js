@@ -216,13 +216,12 @@ const App = () => {
                             {routes && routes.includes("/companydetails") && <Route exact path="/companydetails" component={CompanyDetails} />}
                             {routes && routes.includes("/module") && <Route exact path="/module" component={Module} />}
                             {routes && routes.includes("/role") && <Route exact path="/role" component={Role} />}
-                            {<Route exact path="/pages" component={Pages} />}
-                            {<Route exact path="/rolerights" component={RoleRights} />}
-                            {<Route exact path="/companydetails" component={CompanyDetails} />}
-                            {<Route exact path="/workflow" component={WorkFlow} />}
+                            {routes && routes.includes("/module") && <Route exact path="/pages" component={Pages} />}
+                            {routes && routes.includes("/role") && <Route exact path="/rolerights" component={RoleRights} />}
+                            {routes && routes.includes("/workflow") && <Route exact path="/workflow" component={WorkFlow} />}
                             {routes && routes.includes("/rta") && <Route exact path="/rta" component={RTA} />}
                             {routes && routes.includes("/rtalist") && <Route exact path="/rtalist" component={RTATable} />}
-                            <Route exact path="/rtaCase" component={RTACase} />
+                            {routes && routes.includes("/rtalist") && <Route exact path="/rtaCase" component={RTACase} />}
                             <Route exact path="/eSign" component={ESign} />
                         </Switch>
                     )}

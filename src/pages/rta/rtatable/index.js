@@ -48,14 +48,14 @@ function RTATable() {
         return (
             <div className="expanded-card">
                 <div className="p-grid">
-                    <div className="p-col-3">
+                    <div className="p-col-4">
                         <div className="box">
                             <strong>Address : </strong>
                             <p>{data?.address1 || data?.address2 || data?.address3 || data?.gaddress1 || data?.gaddress2 || data?.gaddress3}</p>
                         </div>
                         <div className="box">
                             <strong>Tel : </strong>
-                            <p>{data?.landline || data?.glandline}</p>
+                            <p>{data?.mobile || data?.landline}</p>
                         </div>
                         <div className="box">
                             <strong>Email : </strong>
@@ -76,28 +76,14 @@ function RTATable() {
                             <p>{data?.injdescription}</p>
                         </div>
                     </div>
-                    <div className="p-col-3">
+                    <div className="p-col-4">
                         <div className="box">
                             <strong>Introducer : </strong>
                             <p>{data?.introducer}</p>
                         </div>
                         <div className="box">
-                            <strong>Hotkey : </strong>
-                            <p>Ask Murtaza</p>
-                        </div>
-                        <div className="box">
                             <strong>Solicitor : </strong>
                             <p>{data?.solicter}</p>
-                        </div>
-                    </div>
-                    <div className="p-col-2">
-                        <div className="box">
-                            <strong>Last Updated : </strong>
-                            <p>{data?.lastupdated || "-"}</p>
-                        </div>
-                        <div className="box">
-                            <strong>Last Note: </strong>
-                            <p>Ask Murtaza</p>
                         </div>
                     </div>
                 </div>

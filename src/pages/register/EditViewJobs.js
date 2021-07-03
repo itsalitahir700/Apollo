@@ -200,7 +200,7 @@ function EditViewJobs({ name, tag, userCat }) {
                     </div>
                 </div>
                 <div style={{ textAlign: "center" }}>
-                    <Button icon={loadingIcon} disabled={loading} onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" />
+                    <Button icon={loadingIcon || ""} disabled={loading} onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" />
                 </div>
             </Dialog>
         </div>

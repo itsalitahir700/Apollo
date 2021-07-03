@@ -11,7 +11,7 @@ export const getRta = async () => {
         });
         return response?.data?.data;
     } catch (error) {
-        console.log(error.response.data.messages);
+        toast.warn(error?.response?.data?.messages || "Something went wrong");
     }
 };
 
@@ -59,9 +59,7 @@ export const getPassengers = async (rtacode) => {
             },
         });
         return response?.data?.data;
-    } catch (error) {
-        console.log(error.response.data.messages);
-    }
+    } catch (error) {}
 };
 
 export const performActionOnRtaFromDirectIntro = async (data) => {
@@ -153,7 +151,6 @@ export const getFurtherAddressService = async (url, data) => {
 };
 
 export const getAddressValues = async (url, id) => {
-    console.log(id);
     var FormData = require("form-data");
     var data = new FormData();
     data.append("Key", "CJ71-FW71-AK98-JH56");
@@ -183,6 +180,6 @@ export const getMakeModelService = async (url) => {
         });
         return response?.data;
     } catch (error) {
-        console.log(error.response.data.messages);
+        toast.warn(error?.response?.data?.messages || "Something went wrong");
     }
 };

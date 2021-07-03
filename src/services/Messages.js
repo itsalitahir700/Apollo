@@ -16,7 +16,7 @@ export const getMessages = async (rtaCode) => {
             res = response.data.data;
         })
         .catch((err) => {
-            toast.warn(err.response.data.messages);
+            toast.warn(err?.response?.data?.messages);
             res = false;
         });
     return res;

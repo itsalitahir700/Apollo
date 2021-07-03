@@ -27,7 +27,7 @@ export const postUsers = async (data) => {
         toast.success(response.data.messages);
         return response.data;
     } catch (error) {
-        toast.warn(error.response.data.messages);
+        toast.warn(error?.response?.data?.messages || "Something went wrong");
 
         return error.response;
     }

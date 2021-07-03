@@ -16,7 +16,11 @@ export const handlePostRequest = async (data, url) => {
         toast.success(response.data.messages);
         return response.data;
     } catch (error) {
+<<<<<<< HEAD
         toast.warn(error?.response?.data?.messages || "Something went wrong");
+=======
+        toast.warn(error.response.data.messages || "Something went wrong !!");
+>>>>>>> 62bd29594747867738e94a2f0e448d490cbd923b
 
         return error.response;
     }

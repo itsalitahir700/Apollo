@@ -8,12 +8,14 @@ import AccidentInfo from "./AccidentInfo";
 import VehiclesInfo from "./VehiclesInfo";
 import PassengersTable from "./passenger/passengertable";
 import MinorModal from "./minormodal";
+import TaskData from "./TaskData";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "primereact/button";
 import { Fieldset } from "primereact/fieldset";
 import { claimantdetails, minordetails, accidentdetails, vehicledetails } from "../../utilities/constants";
 import { getPassengers } from "../../services/Rta";
 import { getSolicitorsForRta, getCompanyWiseUser } from "../../services/Lovs";
+import { handleGetRequest } from "../../services/GetTemplate";
 
 function ViewClaimant() {
     const url = require("url");
@@ -33,7 +35,11 @@ function ViewClaimant() {
     const [companyWiseUser, setcompanyWiseUser] = useState("");
     const [companyWiseUserValue, setcompanyWiseUserValue] = useState("");
     const [btnValue, setbtnValue] = useState("");
+    const [taskBtnLoading, settaskBtnLoading] = useState(false);
+    const [showModal, setshowModal] = useState(false);
+    const [taskActionData, settaskActionData] = useState(false);
     const rtaActionButtons = useSelector((state) => state.claimantSlice.claimantDetails.rtaActionButtons);
+    const taskFlag = useSelector((state) => state.claimantSlice.claimantDetails.taskflag);
     const rtaNumber = useSelector((state) => state.claimantSlice.claimantDetails.rtanumber);
     const status = useSelector((state) => state.claimantSlice.claimantDetails.status);
     const directIntroducer = useSelector((state) => state.authenticationSlice?.directIntroducer);
@@ -100,6 +106,18 @@ function ViewClaimant() {
         const res = await getPassengers(rtaCode, token);
         setpassengers(res);
     };
+
+    const handleTaskAction = async () => {
+        settaskBtnLoading(true);
+        const rtaCode = urlObj?.query?.id;
+        const res = await handleGetRequest(`rta/getAuthRtaCaseTasks/${rtaCode}`);
+        console.log("res", res);
+        settaskBtnLoading(false);
+        setshowModal(true);
+        settaskActionData(res.data);
+    };
+
+    const taskButton = <div>{taskFlag === "Y" ? <Button onClick={handleTaskAction} label="Tasks" icon="pi pi-check" iconPos="right" className="p-button-info" /> : ""}</div>;
 
     const actionButtons = (
         <div>
@@ -184,6 +202,8 @@ function ViewClaimant() {
                 <div style={{ textAlign: "right" }}>{actionButtons}</div>
             </div>
 
+            <div align="right">{taskButton}</div>
+
             <Fieldset className="p-mt-2" legend="Claimant Info">
                 <ClaimantInfo handleClaimantReturn={setClaimantDetails} claimantdata={claimantDetails} viewmode={viewmode} showMinorModal={setShowMinorModal} />
             </Fieldset>
@@ -229,6 +249,9 @@ function ViewClaimant() {
                         />
                     </div>
                 </div>
+            </Dialog>
+            <Dialog header="Tasks" visible={showModal} style={{ width: "70vw" }} onHide={() => setshowModal(false)}>
+                <TaskData rtaCode={rtaCode} taskActionData={taskActionData} />
             </Dialog>
         </div>
     );

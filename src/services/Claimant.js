@@ -10,7 +10,6 @@ export const getClaimant = async (rtaCode) => {
         headers: {
             Authorization: localStorage.getItem("token"),
             "Content-Type": "application/json",
-            Authorization: localStorage.getItem("token"),
         },
     })
         .then((response) => {

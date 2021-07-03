@@ -112,7 +112,7 @@ function Notes() {
                         </select>
                     </div>
                     <button disabled={sending} onClick={handleAddNote}>
-                        <i className={(sending ? "blink" : "") + "pi pi-send"}></i>
+                        <i className={sending ? "pi pi-spin pi-spinner" : "pi pi-send "}></i>
                     </button>
                 </div>
             </section>

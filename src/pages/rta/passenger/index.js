@@ -391,7 +391,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             </div>
                         </div>
 
-                        <div className="p-field p-col-12 p-md-3">
+                        <div className="p-field p-col-12 p-md-3 p-d-flex">
                             <Checkbox
                                 disabled={viewmode}
                                 onChange={(e) => {
@@ -402,7 +402,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             <label>Ongoing Injury</label>
                         </div>
 
-                        <div className="p-field p-col-12 p-md-3">
+                        <div className="p-field p-col-12 p-md-3 p-d-flex">
                             <Checkbox
                                 disabled={viewmode}
                                 onChange={(e) => {

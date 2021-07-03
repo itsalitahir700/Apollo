@@ -19,7 +19,6 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
             type: null,
         },
     ];
-    console.log(claimantdata?.title);
     const [claimantDetails, setclaimantDetails] = useState(claimantdata && Object.keys(claimantdata).length ? claimantdata : claimantdetails);
     const [scotland, setscotland] = useState("");
     const [minor, setMinor] = useState(false);
@@ -160,7 +159,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     />
                     <small className="p-error p-d-block">{errors?.lastname}</small>
                 </div>
-                <div className="p-field p-col-12 p-md-4" style={{ marginTop: "25px" }}>
+                <div className="p-field p-col-12 p-md-4 p-d-flex" style={{ marginTop: "25px" }}>
                     <Checkbox
                         disabled={viewmode}
                         onChange={(e) => {
@@ -183,7 +182,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <InputText
                         disabled={viewmode}
                         value={claimantDetails?.dob}
-                        type="password"
+                        type="text"
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, password: e.target.value });
                         }}
@@ -254,6 +253,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                 <div className="p-field p-col-12 p-md-4">
                     <label>Mobile</label>
                     <InputText
+                        type="number"
                         disabled={viewmode}
                         value={claimantDetails?.mobile}
                         onChange={(e) => {
@@ -267,6 +267,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                 <div className="p-field p-col-12 p-md-2">
                     <label>Landline</label>
                     <InputText
+                        type="number"
                         disabled={viewmode}
                         value={claimantDetails?.landLine}
                         onChange={(e) => {
@@ -277,6 +278,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                 <div className="p-field p-col-12 p-md-3">
                     <label>Alternative Number</label>
                     <InputText
+                        type="number"
                         disabled={viewmode}
                         value={claimantDetails?.alternativeNumber}
                         onChange={(e) => {

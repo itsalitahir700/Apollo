@@ -222,7 +222,7 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }
                     />
                 </div>
 
-                <div className="p-field p-col-12 p-md-4">
+                <div className="p-field p-col-12 p-md-4 p-d-flex">
                     <Checkbox
                         disabled={viewmode}
                         value="Y"

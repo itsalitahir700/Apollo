@@ -38,6 +38,7 @@ function RTA() {
     const [displayBasic, setDisplayBasic] = useState(false);
     const [showMinorModal, setShowMinorModal] = useState(false);
     const [errors, seterrors] = useState({});
+    const [loading, setloading] = useState(false);
 
     const handleAddPassenger = (passenger) => {
         let newArr = JSON.parse(JSON.stringify(passengers));
@@ -60,12 +61,14 @@ function RTA() {
 
     //Add API call in this Function
     const handleSubmit = async () => {
+        setloading(true);
         let post = { ...claimantDetails, ...minorDetails, ...accidentDetails, ...vehiclesDetails, passengers: passengers, files: images };
         const isvalid = await validation(post);
         seterrors(isvalid?.errors);
         if (!Object.keys(isvalid?.errors).length) {
-            postRta(post, localStorage.getItem("token"));
+            await postRta(post, localStorage.getItem("token"));
         }
+        setloading(false);
     };
 
     return (
@@ -95,9 +98,9 @@ function RTA() {
             <Fieldset className="p-mt-2" legend="Attachments">
                 <ImagesUpload handleImages={setimages} />
             </Fieldset>
-            <center className="p-mt-2 p-button-outlined" onClick={handleSubmit}>
+            <center className="p-mt-2 p-button-outlined" disabled={loading} onClick={handleSubmit}>
                 {Object.keys(errors).length ? <p className="p-error p-d-block">Please fill out required fields</p> : ""}
-                <Button label="NEXT" />
+                <Button label="Create RTA" disabled={loading} icon={loading && "pi pi-spin pi-spinner"} />
             </center>
             <MinorModal handleMinorReturn={setMinorDetails} show={showMinorModal} hide={setShowMinorModal} />
         </>

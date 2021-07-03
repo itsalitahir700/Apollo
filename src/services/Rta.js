@@ -2,13 +2,11 @@ import { baseURL } from "../Config";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const token = localStorage.getItem("token");
-
 export const getRta = async () => {
     try {
         const response = await axios.get(`${baseURL}rta/getAuthRtaCases`, {
             headers: {
-                Authorization: token,
+                Authorization: localStorage.getItem("token"),
             },
         });
         return response?.data?.data;
@@ -24,7 +22,7 @@ export const postRta = async (data) => {
         data: data,
         headers: {
             "Content-Type": "application/json",
-            Authorization: token,
+            Authorization: localStorage.getItem("token"),
         },
     });
     if (response.status === 200) {
@@ -42,7 +40,7 @@ export const updataRta = async (data) => {
         data: data,
         headers: {
             "Content-Type": "application/json",
-            Authorization: token,
+            Authorization: localStorage.getItem("token"),
         },
     });
     if (response.status === 200) {
@@ -73,7 +71,7 @@ export const performActionOnRtaFromDirectIntro = async (data) => {
         data: data,
         headers: {
             "Content-Type": "application/json",
-            Authorization: token,
+            Authorization: localStorage.getItem("token"),
         },
     });
     if (response.status === 200) {
@@ -91,7 +89,7 @@ export const performActionOnRta = async (data) => {
         data: data,
         headers: {
             "Content-Type": "application/json",
-            Authorization: token,
+            Authorization: localStorage.getItem("token"),
         },
     });
     if (response.status === 200) {

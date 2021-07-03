@@ -83,7 +83,6 @@ function RTA() {
 
             <Fieldset className="p-mt-2" legend="Vehicles & Passenger Info">
                 <VehiclesInfo handleVehicleInfoReturn={setvehiclesDetails} errors={errors} />
-
                 <PassengerModal status={states} show={displayBasic} hide={setDisplayBasic} handlePassengerReturn={handleAddPassenger} />
             </Fieldset>
 
@@ -91,7 +90,7 @@ function RTA() {
                 <Button label="Add" icon="pi pi-external-link" onClick={() => setDisplayBasic(!displayBasic)} />
                 <PassengersTable handleUpdatePassenger={handleUpdatePassenger} passengers={passengers} handleRemovePassenger={handleRemovePassenger} />
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Pasanger Info</label>
+                    <label>Passenger Info</label>
                     <InputTextarea />
                 </div>
             </Fieldset>

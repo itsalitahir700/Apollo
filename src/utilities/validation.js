@@ -125,9 +125,9 @@ const passengerValidation = async (post) => {
     let middlename = !isEmpty(post?.middlename) ? post?.middlename.toString() : "";
     let lastname = !isEmpty(post?.lastname) ? post?.lastname.toString() : "";
     let dob = !isEmpty(post?.dob) ? post?.dob.toString() : "";
-    let niNumber = !isEmpty(post?.niNumber) ? post?.niNumber.toString() : "";
+    let ninumber = !isEmpty(post?.ninumber) ? post?.ninumber.toString() : "";
     let mobile = !isEmpty(post?.mobile) ? post?.mobile.toString() : "";
-    let address = !isEmpty(post?.address) ? post?.address.toString() : "";
+    let postalcode = !isEmpty(post?.postalcode) ? post?.postalcode.toString() : "";
 
     if (validator.isEmpty(firstname)) {
         errors.firstname = "First name is required";
@@ -151,8 +151,8 @@ const passengerValidation = async (post) => {
         errors.dob = "Date of birth is required";
     }
 
-    if (validator.isEmpty(niNumber)) {
-        errors.niNumber = "NI number is required";
+    if (validator.isEmpty(ninumber)) {
+        errors.ninumber = "NI number is required";
     }
 
     if (validator.isEmpty(mobile)) {
@@ -161,8 +161,8 @@ const passengerValidation = async (post) => {
         errors.mobile = "Incorrect mobile number";
     }
 
-    if (validator.isEmpty(address)) {
-        errors.address = "Address is required";
+    if (validator.isEmpty(postalcode)) {
+        errors.postalcode = "Address is required";
     }
 
     return {

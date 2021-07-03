@@ -81,6 +81,7 @@ const vehicledetails = {
     partypolicyno: "",
     partyrefno: "",
     greencardno: "",
+    address1: "",
     partyname: "",
     partycontactno: "",
     partyaddress: "",

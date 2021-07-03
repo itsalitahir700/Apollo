@@ -54,7 +54,6 @@ function EditViewProfile() {
     const handleSubmit = async () => {
         setloading(true);
         setloadingIcon("pi pi-spin pi-spinner");
-        const phone_num = contactNumber1 + " " + contactNumber2;
         let directIntroducerValue = "N";
         if (directIntroducerchecked) {
             directIntroducerValue = "Y";
@@ -67,7 +66,8 @@ function EditViewProfile() {
             companyregno: vatRegNo,
             contactperson: contactPerson,
             email: email,
-            phone: phone_num,
+            phone: contactNumber1,
+            phone2: contactNumber2,
             postcode: postCode,
             region: region,
             userCategoryCode: userCatvalue?.code,

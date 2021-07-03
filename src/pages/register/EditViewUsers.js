@@ -75,6 +75,7 @@ function EditViewUsers({ name, tag, userCat }) {
         seteditflag(false);
         console.log("rowData ::", rowData);
         setDisplayBasic(!displayBasic);
+        setuserRoleValue(rowData.lovResponse);
         setuserName(rowData.loginid);
         setSelectedState(rowData.status);
     };
@@ -108,7 +109,7 @@ function EditViewUsers({ name, tag, userCat }) {
             </div>
             <EditViewUsersData companyUsersData={companyUsersData} editRow={editRow} />
 
-            <Dialog header="Add User" visible={displayBasic} style={{ width: "80%" }} onHide={() => setDisplayBasic(!displayBasic)}>
+            <Dialog header={editflag ? "Add User" : "Edit User"} visible={displayBasic} style={{ width: "80%" }} onHide={() => setDisplayBasic(!displayBasic)}>
                 {editflag ? (
                     <div className="p-fluid p-formgrid p-grid">
                         <div className="p-field p-col-12 p-md-4">
@@ -148,7 +149,7 @@ function EditViewUsers({ name, tag, userCat }) {
                         <span style={{ textAlign: "center ", paddingLeft: "40%" }}>{selectedState?.code === "Y" ? <Badge severity="success" value="Active"></Badge> : <Badge severity="warning" value="Inactive"></Badge>}</span>
                     </div>
                 </div>
-                <div style={{ textAlign: "center" }}>
+                <div style={{ textAlign: "center", marginTop: "15%" }}>
                     <Button onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" />
                 </div>
             </Dialog>

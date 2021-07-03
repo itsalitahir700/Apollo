@@ -10,7 +10,6 @@ import {
     POST_JOBSDATA_SUCCESS,
     POST_JOBSDATA_ERROR,
     POST_USERSDATA_SUCCESS,
-    POST_USERSDATA_ERROR,
     SET_SINGLECOMPANYDATA_SUCCESS,
     SET_SINGLECOMPANYJOBSDATA_SUCCESS,
     POST_JOBSEDITDATA_SUCCESS,
@@ -47,18 +46,12 @@ export const GetCompanyDataAction = () => async (dispatch) => {
 
 export const PostJobsAction = (jobsData) => async (dispatch) => {
     const res = await postJobs(jobsData);
-    if (res !== false) {
-        const { data } = res;
-        dispatch(POST_JOBSDATA_SUCCESS(data));
-    } else {
-        const { data } = res;
-        dispatch(POST_JOBSDATA_ERROR(data));
-    }
+    const { data } = res;
+    return data;
 };
 
 export const PostJobsFreshAction = (jobsData) => async (dispatch) => {
     const res = await postJobs(jobsData);
-    console.log("action res ", res);
     const { data } = res;
     dispatch(POST_JOBSFRESHDATA_SUCCESS(data));
     return data;
@@ -66,24 +59,16 @@ export const PostJobsFreshAction = (jobsData) => async (dispatch) => {
 
 export const PostEditJobsAction = (jobsData) => async (dispatch) => {
     const res = await postEditJobs(jobsData);
-    if (res !== false) {
-        const { data } = res;
-        dispatch(POST_JOBSEDITDATA_SUCCESS(data));
-    } else {
-        const { data } = res;
-        dispatch(POST_JOBSEDITDATA_ERROR(data));
-    }
+    const { data } = res;
+    dispatch(POST_JOBSEDITDATA_SUCCESS(data));
+    return data;
 };
 
 export const PostUsersAction = (userData) => async (dispatch) => {
     const res = await postUsers(userData);
-    if (res !== false) {
-        const { data } = res;
-        dispatch(POST_USERSDATA_SUCCESS(data));
-    } else {
-        const { data } = res;
-        dispatch(POST_USERSDATA_ERROR(data));
-    }
+    const { data } = res;
+    dispatch(POST_USERSDATA_SUCCESS(data));
+    return data;
 };
 
 export const PostUsersFreshAction = (userData) => async (dispatch) => {

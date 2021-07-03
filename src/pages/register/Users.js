@@ -17,6 +17,8 @@ function Users() {
     const [userRoleValue, setuserRoleValue] = useState([]);
     const [selectedState, setSelectedState] = useState(null);
     const [displayBasic, setDisplayBasic] = useState(false);
+    const [loading, setloading] = useState(false);
+    const [loadingIcon, setloadingIcon] = useState("");
     let states = [
         {
             code: "Y",
@@ -53,6 +55,8 @@ function Users() {
     const CompanyCode = useSelector((state) => state.profileSlice.profileData?.companycode);
     const dispatch = useDispatch();
     const handleSubmit = async () => {
+        setloading(true);
+        setloadingIcon("pi pi-spin pi-spinner");
         const userRolevalues = userRoleValue.map((role) => {
             return role.code;
         });
@@ -63,8 +67,19 @@ function Users() {
             pwd: password,
             rolecodes: userRolevalues,
         };
-        await dispatch(PostUsersFreshAction(data));
-        setDisplayBasic(!displayBasic);
+        const res = await dispatch(PostUsersFreshAction(data));
+        if (res?.responsecode !== 0) {
+            setDisplayBasic(!displayBasic);
+            setInitialValues();
+        }
+        setloading(false);
+        setloadingIcon("");
+    };
+    const setInitialValues = () => {
+        setuserName("");
+        setpassword("");
+        setuserRoleValue("");
+        setSelectedState("");
     };
 
     useEffect(() => {
@@ -111,7 +126,7 @@ function Users() {
                     </div>
                 </div>
                 <div style={{ textAlign: "center", marginTop: "15%" }}>
-                    <Button onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" />
+                    <Button icon={loadingIcon} disabled={loading} onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" />
                 </div>
             </Dialog>
         </div>

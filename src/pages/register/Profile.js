@@ -78,7 +78,7 @@ function Profile() {
             email: email,
             phone: contactNumber1,
             phone2: contactNumber2,
-            companystatus: selectedState.code,
+            companystatus: selectedState?.code,
             postcode: postCode,
             region: region,
             tag: tag,

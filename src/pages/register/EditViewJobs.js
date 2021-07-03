@@ -3,7 +3,6 @@ import { Button } from "primereact/button";
 import { InputNumber } from "primereact/inputnumber";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
-import { ProgressSpinner } from "primereact/progressspinner";
 import { getLovCampaign } from "../../services/JobsRegister";
 import { useSelector, useDispatch } from "react-redux";
 import { PostEditJobsAction, PostJobsAction } from "../../redux/actions/profileAction";
@@ -21,8 +20,10 @@ function EditViewJobs({ name, tag, userCat }) {
     const [compaignCodeValue, setcompaignCodeValue] = useState([]);
     const [selectedState, setSelectedState] = useState(null);
     const [displayBasic, setDisplayBasic] = useState(false);
-    const [isloading, setisloading] = useState(false);
+    const [loading, setloading] = useState(false);
+    const [loadingIcon, setloadingIcon] = useState("");
     const [add, setadd] = useState(false); // default is edit
+
     let states = [
         {
             code: "Y",
@@ -55,6 +56,8 @@ function EditViewJobs({ name, tag, userCat }) {
         }
     };
     const handleEditJobSubmit = async () => {
+        setloading(true);
+        setloadingIcon("pi pi-spin pi-spinner");
         const data = {
             adultfee: adultfee,
             childfee: childfee,
@@ -67,14 +70,31 @@ function EditViewJobs({ name, tag, userCat }) {
             adultpostreforms,
             childpostreforms,
         };
-        setisloading(true);
-        await dispatch(PostEditJobsAction(data));
-        setisloading(false);
-        setDisplayBasic(!displayBasic);
+
+        const res = await dispatch(PostEditJobsAction(data));
+        if (res?.responsecode !== 0) {
+            setDisplayBasic(!displayBasic);
+            setInitialValues();
+        }
+        setloading(false);
+        setloadingIcon("");
     };
+
+    const setInitialValues = () => {
+        setadultfee("");
+        setchildfee("");
+        setcompaignCodeValue("");
+        setscotadultfee("");
+        setscotchildfee("");
+        setSelectedState("");
+        setadultpostreforms("");
+        setchildpostreforms("");
+    };
+
     const editRow = async (rowData) => {
         setadd(false);
         setDisplayBasic(!displayBasic);
+        setcompaignCodeValue({ code: rowData.tblCompaign.compaigncode, name: rowData.tblCompaign.compaignname, type: null });
         setadultfee(rowData.adultfee);
         setchildfee(rowData.childfee);
         setscotadultfee(rowData.scotadultfee);
@@ -87,11 +107,7 @@ function EditViewJobs({ name, tag, userCat }) {
     const addRow = async () => {
         setadd(true);
         setDisplayBasic(!displayBasic);
-        setadultfee(0);
-        setchildfee(0);
-        setscotadultfee(0);
-        setscotchildfee(0);
-        setSelectedState("");
+        setInitialValues();
     };
     const handleAddJobSubmit = async () => {
         const data = {
@@ -102,9 +118,17 @@ function EditViewJobs({ name, tag, userCat }) {
             scotadultfee: scotadultfee,
             scotchildfee: scotchildfee,
             status: selectedState,
+            adultpostreforms,
+            childpostreforms,
         };
-        await dispatch(PostJobsAction(data));
-        setDisplayBasic(!displayBasic);
+
+        const res = await dispatch(PostJobsAction(data));
+        if (res?.responsecode !== 0) {
+            setDisplayBasic(!displayBasic);
+            setInitialValues();
+        }
+        setloading(false);
+        setloadingIcon("");
     };
 
     useEffect(() => {
@@ -131,17 +155,16 @@ function EditViewJobs({ name, tag, userCat }) {
                 <div className="p-fluid p-formgrid p-grid">
                     <div className="p-field p-col-12 p-md-4">
                         <label htmlFor="childfee">Compaign</label>
-                        <select disabled={!add} className="p-inputtext p-dropdown" value={compaignCodeValue} onChange={(e) => setcompaignCodeValue(e.target.value)}>
-                            {compaignCode && compaignCode.length !== 0
-                                ? compaignCode.map((item, index) => {
-                                      return (
-                                          <option value={item.code} key={item.code}>
-                                              {item.name}
-                                          </option>
-                                      );
-                                  })
-                                : "No Records Found"}
-                        </select>
+                        <Dropdown
+                            inputId="IntroducerCategory"
+                            value={compaignCodeValue}
+                            options={compaignCode}
+                            onChange={(e) => {
+                                setcompaignCodeValue(e.value);
+                            }}
+                            placeholder="Select"
+                            optionLabel="name"
+                        />
                     </div>
                     <div className="p-field p-col-12 p-md-4">
                         <label htmlFor="locale-us">Adult Fee</label>
@@ -177,13 +200,7 @@ function EditViewJobs({ name, tag, userCat }) {
                     </div>
                 </div>
                 <div style={{ textAlign: "center" }}>
-                    {isloading ? (
-                        <Button onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" disabled>
-                            <ProgressSpinner style={{ width: "15px", height: "15px", margin: "3px" }} strokeWidth="8" />
-                        </Button>
-                    ) : (
-                        <Button onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" />
-                    )}
+                    <Button icon={loadingIcon} disabled={loading} onClick={handleSubmit} type="submit" label="Submit" className="p-mt-2" />
                 </div>
             </Dialog>
         </div>

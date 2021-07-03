@@ -74,19 +74,6 @@ const PagesData = ({ pagesData, editRow, viewDetails }) => {
         );
     };
 
-    const actionBodyTemplate = (rowData) => {
-        return (
-            <React.Fragment>
-                {/* <Button
-          icon="pi pi-pencil"
-          className="p-button-rounded p-button-plain p-mr-2"
-          onClick={() => editRow(rowData)}
-        /> */}
-                <Button label="Details" className="p-button-rounded p-button-info" onClick={() => viewDetails(rowData)} />
-            </React.Fragment>
-        );
-    };
-
     return (
         <div className="datatable-filter-demo">
             <div className="card p-datatable-sm">

@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 
 const ESign = () => {
     let sigPad = {};
-    const [trimmedDataURL, settrimmedDataURL] = useState(null);
     const [loading, setloading] = useState(false);
     const [eDetails, setEDetails] = useState({});
     const eFields = useSelector((state) => state?.eSignSlice?.eFields);
@@ -40,7 +39,7 @@ const ESign = () => {
     const trim = async () => {
         setloading(true);
         let flag = true;
-        settrimmedDataURL(sigPad.getTrimmedCanvas().toDataURL("image/png"));
+
         for (var i in eDetails) {
             if (eDetails[i] === undefined || eDetails[i] === "") {
                 flag = false;

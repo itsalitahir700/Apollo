@@ -7,7 +7,6 @@ import { Dialog } from "primereact/dialog";
 import "./Documents.css";
 import ImagesUpload from "../ImageUpload";
 import { FaFilePdf } from "react-icons/all";
-import { ProgressSpinner } from "primereact/progressspinner";
 
 function Documents() {
     const dispatch = useDispatch();
@@ -49,12 +48,12 @@ function Documents() {
             <SimpleReactLightBox>
                 <SRLWrapper>{documents && documents.length ? documents.map((docs, idx) => docs.doctype === "Image" && <img height="160" className="doc-img" key={docs?.rtadoccode} src={docs?.docbase64} alt={docs?.docname} />) : ""}</SRLWrapper>
             </SimpleReactLightBox>
-            {documents && documents.length && documents.map((docs, idx) => docs.doctype === "Esign" && <FaFilePdf title="Click to view" onClick={() => setPDFBase64(docs?.docbase64)} className="pdf-file" />)}
+            {documents && documents.length ? documents.map((docs, idx) => docs.doctype === "Esign" && <FaFilePdf title="Click to view" onClick={() => setPDFBase64(docs?.docbase64)} className="pdf-file" />) : null}
             <Dialog header={"Add Documents"} visible={showdocumentsmodal} style={{ width: "80%" }} onHide={() => setshowdocumentsmodal(false)}>
                 <ImagesUpload handleImages={setuploaddocs} />
                 <center className="p-mt-4">
                     <Button disabled={loading} onClick={handleUpload}>
-                        <i className="pi pi-upload p-mr-2"></i>&nbsp;Upload
+                        <i className={loading ? "pi pi-spin pi-spinner" : "pi pi-upload p-mr-2"}></i>&nbsp;Upload
                     </Button>
                 </center>
             </Dialog>

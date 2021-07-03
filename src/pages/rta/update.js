@@ -7,10 +7,10 @@ import PassengersTable from "./passenger/passengertable";
 import MinorModal from "./minormodal";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "primereact/button";
-import { Accordion, AccordionTab } from "primereact/accordion";
 import { Fieldset } from "primereact/fieldset";
 import { claimantdetails, minordetails, accidentdetails, vehicledetails } from "../../utilities/constants";
 import { updataRta, getPassengers } from "../../services/Rta";
+import { Badge } from "primereact/badge";
 
 function UpdateClaimant() {
     const url = require("url");
@@ -23,7 +23,10 @@ function UpdateClaimant() {
     const [showMinorModal, setShowMinorModal] = useState(false);
     const [passengers, setpassengers] = useState("");
     const claimantstore = useSelector((state) => state.claimantSlice.claimantDetails);
+    const rtaNumber = useSelector((state) => state.claimantSlice.claimantDetails.rtanumber);
+    const status = useSelector((state) => state.claimantSlice.claimantDetails.status);
     const [viewmode, setviewmode] = useState(false);
+    const [loading, setloading] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -71,9 +74,11 @@ function UpdateClaimant() {
     const token = localStorage.getItem("token");
 
     const handleSubmit = async () => {
+        setloading(true);
         const rtaCode = { rtacode: urlObj?.query?.id };
         const post = { ...claimantDetails, ...accidentDetails, ...vehicleDetails, ...rtaCode };
         await updataRta(post, token);
+        setloading(false);
     };
 
     const funcGetPassengers = async () => {
@@ -88,6 +93,10 @@ function UpdateClaimant() {
 
     return (
         <div>
+            <center>
+                <Badge value={"Rta No. : " + rtaNumber} size="large" severity="info" className="p-mr-2"></Badge>
+                <Badge value={"Status : " + status} size="large" severity="warning" className="p-mr-2"></Badge>
+            </center>
             <div style={{ textAlign: "right" }}>
                 <Button
                     onClick={() => {
@@ -117,7 +126,7 @@ function UpdateClaimant() {
 
             <MinorModal handleMinorReturn={setMinorDetails} minorData={minorDetails} viewmode={viewmode} show={showMinorModal} hide={setShowMinorModal} />
             <center className="p-mt-2 p-button-outlined" onClick={handleSubmit}>
-                <Button label="Update" />
+                <Button disabled={loading} icon={loading && "pi pi-spin pi-spinner"} label="Update" />
             </center>
         </div>
     );

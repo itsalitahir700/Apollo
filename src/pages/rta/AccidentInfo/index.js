@@ -5,12 +5,11 @@ import { RadioButton } from "primereact/radiobutton";
 import { Checkbox } from "primereact/checkbox";
 import { getCircumstances, getInjuryClassification } from "../../../services/Lovs";
 import { accidentdetails } from "../../../utilities/constants";
+import { InputTextarea } from "primereact/inputtextarea";
 
 function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) {
     const [accidentDetails, setaccidentDetails] = useState(accidentdata && Object.keys(accidentdata).length ? accidentdata : accidentdetails);
-    const [circumstancesValue, setcircumstancesValue] = useState("");
     const [injuryClassification, setinjuryClassification] = useState("");
-    const [injuryClassificationValue, setinjuryClassificationValue] = useState("");
     const [airBagsValue, setairBagsValue] = useState("");
     const [circumstances, setcircumstances] = useState("");
     const [ongoingInjury, setongoingInjury] = useState("");
@@ -38,6 +37,7 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
 
     useEffect(() => {
         funcgetlovCircumstances();
+        funcgetlovInjuryClaims();
     }, []);
 
     useEffect(() => {
@@ -80,10 +80,9 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                     <Dropdown
                         disabled={viewmode}
                         options={circumstances}
-                        value={circumstancesValue}
+                        value={{ code: accidentDetails?.circumcode.toString(), name: accidentDetails?.circumdescr, type: null }}
                         onChange={(e) => {
-                            setaccidentDetails({ ...accidentDetails, circumcode: e.value.code });
-                            setcircumstancesValue(e.value);
+                            setaccidentDetails({ ...accidentDetails, circumcode: e.value.code, circumdescr: e.value.name });
                         }}
                         placeholder="Select"
                         optionLabel="name"
@@ -177,10 +176,9 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                     <Dropdown
                         disabled={viewmode}
                         options={injuryClassification}
-                        value={injuryClassificationValue}
+                        value={{ code: accidentDetails?.injclasscode.toString(), name: accidentDetails?.injdescr, type: accidentDetails?.injlevel }}
                         onChange={(e) => {
-                            setinjuryClassificationValue(e.value);
-                            setaccidentDetails({ ...accidentDetails, injclasscode: e.value.code });
+                            setaccidentDetails({ ...accidentDetails, injclasscode: e.value.code, injdescr: e.value.name, injlevel: e.value.type });
                         }}
                         placeholder="Select"
                         optionLabel="name"
@@ -220,7 +218,7 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                     <small className="p-error p-d-block">{errors?.injlength}</small>
                 </div>
 
-                <div className="p-field p-col-12 p-md-4">
+                <div className="p-field p-col-12 p-md-4 p-d-flex">
                     <Checkbox
                         disabled={viewmode}
                         onChange={(e) => {
@@ -233,7 +231,7 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                     <label>Ongoing Injury</label>
                 </div>
 
-                <div className="p-field p-col-12 p-md-4">
+                <div className="p-field p-col-12 p-md-4 p-d-flex">
                     <Checkbox
                         disabled={viewmode}
                         value="Y"
@@ -248,10 +246,11 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                 </div>
 
                 {accidentDetails?.medicalinfo === "Y" ? (
-                    <div className="p-field p-col-12 p-md-2">
+                    <div className="p-field p-col-12 p-md-8">
                         <label>Medical Evidence Details</label>
-                        <InputText
+                        <InputTextarea
                             disabled={viewmode}
+                            rows={5}
                             value={accidentDetails?.evidenceDetails}
                             onChange={(e) => {
                                 setaccidentDetails({ ...accidentDetails, evidenceDetails: e.target.value });

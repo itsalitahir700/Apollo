@@ -101,7 +101,12 @@ function RTA() {
                 {Object.keys(errors).length ? <p className="p-error p-d-block">Please fill out required fields</p> : ""}
                 <Button label="Create RTA" disabled={loading} icon={loading ? "pi pi-spin pi-spinner" : ""} />
             </center>
-            <MinorModal handleMinorReturn={setMinorDetails} show={showMinorModal} hide={setShowMinorModal} />
+            <MinorModal
+                handleMinorReturn={setMinorDetails}
+                claimantAddress={{ gpostalcode: claimantDetails?.postalcode, gaddress1: claimantDetails?.address1, gaddress2: claimantDetails?.address2, gaddress3: claimantDetails?.address3, gcity: claimantDetails?.city, gregion: claimantDetails?.region }}
+                show={showMinorModal}
+                hide={setShowMinorModal}
+            />
         </>
     );
 }

@@ -92,6 +92,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
     };
 
     const handleAdress = async () => {
+        setPassengerDetails({ ...passengerDetails, address1: "", address2: "", address3: "", city: "", region: "" });
         const postcode = passengerDetails?.postalcode;
         const res = await getAddress("https://services.postcodeanywhere.co.uk/Capture/Interactive/Find/v1.10/json3.ws", postcode);
         setaddressItems(res.Items);
@@ -151,7 +152,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             />
                         </div>
                         <div className="p-field p-col-12 p-md-4">
-                            <label>First Name</label>
+                            <label>First Name * </label>
                             <InputText
                                 disabled={viewmode}
                                 value={passengerDetails?.firstname}
@@ -170,13 +171,11 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, middlename: e.target.value });
                                 }}
-                                className={errors?.middlename && "p-invalid p-d-block"}
                             />
-                            <small className="p-error p-d-block">{errors?.middlename}</small>
                         </div>
 
                         <div className="p-field p-col-12 p-md-4">
-                            <label>Last Name</label>
+                            <label>Last Name * </label>
                             <InputText
                                 disabled={viewmode}
                                 value={passengerDetails?.lastname}
@@ -189,9 +188,10 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                         </div>
 
                         <div className="p-field p-col-12 p-md-4">
-                            <label>Date of Birth</label> {passengerDetails?.minor && <Button label="Minor" onClick={() => setShowMinorModal(true)} className="p-button-danger minor" style={{ float: "right" }}></Button>}
+                            <label>Date of Birth *</label> {passengerDetails?.minor && <Button label="Minor" onClick={() => setShowMinorModal(true)} className="minor" style={{ float: "right" }}></Button>}
                             <InputText
                                 disabled={viewmode}
+                                onBlur={() => passengerDetails.minor && setShowMinorModal(true)}
                                 type="date"
                                 value={passengerDetails?.dob || ""}
                                 onChange={(e) => {
@@ -203,7 +203,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                         </div>
 
                         <div className="p-field p-col-12 p-md-4">
-                            <label>Ni Number</label>
+                            <label>Ni Number *</label>
                             <div className="p-inputgroup">
                                 <InputText
                                     disabled={viewmode}
@@ -240,7 +240,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             <small className="p-error p-d-block">{errors?.niNumber || ""}</small>
                         </div>
                         <div className="p-field p-col-12 p-md-4">
-                            <label>Mobile</label>
+                            <label>Mobile *</label>
                             <InputText
                                 disabled={viewmode}
                                 type="number"
@@ -285,7 +285,7 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                             />
                         </div>
                         <div className="p-field p-col-12 p-md-8">
-                            <label>Address</label>
+                            <label>Address *</label>
                             <div className="p-inputgroup">
                                 <InputText
                                     disabled={viewmode}

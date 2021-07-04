@@ -54,7 +54,7 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }
             <div className="p-fluid p-formgrid p-grid">
                 {/* THIRD PARTY */}
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Clients Registration</label>
+                    <label>Clients Registration *</label>
                     <div className="p-inputgroup">
                         <InputText
                             disabled={viewmode}
@@ -80,7 +80,7 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Make & Model</label>
+                    <label>Make & Model *</label>
                     <InputText
                         disabled={viewmode}
                         value={vehiclesDetails?.makemodel}

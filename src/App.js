@@ -213,7 +213,7 @@ const App = () => {
                         <Switch>
                             <Route exact path="/" component={Dashboard} />
                             {routes && routes.includes("/profile") && <Route exact path="/profile" component={Profile} />}
-                            {routes && routes.includes("/companydetails") && <Route exact path="/companydetails" component={CompanyDetails} />}
+                            {routes && routes.includes("/profile") && <Route exact path="/companydetails" component={CompanyDetails} />}
                             {routes && routes.includes("/module") && <Route exact path="/module" component={Module} />}
                             {routes && routes.includes("/role") && <Route exact path="/role" component={Role} />}
                             {routes && routes.includes("/module") && <Route exact path="/pages" component={Pages} />}

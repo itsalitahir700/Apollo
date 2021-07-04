@@ -7,7 +7,7 @@ import { Dialog } from "primereact/dialog";
 import { handlePostRequest } from "../../services/PostTemplate";
 import ImagesUpload from "../../components/ImageUpload";
 
-const TaskData = ({ rtaCode, taskActionData }) => {
+const TaskData = ({ rtaCode, taskActionData, refreshTasks }) => {
     const [taskData, settaskData] = useState(null);
     const dt = useRef(null);
     const [showModal, setshowModal] = useState(false);
@@ -47,6 +47,7 @@ const TaskData = ({ rtaCode, taskActionData }) => {
                 taskCode,
             };
             await handlePostRequest(data, "rta/performTask");
+            refreshTasks();
         }
     };
 
@@ -59,9 +60,9 @@ const TaskData = ({ rtaCode, taskActionData }) => {
             setloading(true);
             const data = { files: uploaddocs, rtaCode, taskCode };
             await handlePostRequest(data, "rta/performTask");
-            console.log(data);
             setloading(false);
             setshowModal(false);
+            refreshTasks();
         }
     };
 

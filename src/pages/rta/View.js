@@ -117,6 +117,11 @@ function ViewClaimant() {
         settaskActionData(res.data);
     };
 
+    const refreshTasks = async () => {
+        const res = await handleGetRequest(`rta/getAuthRtaCaseTasks/${rtaCode}`);
+        settaskActionData(res.data);
+    };
+
     const taskButton = <div>{taskFlag === "Y" ? <Button onClick={handleTaskAction} label="Tasks" icon="pi pi-check" iconPos="right" className="p-button-info" /> : ""}</div>;
 
     const actionButtons = (
@@ -252,7 +257,7 @@ function ViewClaimant() {
                 </div>
             </Dialog>
             <Dialog header="Tasks" visible={showModal} style={{ width: "70vw" }} onHide={() => setshowModal(false)}>
-                <TaskData rtaCode={rtaCode} taskActionData={taskActionData} />
+                <TaskData rtaCode={rtaCode} refreshTasks={() => refreshTasks()} taskActionData={taskActionData} />
             </Dialog>
         </div>
     );

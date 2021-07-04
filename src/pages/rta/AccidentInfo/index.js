@@ -51,7 +51,7 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
         <div>
             <div className="p-fluid p-formgrid p-grid">
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Date and Time</label>
+                    <label>Date and Time *</label>
                     <InputText
                         disabled={viewmode}
                         value={accidentDetails?.accdate}
@@ -76,7 +76,7 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Circumstances</label>
+                    <label>Circumstances *</label>
                     <Dropdown
                         disabled={viewmode}
                         options={circumstances}
@@ -92,7 +92,7 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Location</label>
+                    <label>Location *</label>
                     <InputText
                         disabled={viewmode}
                         value={accidentDetails?.location}
@@ -105,7 +105,7 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Description</label>
+                    <label>Description *</label>
                     <InputText
                         disabled={viewmode}
                         area
@@ -132,7 +132,7 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Claimant</label>
+                    <label>Claimant *</label>
                     <div className="p-field-radiobutton p-d-flex">
                         <RadioButton
                             disabled={viewmode}
@@ -172,7 +172,7 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Injury Classification</label>
+                    <label>Injury Classification *</label>
                     <Dropdown
                         disabled={viewmode}
                         options={injuryClassification}
@@ -188,7 +188,7 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Injury Description</label>
+                    <label>Injury Description *</label>
                     <InputText
                         disabled={viewmode}
                         area
@@ -202,7 +202,7 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Length Of Injury</label>
+                    <label>Length Of Injury *</label>
                     <div className="p-inputgroup">
                         <InputText
                             disabled={viewmode}

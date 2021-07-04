@@ -6,7 +6,6 @@ const validation = async (post) => {
     let errors = {};
 
     let firstname = !isEmpty(post?.firstname) ? post?.firstname.toString() : "";
-    let middlename = !isEmpty(post?.middlename) ? post?.middlename.toString() : "";
     let lastname = !isEmpty(post?.lastname) ? post?.lastname.toString() : "";
     let dob = !isEmpty(post?.dob) ? post?.dob.toString() : "";
     let ninumber = !isEmpty(post?.ninumber) ? post?.ninumber.toString() : "";
@@ -31,12 +30,6 @@ const validation = async (post) => {
         errors.firstname = "First name is required";
     } else if (!validator.isLength(firstname, { min: 2, max: 50 })) {
         errors.firstname = "First name must be between 2 to 50 characters";
-    }
-
-    if (validator.isEmpty(middlename)) {
-        errors.middlename = "Middle name is required";
-    } else if (!validator.isLength(middlename, { min: 2, max: 50 })) {
-        errors.middlename = "Middle name must be between 2 to 50 characters";
     }
 
     if (validator.isEmpty(lastname)) {
@@ -122,7 +115,6 @@ const passengerValidation = async (post) => {
     let errors = {};
 
     let firstname = !isEmpty(post?.firstname) ? post?.firstname.toString() : "";
-    let middlename = !isEmpty(post?.middlename) ? post?.middlename.toString() : "";
     let lastname = !isEmpty(post?.lastname) ? post?.lastname.toString() : "";
     let dob = !isEmpty(post?.dob) ? post?.dob.toString() : "";
     let ninumber = !isEmpty(post?.ninumber) ? post?.ninumber.toString() : "";
@@ -133,12 +125,6 @@ const passengerValidation = async (post) => {
         errors.firstname = "First name is required";
     } else if (!validator.isLength(firstname, { min: 2, max: 50 })) {
         errors.firstname = "First name must be between 2 to 50 characters";
-    }
-
-    if (validator.isEmpty(middlename)) {
-        errors.middlename = "Middle name is required";
-    } else if (!validator.isLength(middlename, { min: 2, max: 50 })) {
-        errors.middlename = "Middle name must be between 2 to 50 characters";
     }
 
     if (validator.isEmpty(lastname)) {
@@ -175,7 +161,6 @@ const minorValidation = async (post) => {
     let errors = {};
     console.log(post);
     let gfirstname = !isEmpty(post?.gfirstname) ? post?.gfirstname.toString() : "";
-    let gmiddleName = !isEmpty(post?.gmiddleName) ? post?.gmiddleName.toString() : "";
     let glastName = !isEmpty(post?.glastName) ? post?.glastName.toString() : "";
     let gdob = !isEmpty(post?.gdob) ? post?.gdob.toString() : "";
     let gpostalcode = !isEmpty(post?.gpostalcode) ? post?.gpostalcode.toString() : "";
@@ -184,12 +169,6 @@ const minorValidation = async (post) => {
         errors.gfirstname = "First name is required";
     } else if (!validator.isLength(gfirstname, { min: 2, max: 50 })) {
         errors.gfirstname = "First name must be between 2 to 50 characters";
-    }
-
-    if (validator.isEmpty(gmiddleName)) {
-        errors.gmiddleName = "Middle name is required";
-    } else if (!validator.isLength(gmiddleName, { min: 2, max: 50 })) {
-        errors.gmiddleName = "Middle name must be between 2 to 50 characters";
     }
 
     if (validator.isEmpty(glastName)) {

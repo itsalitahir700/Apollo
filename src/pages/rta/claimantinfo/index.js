@@ -49,6 +49,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
     };
 
     const handleAdress = async () => {
+        setclaimantDetails({ ...claimantDetails, address1: "", address2: "", address3: "", city: "", region: "" });
         const postcode = claimantDetails?.postalcode;
         const res = await getAddress("https://services.postcodeanywhere.co.uk/Capture/Interactive/Find/v1.10/json3.ws", postcode);
         setaddressItems(res.Items);
@@ -72,22 +73,14 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
         } else {
             setshowFurtherAddress(false);
             const res = await getAddressValues("https://services.postcodeanywhere.co.uk/Capture/Interactive/Retrieve/v1.00/json3.ws", e.target.value.Id);
-            setclaimantDetails({ ...claimantDetails, address1: res?.Items[0]?.Line1 });
-            setclaimantDetails({ ...claimantDetails, address2: res?.Items[0]?.Line2 });
-            setclaimantDetails({ ...claimantDetails, address3: res?.Items[0]?.Line3 });
-            setclaimantDetails({ ...claimantDetails, city: res?.Items[0]?.City });
-            setclaimantDetails({ ...claimantDetails, region: res?.Items[0]?.Province });
+            setclaimantDetails({ ...claimantDetails, address1: res?.Items[0]?.Line1, address2: res?.Items[0]?.Line2, address3: res?.Items[0]?.Line3, city: res?.Items[0]?.City, region: res?.Items[0]?.Province });
         }
     };
 
     const hanleAddressFurtherValue = async (e) => {
         setaddressFurtherItemsValue(e.target.value);
         const res = await getAddressValues("https://services.postcodeanywhere.co.uk/Capture/Interactive/Retrieve/v1.00/json3.ws", e.target.value.Id);
-        setclaimantDetails({ ...claimantDetails, address1: res?.Items[0]?.Line1 });
-        setclaimantDetails({ ...claimantDetails, address2: res?.Items[0]?.Line2 });
-        setclaimantDetails({ ...claimantDetails, address3: res?.Items[0]?.Line3 });
-        setclaimantDetails({ ...claimantDetails, city: res?.Items[0]?.City });
-        setclaimantDetails({ ...claimantDetails, region: res?.Items[0]?.Province });
+        setclaimantDetails({ ...claimantDetails, address1: res?.Items[0]?.Line1, address2: res?.Items[0]?.Line2, address3: res?.Items[0]?.Line3, city: res?.Items[0]?.City, region: res?.Items[0]?.Province });
     };
 
     const getFurtherAddress = async (data) => {
@@ -121,9 +114,9 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     />
                 </div>
                 <div className="p-field p-col-12 p-md-3">
-                    <label>First Name</label>
+                    <label>First Name *</label>
                     <InputText
-                        value={claimantDetails?.firstname}
+                        value={claimantDetails?.firstname || ""}
                         disabled={viewmode}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, firstname: e.target.value });
@@ -136,19 +129,17 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <label>Middle Name</label>
                     <InputText
                         disabled={viewmode}
-                        value={claimantDetails?.middlename}
+                        value={claimantDetails?.middlename || ""}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, middlename: e.target.value });
                         }}
-                        className={errors?.middlename && "p-invalid p-d-block"}
                     />
-                    <small className="p-error p-d-block">{errors?.middlename}</small>
                 </div>
                 <div className="p-field p-col-12 p-md-3">
-                    <label>Surname</label>
+                    <label>Surname *</label>
                     <InputText
                         disabled={viewmode}
-                        value={claimantDetails?.lastname}
+                        value={claimantDetails?.lastname || ""}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, lastname: e.target.value });
                         }}
@@ -169,16 +160,25 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <label style={{ paddingLeft: "1%" }}>Did accident occur in scotlands?</label>
                 </div>
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Date of Birth</label>
+                    <label>Date of Birth *</label>
                     {minor && <Button disabled={viewmode} label="Minor" className="p-bPassworutton-danger minor" onClick={() => showMinorModal(true)} style={{ float: "right" }}></Button>}
-                    <InputText disabled={viewmode} value={claimantDetails?.dob} type="date" onChange={(e) => handleAge(e.target.value)} className={errors?.dob && "p-invalid p-d-block"} />
+                    <InputText
+                        onBlur={() => {
+                            minor && showMinorModal(true);
+                        }}
+                        disabled={viewmode}
+                        value={claimantDetails?.dob}
+                        type="date"
+                        onChange={(e) => handleAge(e.target.value)}
+                        className={errors?.dob && "p-invalid p-d-block"}
+                    />
                     <small className="p-error p-d-block">{errors?.dob}</small>
                 </div>
                 <div className="p-field p-col-12 p-md-4">
                     <label>Password</label>
                     <InputText
                         disabled={viewmode}
-                        value={claimantDetails?.password}
+                        value={claimantDetails?.password || ""}
                         type="text"
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, password: e.target.value });
@@ -186,11 +186,11 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     />
                 </div>
                 <div className="p-field p-col-12 p-md-6">
-                    <label>Ni Number</label>
+                    <label>Ni Number *</label>
                     <div className="p-inputgroup">
                         <InputText
                             disabled={viewmode}
-                            value={claimantDetails?.ninumber}
+                            value={claimantDetails?.ninumber || ""}
                             onChange={(e) => {
                                 setclaimantDetails({ ...claimantDetails, ninumber: e.target.value });
                             }}
@@ -209,11 +209,11 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <small className="p-error p-d-block">{errors?.ninulastnamember}</small>
                 </div>
                 <div className="p-field p-col-12 p-md-3">
-                    <label>Standard of English</label>
+                    <label>Standard of English *</label>
                     <div className="p-inputgroup">
                         <InputText
                             disabled={viewmode}
-                            value={claimantDetails?.englishlevel}
+                            value={claimantDetails?.englishlevel || ""}
                             onChange={(e) => {
                                 setclaimantDetails({ ...claimantDetails, englishlevel: e.target.value });
                             }}
@@ -236,7 +236,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         <label>Translator Details</label>
                         <InputText
                             disabled={viewmode}
-                            value={claimantDetails?.language_details}
+                            value={claimantDetails?.language_details || ""}
                             onChange={(e) => {
                                 setclaimantDetails({ ...claimantDetails, language_details: e.target.value });
                             }}
@@ -248,11 +248,11 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                 )}
 
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Mobile</label>
+                    <label>Mobile *</label>
                     <InputText
                         type="number"
                         disabled={viewmode}
-                        value={claimantDetails?.mobile}
+                        value={claimantDetails?.mobile || ""}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, mobile: e.target.value });
                         }}
@@ -266,18 +266,18 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <InputText
                         type="number"
                         disabled={viewmode}
-                        value={claimantDetails?.landLine}
+                        value={claimantDetails?.landLine || ""}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, landLine: e.target.value });
                         }}
                     />
                 </div>
                 <div className="p-field p-col-12 p-md-3">
-                    <label>Alternative Number</label>
+                    <label>Alternative Number *</label>
                     <InputText
                         type="number"
                         disabled={viewmode}
-                        value={claimantDetails?.alternativeNumber}
+                        value={claimantDetails?.alternativeNumber || ""}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, alternativeNumber: e.target.value });
                         }}
@@ -287,7 +287,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <label>Email Address</label>
                     <InputText
                         disabled={viewmode}
-                        value={claimantDetails?.email}
+                        value={claimantDetails?.email || ""}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, email: e.target.value });
                         }}
@@ -295,12 +295,12 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     />
                 </div>
                 <div className="p-field p-col-12 p-md-8">
-                    <label>Address</label>
+                    <label>Address *</label>
                     <div className="p-inputgroup">
                         <InputText
                             disabled={viewmode}
                             placeholder="postalcode"
-                            value={claimantDetails?.postalcode}
+                            value={claimantDetails?.postalcode || ""}
                             onChange={(e) => {
                                 setclaimantDetails({ ...claimantDetails, postalcode: e.target.value });
                             }}
@@ -316,7 +316,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                             onChange={(e) => {
                                 hanleAddressValue(e);
                             }}
-                            value={addressItemsValue}
+                            value={addressItemsValue || ""}
                             options={addressItems}
                             placeholder="Select"
                             optionLabel="Description"
@@ -341,7 +341,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <label>Address line 1</label>
                     <InputText
                         disabled={viewmode}
-                        value={claimantDetails?.address1}
+                        value={claimantDetails?.address1 || ""}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, address1: e.target.value });
                         }}
@@ -351,7 +351,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <label>Address line 2</label>
                     <InputText
                         disabled={viewmode}
-                        value={claimantDetails?.address2}
+                        value={claimantDetails?.address2 || ""}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, address2: e.target.value });
                         }}
@@ -361,7 +361,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <label>Address line 3</label>
                     <InputText
                         disabled={viewmode}
-                        value={claimantDetails?.address3}
+                        value={claimantDetails?.address3 || ""}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, address3: e.target.value });
                         }}
@@ -371,7 +371,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <label>City</label>
                     <InputText
                         disabled={viewmode}
-                        value={claimantDetails?.city}
+                        value={claimantDetails?.city || ""}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, city: e.target.value });
                         }}
@@ -381,7 +381,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <label>Region</label>
                     <InputText
                         disabled={viewmode}
-                        value={claimantDetails?.region}
+                        value={claimantDetails?.region || ""}
                         onChange={(e) => {
                             setclaimantDetails({ ...claimantDetails, region: e.target.value });
                         }}

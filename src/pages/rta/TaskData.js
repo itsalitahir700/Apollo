@@ -67,21 +67,17 @@ const TaskData = ({ rtaCode, taskActionData, refreshTasks }) => {
     };
 
     const actionBodyTemplate = (rowData) => {
-        return (
-            <React.Fragment>
-                <Button icon="pi pi-play" className="p-button-rounded p-button-plain p-mr-2" onClick={() => handleTaskAction(rowData)} />
-            </React.Fragment>
-        );
+        return <React.Fragment>{rowData.status === "N" || rowData.status === "P" ? <Button icon="pi pi-send" className="p-button-rounded p-button-plain p-mr-2" onClick={() => handleTaskAction(rowData)} /> : ""}</React.Fragment>;
     };
 
     return (
         <div>
             <div className="datatable-filter-demo">
                 <div className="card p-datatable-sm">
-                    <DataTable ref={dt} value={taskData} paginator rows={10} className="p-datatable-customers" emptyMessage="No customers found.">
-                        <Column field="tblTask.descr" header="Description" body={descBodyTemplate} filter sortable />
-                        <Column field="status" header="Status" body={statusBodyTemplate} filter sortable />
-                        <Column body={actionBodyTemplate}></Column>
+                    <DataTable ref={dt} value={taskData} stripedRows paginator rows={10} className="p-datatable-customers" emptyMessage="No customers found.">
+                        <Column style={{ width: "60%" }} field="tblTask.descr" header="Description" body={descBodyTemplate} filter sortable />
+                        <Column style={{ width: "20%" }} field="status" header="Status" body={statusBodyTemplate} filter sortable />
+                        <Column style={{ width: "20%" }} header="Action" body={actionBodyTemplate}></Column>
                     </DataTable>
                 </div>
             </div>

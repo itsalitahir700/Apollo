@@ -13,7 +13,7 @@ import { getLovUserCategory } from "../../services/ProfileRegister";
 function EditViewProfile() {
     const singleCompanyProfileData = useSelector((state) => state.profileSlice.singleCompanyData);
 
-    const [selectedState, setSelectedState] = useState(singleCompanyProfileData?.companystatus);
+    const [selectedState, setSelectedState] = useState({ code: singleCompanyProfileData?.companystatus, name: singleCompanyProfileData?.companystatus === "Y" ? "Active" : "Inactive", type: null });
     const [name, setname] = useState(singleCompanyProfileData?.name);
     const [tag, settag] = useState(singleCompanyProfileData?.tag);
     const [userCat, setuserCat] = useState([]);
@@ -230,17 +230,15 @@ function EditViewProfile() {
                         </div>
                         <div className="p-field p-col">
                             <label htmlFor="Status">Status</label>
-                            <select className="p-inputtext p-dropdown" value={selectedState} onChange={(e) => setSelectedState(e.target.value)}>
-                                {states && states.length !== 0
-                                    ? states.map((item, index) => {
-                                          return (
-                                              <option value={item.code} key={item.code}>
-                                                  {item.name}
-                                              </option>
-                                          );
-                                      })
-                                    : "No Records Found"}
-                            </select>
+                            <Dropdown
+                                options={states}
+                                value={selectedState}
+                                onChange={(e) => {
+                                    setSelectedState(e.value);
+                                }}
+                                placeholder="Select"
+                                optionLabel="name"
+                            />
                         </div>
                     </div>
                     <div className="p-fluid p-formgrid p-grid">

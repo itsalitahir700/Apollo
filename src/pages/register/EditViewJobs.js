@@ -92,8 +92,10 @@ function EditViewJobs({ name, tag, userCat }) {
     };
 
     const editRow = async (rowData) => {
+        console.log(rowData);
         setadd(false);
         setDisplayBasic(!displayBasic);
+        setSelectedState({ code: rowData?.status, name: rowData?.status === "Y" ? "Active" : "Inactive", type: null });
         setcompaignCodeValue({ code: rowData.tblCompaign.compaigncode, name: rowData.tblCompaign.compaignname, type: null });
         setadultfee(rowData.adultfee);
         setchildfee(rowData.childfee);

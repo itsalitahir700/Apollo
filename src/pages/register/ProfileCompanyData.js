@@ -16,7 +16,6 @@ const ProfileComapanyData = () => {
     const companyProfileData = useSelector((state) => state.profileSlice.compnayData);
     let history = useHistory();
     const editProduct = async (rowData) => {
-        console.log("rowdata ::", rowData);
         dispatch(SetSingleCompanyDataAction(rowData));
         dispatch(SetSingleJobsCompanyDataAction(rowData.tblCompanyjobs));
         dispatch(SetSingleUsersCompanyDataAction(rowData.tblUsers));

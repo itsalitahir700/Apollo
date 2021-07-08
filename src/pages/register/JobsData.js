@@ -46,7 +46,7 @@ const JobsData = () => {
         return (
             <React.Fragment>
                 <span className="p-column-title">Scot Adult Fee</span>
-                {rowData.childfee}
+                {rowData.scotadultfee}
             </React.Fragment>
         );
     };

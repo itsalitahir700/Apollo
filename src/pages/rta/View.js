@@ -117,6 +117,11 @@ function ViewClaimant() {
         settaskActionData(res.data);
     };
 
+    const refreshTasks = async () => {
+        const res = await handleGetRequest(`rta/getAuthRtaCaseTasks/${rtaCode}`);
+        settaskActionData(res.data);
+    };
+
     const taskButton = <div>{taskFlag === "Y" ? <Button onClick={handleTaskAction} label="Tasks" icon="pi pi-check" iconPos="right" className="p-button-info" /> : ""}</div>;
 
     const actionButtons = (
@@ -199,10 +204,11 @@ function ViewClaimant() {
                     <Badge value={"Rta No. : " + rtaNumber} size="large" severity="info" className="p-mr-2"></Badge>
                     <Badge value={"Status : " + status} size="large" severity="warning" className="p-mr-2"></Badge>
                 </center>
-                <div style={{ textAlign: "right" }}>{actionButtons}</div>
             </div>
-
-            <div align="right">{taskButton}</div>
+            <div className="p-d-flex p-jc-between">
+                <div className="p-mr-2">{taskButton}</div>
+                <div className="p-mr-2">{actionButtons}</div>
+            </div>
 
             <Fieldset className="p-mt-2" legend="Claimant Info">
                 <ClaimantInfo handleClaimantReturn={setClaimantDetails} claimantdata={claimantDetails} viewmode={viewmode} showMinorModal={setShowMinorModal} />
@@ -251,7 +257,7 @@ function ViewClaimant() {
                 </div>
             </Dialog>
             <Dialog header="Tasks" visible={showModal} style={{ width: "70vw" }} onHide={() => setshowModal(false)}>
-                <TaskData rtaCode={rtaCode} taskActionData={taskActionData} />
+                <TaskData rtaCode={rtaCode} refreshTasks={() => refreshTasks()} taskActionData={taskActionData} />
             </Dialog>
         </div>
     );

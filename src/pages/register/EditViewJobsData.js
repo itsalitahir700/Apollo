@@ -44,7 +44,7 @@ const EditViewJobsData = ({ editRow, companyJobsData }) => {
         return (
             <React.Fragment>
                 <span className="p-column-title">Scot Adult Fee</span>
-                {rowData.childfee}
+                {rowData.scotadultfee}
             </React.Fragment>
         );
     };
@@ -102,9 +102,9 @@ const EditViewJobsData = ({ editRow, companyJobsData }) => {
                     <Column field="adultfee" header="Adult Fee" body={adultfeeBodyTemplate} filter sortable />
                     <Column field="childfee" header="Child Fee" body={childfeeBodyTemplate} filter sortable />
                     <Column field="scotadultfee" header="Scot Adult Fee" body={scotadultfeeBodyTemplate} filter sortable />
+                    <Column field="scotchildfee" header="Scot Child Fee" body={scotchildfeeBodyTemplate} filter sortable />
                     <Column field="childpostreforms" header="Child Post Reforms" body={childpostreformsBodyTemplate} filter sortable />
                     <Column field="adultpostreforms" header="Adult Post Reforms" body={adultpostreformsBodyTemplate} filter sortable />
-                    <Column field="scotchildfee" header="Scot Child Fee" body={scotchildfeeBodyTemplate} filter sortable />
                     <Column field="status" header="Status" body={statusBodyTemplate} filter sortable />
                     <Column body={actionBodyTemplate}></Column>
                 </DataTable>

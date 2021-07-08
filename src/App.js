@@ -17,6 +17,7 @@ import Module from "./pages/register/Module";
 import Role from "./pages/register/Role";
 import Pages from "./pages/register/Pages";
 import RTA from "./pages/rta/RTA";
+import Hire from "./pages/hire/Hire";
 import RTATable from "./pages/rta/rtatable";
 import RTACase from "./pages/rta/rtacase";
 import Login from "./pages/login/Login";
@@ -222,6 +223,7 @@ const App = () => {
                             {routes && routes.includes("/rta") && <Route exact path="/rta" component={RTA} />}
                             {routes && routes.includes("/rtalist") && <Route exact path="/rtalist" component={RTATable} />}
                             {routes && routes.includes("/rtalist") && <Route exact path="/rtaCase" component={RTACase} />}
+                            {<Route exact path="/hire" component={Hire} />}
                             <Route exact path="/eSign" component={ESign} />
                         </Switch>
                     )}

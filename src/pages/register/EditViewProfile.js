@@ -27,8 +27,8 @@ function EditViewProfile() {
     const [contactPerson, setcontactPerson] = useState(singleCompanyProfileData?.contactperson);
     const [contactNumber1, setcontactNumber1] = useState(singleCompanyProfileData?.phone);
     const [contactNumber2, setcontactNumber2] = useState(singleCompanyProfileData?.phone2);
-    const [vatchecked, setVatChecked] = useState(false);
-    const [vatRegNo, setvatRegNo] = useState("");
+    const [vatchecked, setVatChecked] = useState(singleCompanyProfileData?.varegno ? true : false);
+    const [vatRegNo, setvatRegNo] = useState(singleCompanyProfileData?.varegno);
     const [directIntroducerchecked, setdirectIntroducerchecked] = useState(singleCompanyProfileData?.directintroducer === "Y" ? true : false);
     const [loading, setloading] = useState(false);
     const [loadingIcon, setloadingIcon] = useState("");

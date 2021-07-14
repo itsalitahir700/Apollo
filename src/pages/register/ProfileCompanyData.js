@@ -95,8 +95,8 @@ const ProfileComapanyData = () => {
             <div className="card p-datatable-sm">
                 <DataTable ref={dt} value={companyData} paginator rows={10} className="p-datatable-customers" emptyMessage="No customers found.">
                     <Column field="name" header="Name" body={nameBodyTemplate} filter sortable filterPlaceholder="Search by name" />
-                    <Column field="email" header="Email" body={emailBodyTemplate} filter sortable filterPlaceholder="Search by email" />
-                    <Column field="tag" header="Tag" body={tagBodyTemplate} filter sortable filterPlaceholder="Search by tag" />
+                    <Column field="email" style={{ width: "25%" }} header="Email" body={emailBodyTemplate} filter sortable filterPlaceholder="Search by email" />
+                    <Column field="tag" style={{ textAlign: "center" }} header="Tag" body={tagBodyTemplate} filter sortable filterPlaceholder="Search by tag" />
                     <Column field="addressline1" header="Address" body={addressBodyTemplate} filter sortable filterPlaceholder="Search by address" />
                     <Column field="tblUsercategory.categoryname" header="Category" body={categoryBodyTemplate} filter sortable filterPlaceholder="Search by category" />
                     <Column className="p-column-filter-status" field="companystatus" header="Status" body={statusBodyTemplate} filter sortable filterPlaceholder="Search by status" />

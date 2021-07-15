@@ -19,6 +19,7 @@ import Pages from "./pages/register/Pages";
 import RTA from "./pages/rta/RTA";
 import Hire from "./pages/hire/Hire";
 import RTATable from "./pages/rta/rtatable";
+import HireTable from "./pages/hire/hiretable";
 import RTACase from "./pages/rta/rtacase";
 import Login from "./pages/login/Login";
 import ESign from "./pages/ESign";
@@ -224,6 +225,7 @@ const App = () => {
                             {routes && routes.includes("/rtalist") && <Route exact path="/rtalist" component={RTATable} />}
                             {routes && routes.includes("/rtalist") && <Route exact path="/rtaCase" component={RTACase} />}
                             {<Route exact path="/hire" component={Hire} />}
+                            {<Route exact path="/hirelist" component={HireTable} />}
                             <Route exact path="/eSign" component={ESign} />
                         </Switch>
                     )}

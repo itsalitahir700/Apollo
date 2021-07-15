@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { getRta } from "../../../services/Rta";
+import { handleGetRequest } from "../..//../services/GetTemplate";
 import { Skeleton } from "primereact/skeleton";
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { Chip } from "primereact/chip";
 import { useHistory } from "react-router-dom";
-import "./rtatable.css";
+import "./HireTable.css";
 
-function RTATable() {
+function HireTable() {
     const [rtalist, setrtalist] = useState([]);
     const [loading, setloading] = useState(false);
     const [expandedRows, setExpandedRows] = useState();
@@ -18,7 +18,10 @@ function RTATable() {
 
     const getRtaList = useCallback(async () => {
         setloading(true);
-        await window.setTimeout(async () => setrtalist(await getRta()), 0);
+        await window.setTimeout(async () => {
+            const res = await handleGetRequest("hire/getHireCases");
+            setrtalist(res.data);
+        }, 0);
         setloading(false);
     }, []);
 
@@ -128,4 +131,4 @@ function RTATable() {
     );
 }
 
-export default RTATable;
+export default HireTable;

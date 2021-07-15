@@ -205,7 +205,7 @@ const App = () => {
                 <Switch>
                     {!auth ? (
                         <Switch>
-                            <Route path="/" exact render={() => <div>Home</div>} component={Login} />
+                            <Route path="/" exact component={Login} />
                             <Route exact path="/eSign" component={ESign} />
                             <Redirect to="/" />
                         </Switch>

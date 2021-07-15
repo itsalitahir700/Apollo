@@ -13,13 +13,33 @@ export const login = async (data) => {
         },
     })
         .then((response) => {
-            console.log("login service ::", response);
             toast.success(response.data.messages);
             res = response.data.data;
         })
         .catch((err) => {
-            console.log("login service err ::", err?.response?.data?.messages);
             toast.warn(err?.response?.data?.messages);
+            res = false;
+        });
+    return res;
+};
+
+export const updatePassword = async (password) => {
+    let res;
+    await axios({
+        method: "post",
+        url: `${baseURL}userManagement/changePassword`,
+        data: { password },
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("token"),
+        },
+    })
+        .then((response) => {
+            toast.success(response.data.data);
+            res = response?.data?.data;
+        })
+        .catch((err) => {
+            toast.warn(err?.response?.data?.messages || "Something went wrong");
             res = false;
         });
     return res;

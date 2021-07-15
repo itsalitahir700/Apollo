@@ -22,31 +22,38 @@ const Login = () => {
         if (res?.login) history.push("/");
     };
     return (
-        <div className="p-d-flex p-jc-center" style={{ marginTop: "4%" }}>
-            <div className="card" style={{ width: "40%" }}>
-                <h2 style={{ marginTop: "2%", marginBottom: "10%" }} className="p-text-center">
-                    Login
-                </h2>
-                <form onSubmit={handleLogin} className="p-fluid">
-                    <div className="p-field p-grid">
-                        <label htmlFor="firstname3" className="p-col-fixed" style={{ width: "100px" }}>
-                            Firstname
-                        </label>
-                        <div className="p-col">
-                            <InputText id="firstname3" type="text" value={username} onChange={(e) => setusername(e.target.value)} placeholder="Username" autoComplete="username" />
-                        </div>
-                    </div>
-                    <div className="p-field p-grid">
-                        <label htmlFor="lastname3" className="p-col-fixed" style={{ width: "100px" }}>
-                            Lastname
-                        </label>
-                        <div className="p-col">
-                            <InputText value={password} onChange={(e) => setpassword(e.target.value)} type="password" placeholder="Password" autoComplete="current-password" />
-                        </div>
-                    </div>
-                    <Button type="submit" label="Submit" className="p-mt-2" />
-                </form>
+        <div className="login_body">
+            <div align="center" className="p-mb-2">
+                <h1 className="login_h1 logo_h1">Legal Assist Portal</h1>
             </div>
+            <div class="container" id="container">
+                <div class="form-container sign-in-container">
+                    <form action="#">
+                        <div className="p-mb-4">
+                            <h1 className="login_h1">Login</h1>
+                        </div>
+                        <div className="p-mt-4">
+                            <input value={username} onChange={(e) => setusername(e.target.value)} type="text" placeholder="User Name" />
+                            <input value={password} onChange={(e) => setpassword(e.target.value)} type="password" placeholder="Password" />
+                            <div className="p-mt-4">
+                                <button onClick={handleLogin}>Login</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="overlay-container">
+                    <div class="overlay">
+                        <div class="overlay-panel overlay-right">
+                            <h1 className="login_h1">Welcome!</h1>
+                            <p className="login_p">Please login to access Legal Assit Portal</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer>
+                <p className="login_p"> Powered by Legal Assist IT Dept</p>
+            </footer>
         </div>
     );
 };

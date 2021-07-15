@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import classNames from "classnames";
 import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
-
-import { ToastContainer } from "react-toastify";
+import { useIdleTimer } from "react-idle-timer";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { AppTopbar } from "./AppTopbar";
@@ -25,6 +25,8 @@ import Login from "./pages/login/Login";
 import ESign from "./pages/ESign";
 import RoleRights from "./pages/register/RoleRights";
 import WorkFlow from "./pages/workFlow/WorkFlow";
+import Users from "./pages/Users";
+import UpdatePassword from "./pages/UpdatePassword";
 
 import { Dashboard } from "./components/Dashboard";
 import PrimeReact from "primereact/api";
@@ -162,6 +164,18 @@ const App = () => {
         "layout-sidebar-light": layoutColorMode === "light",
     });
 
+    const handleLogout = () => {
+        localStorage.clear();
+        window.location.reload();
+        toast.warn("Logged out because of inactivity");
+    };
+
+    useIdleTimer({
+        timeout: 900000,
+        onIdle: handleLogout,
+        debounce: 500,
+    });
+
     const traverse = (item, key, newRoutes) => {
         item &&
             item.length &&
@@ -207,7 +221,7 @@ const App = () => {
                 <Switch>
                     {!auth ? (
                         <Switch>
-                            <Route path="/" exact render={() => <div>Home</div>} component={Login} />
+                            <Route path="/" exact component={Login} />
                             <Route exact path="/eSign" component={ESign} />
                             <Redirect to="/" />
                         </Switch>
@@ -224,8 +238,13 @@ const App = () => {
                             {routes && routes.includes("/rta") && <Route exact path="/rta" component={RTA} />}
                             {routes && routes.includes("/rtalist") && <Route exact path="/rtalist" component={RTATable} />}
                             {routes && routes.includes("/rtalist") && <Route exact path="/rtaCase" component={RTACase} />}
+<<<<<<< HEAD
                             {<Route exact path="/hire" component={Hire} />}
                             {<Route exact path="/hirelist" component={HireTable} />}
+=======
+                            <Route exact path="/users" component={Users} />
+                            <Route exact path="/updatepassword" component={UpdatePassword} />
+>>>>>>> 397882e954c9ed9b21250cd50c211d18da020646
                             <Route exact path="/eSign" component={ESign} />
                         </Switch>
                     )}

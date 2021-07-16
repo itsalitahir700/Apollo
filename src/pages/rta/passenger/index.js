@@ -13,7 +13,7 @@ import { vehicledetails } from "../../../utilities/constants";
 import { passengerValidation } from "../../../utilities/validation";
 import { getAddress, getAddressValues, getFurtherAddressService } from "../../../services/Rta";
 
-function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, isEdit, viewmode }) {
+function PassengerModel({ driverOrPassenger, status, show, hide, handlePassengerReturn, passenger, isEdit, viewmode }) {
     if (viewmode) {
         isEdit = "View";
     }
@@ -394,19 +394,23 @@ function PassengerModel({ status, show, hide, handlePassengerReturn, passenger, 
                 <TabPanel header="Injury Info">
                     <div className="p-fluid p-formgrid p-grid">
                         <div className="p-field p-col-12 p-md-4">
-                            <div className="p-field-radiobutton">
-                                <RadioButton
-                                    disabled={viewmode}
-                                    inputId="city1"
-                                    onChange={(e) => {
-                                        setPassengerDetails({ ...passengerDetails, driverpassen: e.value });
-                                    }}
-                                    name="city"
-                                    value="driver"
-                                    checked={"driver" === passengerDetails?.driverpassen}
-                                />
-                                <label htmlFor="city1">Driver</label>
-                            </div>
+                            {driverOrPassenger === "P" || driverOrPassenger === undefined ? (
+                                <div className="p-field-radiobutton">
+                                    <RadioButton
+                                        disabled={viewmode}
+                                        inputId="city1"
+                                        onChange={(e) => {
+                                            setPassengerDetails({ ...passengerDetails, driverpassen: e.value });
+                                        }}
+                                        name="city"
+                                        value="driver"
+                                        checked={"driver" === passengerDetails?.driverpassen}
+                                    />
+                                    <label htmlFor="city1">Driver</label>
+                                </div>
+                            ) : (
+                                ""
+                            )}
                             <div className="p-field-radiobutton">
                                 <RadioButton
                                     disabled={viewmode}

@@ -10,6 +10,7 @@ import queryString from "query-string";
 import RoleRightsData from "./RoleRightsData";
 import { PostPageAction } from "../../redux/actions/menuAction";
 import { getlovModule, getlovPages } from "../../services/RoleRights";
+import { handlePostRequest } from "../../services/PostTemplate";
 import "./Register.css";
 
 function RoleRights() {
@@ -35,7 +36,7 @@ function RoleRights() {
     ];
     const location = useHistory().location;
     const query = queryString.parse(location.search);
-    const moduleCode = query.m;
+    const roleCode = query.m;
     const roleDescr = query.n;
     const dispatch = useDispatch();
 
@@ -56,15 +57,16 @@ function RoleRights() {
     }
 
     const handleSubmit = async () => {
-        console.log("data ::", pagesvalue);
-        // const data = {
-        //   pageicon: icon,
-        //   pagepath: path,
-        //   pagestatus: selectedState.code,
-        //   moduleCode: moduleCode,
-        // };
-        // await dispatch(PostPageAction(data));
-        // setDisplayBasic(!displayBasic);
+        const pageArray = pagesvalue.map((item) => {
+            return item.pagecode;
+        });
+        const data = {
+            roleCode,
+            pagesvalue: pageArray,
+        };
+        console.log("data ::", data);
+        await handlePostRequest(data, "/userManagement/saveRoleRights");
+        setDisplayBasic(!displayBasic);
     };
 
     const handleModuleChange = async (e) => {

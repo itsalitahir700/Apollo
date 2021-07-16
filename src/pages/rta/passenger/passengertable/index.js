@@ -7,13 +7,43 @@ import PassengerModal from "../../passenger";
 function PassengerTable({ passengers, handleRemovePassenger, handleUpdatePassenger, isView, viewmode }) {
     let states = [
         {
-            code: "Y",
+            code: "Mr",
             name: "Mr",
             type: null,
         },
         {
-            code: "N",
+            code: "Mrs",
+            name: "Mrs",
+            type: null,
+        },
+        {
+            code: "Miss",
+            name: "Miss",
+            type: null,
+        },
+        {
+            code: "Ms",
             name: "Ms",
+            type: null,
+        },
+        {
+            code: "Mstr",
+            name: "Mstr",
+            type: null,
+        },
+        {
+            code: "Dr",
+            name: "Dr",
+            type: null,
+        },
+        {
+            code: "Prof",
+            name: "Prof",
+            type: null,
+        },
+        {
+            code: "Rev",
+            name: "Rev",
             type: null,
         },
     ];

@@ -28,15 +28,17 @@ const Login = () => {
             </div>
             <div class="container" id="container">
                 <div class="form-container sign-in-container">
-                    <form action="#">
+                    <form action="#" className="login_form">
                         <div className="p-mb-4">
                             <h1 className="login_h1">Login</h1>
                         </div>
                         <div className="p-mt-4">
-                            <input value={username} onChange={(e) => setusername(e.target.value)} type="text" placeholder="User Name" />
-                            <input value={password} onChange={(e) => setpassword(e.target.value)} type="password" placeholder="Password" />
+                            <input className="login_input" value={username} onChange={(e) => setusername(e.target.value)} type="text" placeholder="User Name" />
+                            <input className="login_input" value={password} onChange={(e) => setpassword(e.target.value)} type="password" placeholder="Password" />
                             <div className="p-mt-4">
-                                <button onClick={handleLogin}>Login</button>
+                                <button className="login_button" onClick={handleLogin}>
+                                    Login
+                                </button>
                             </div>
                         </div>
                     </form>

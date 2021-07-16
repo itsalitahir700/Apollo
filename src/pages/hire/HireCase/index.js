@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { TabView, TabPanel } from "primereact/tabview";
 import UpdateClaimant from "../update";
 import ViewClaimant from "../View";
-import "./Rtacase.css";
 import Notes from "../../../components/Notes";
 import Messages from "../../../components/Messages";
 import Documents from "../../../components/Documents";

@@ -21,6 +21,7 @@ import Hire from "./pages/hire/Hire";
 import RTATable from "./pages/rta/rtatable";
 import HireTable from "./pages/hire/hiretable";
 import RTACase from "./pages/rta/rtacase";
+import HireCase from "./pages/hire/HireCase";
 import Login from "./pages/login/Login";
 import ESign from "./pages/ESign";
 import RoleRights from "./pages/register/RoleRights";
@@ -238,13 +239,11 @@ const App = () => {
                             {routes && routes.includes("/rta") && <Route exact path="/rta" component={RTA} />}
                             {routes && routes.includes("/rtalist") && <Route exact path="/rtalist" component={RTATable} />}
                             {routes && routes.includes("/rtalist") && <Route exact path="/rtaCase" component={RTACase} />}
-<<<<<<< HEAD
                             {<Route exact path="/hire" component={Hire} />}
                             {<Route exact path="/hirelist" component={HireTable} />}
-=======
+                            <Route exact path="/hireCase" component={HireCase} />
                             <Route exact path="/users" component={Users} />
                             <Route exact path="/updatepassword" component={UpdatePassword} />
->>>>>>> 397882e954c9ed9b21250cd50c211d18da020646
                             <Route exact path="/eSign" component={ESign} />
                         </Switch>
                     )}

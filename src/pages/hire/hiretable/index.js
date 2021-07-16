@@ -97,8 +97,9 @@ function HireTable() {
     const actionTemplate = (rowData) => {
         return (
             <div>
-                {rowData.editflag === "Y" ? <Button icon="pi pi-pencil" onClick={() => history.push(`rtaCase?id=${rowData?.rtacode}&mode=e`)} className="p-button-rounded p-button-warning p-mr-2" /> : ""}
-                <Button icon="pi pi-eye" onClick={() => history.push(`rtaCase?id=${rowData?.rtacode}&mode=v`)} className="p-button-rounded p-button-primary" />
+                {/* by pass for now */}
+                {rowData.editflag !== "Y" ? <Button icon="pi pi-pencil" onClick={() => history.push(`hireCase?id=${rowData?.hirecode}&mode=e`)} className="p-button-rounded p-button-warning p-mr-2" /> : ""}
+                <Button icon="pi pi-eye" onClick={() => history.push(`hireCase?id=${rowData?.hirecode}&mode=v`)} className="p-button-rounded p-button-primary" />
             </div>
         );
     };

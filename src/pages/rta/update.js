@@ -32,7 +32,7 @@ function UpdateClaimant() {
 
     const fetchClaimantDetails = useCallback(() => {
         const rtaCode = urlObj?.query?.id;
-        dispatch(getClaimantDetails(rtaCode));
+        dispatch(getClaimantDetails("rta/getAuthRtaCase/", rtaCode));
     }, [dispatch, urlObj?.query?.id]);
 
     useEffect(() => {

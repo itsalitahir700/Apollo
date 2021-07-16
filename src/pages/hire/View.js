@@ -6,7 +6,6 @@ import { getClaimantDetails, ActionOnRtaFromDirectIntro, ActionOnRta } from "../
 import ClaimantInfo from "./claimantinfo";
 import AccidentInfo from "./AccidentInfo";
 import VehiclesInfo from "./VehiclesInfo";
-import PassengersTable from "./passenger/passengertable";
 import MinorModal from "./minormodal";
 import TaskData from "./TaskData";
 import { useDispatch, useSelector } from "react-redux";
@@ -47,8 +46,8 @@ function ViewClaimant() {
     const dispatch = useDispatch();
 
     const fetchClaimantDetails = useCallback(() => {
-        const rtaCode = urlObj?.query?.id;
-        dispatch(getClaimantDetails(rtaCode));
+        const hireCode = urlObj?.query?.id;
+        dispatch(getClaimantDetails("hire/getHireCaseById/", hireCode));
     }, [dispatch, urlObj?.query?.id]);
 
     useEffect(() => {
@@ -220,10 +219,6 @@ function ViewClaimant() {
 
             <Fieldset className="p-mt-2" legend="Vehicles Info">
                 <VehiclesInfo viewmode={viewmode} vehicledata={vehicleDetails} handleVehicleInfoReturn={setVehicleDetails} />
-            </Fieldset>
-
-            <Fieldset className="p-mt-2" legend="Passenger Info">
-                <PassengersTable viewmode={viewmode} isView={true} passengers={passengers} />
             </Fieldset>
 
             <MinorModal handleMinorReturn={setMinorDetails} minorData={minorDetails} viewmode={viewmode} show={showMinorModal} hide={setShowMinorModal} />

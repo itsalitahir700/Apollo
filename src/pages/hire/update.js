@@ -3,13 +3,12 @@ import { getClaimantDetails } from "../../redux/actions/claimantAction";
 import ClaimantInfo from "./claimantinfo";
 import AccidentInfo from "./AccidentInfo";
 import VehiclesInfo from "./VehiclesInfo";
-import PassengersTable from "./passenger/passengertable";
 import MinorModal from "./minormodal";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "primereact/button";
 import { Fieldset } from "primereact/fieldset";
 import { claimantdetails, minordetails, accidentdetails, vehicledetails } from "../../utilities/constants";
-import { updataRta, getPassengers } from "../../services/Rta";
+import { handlePostRequest } from "../../services/PostTemplate";
 import { Badge } from "primereact/badge";
 
 function UpdateClaimant() {
@@ -21,7 +20,6 @@ function UpdateClaimant() {
     const [accidentDetails, setAccidentDetails] = useState(accidentdetails);
     const [vehicleDetails, setVehicleDetails] = useState(vehicledetails);
     const [showMinorModal, setShowMinorModal] = useState(false);
-    const [passengers, setpassengers] = useState("");
     const claimantstore = useSelector((state) => state.claimantSlice.claimantDetails);
     const rtaNumber = useSelector((state) => state.claimantSlice.claimantDetails.rtanumber);
     const status = useSelector((state) => state.claimantSlice.claimantDetails.status);
@@ -31,8 +29,8 @@ function UpdateClaimant() {
     const dispatch = useDispatch();
 
     const fetchClaimantDetails = useCallback(() => {
-        const rtaCode = urlObj?.query?.id;
-        dispatch(getClaimantDetails(rtaCode));
+        const hireCode = urlObj?.query?.id;
+        dispatch(getClaimantDetails("hire/getHireCaseById/", hireCode));
     }, [dispatch, urlObj?.query?.id]);
 
     useEffect(() => {
@@ -71,25 +69,13 @@ function UpdateClaimant() {
         mapData();
     }, [mapData]);
 
-    const token = localStorage.getItem("token");
-
     const handleSubmit = async () => {
         setloading(true);
-        const rtaCode = { rtacode: urlObj?.query?.id };
-        const post = { ...claimantDetails, ...accidentDetails, ...vehicleDetails, ...rtaCode };
-        await updataRta(post, token);
+        const hireCode = { hirecode: urlObj?.query?.id };
+        const post = { ...claimantDetails, ...accidentDetails, ...vehicleDetails, ...hireCode };
+        await handlePostRequest(post, "/hire/updateHireCase");
         setloading(false);
     };
-
-    const funcGetPassengers = async () => {
-        const rtaCode = urlObj?.query?.id;
-        const res = await getPassengers(rtaCode, token);
-        setpassengers(res);
-    };
-
-    useEffect(() => {
-        funcGetPassengers();
-    }, []);
 
     return (
         <div>
@@ -118,10 +104,6 @@ function UpdateClaimant() {
 
             <Fieldset className="p-mt-2" legend="Vehicles Info">
                 <VehiclesInfo viewmode={viewmode} vehicledata={vehicleDetails} handleVehicleInfoReturn={setVehicleDetails} />
-            </Fieldset>
-
-            <Fieldset className="p-mt-2" legend="Passenger Info">
-                <PassengersTable isView={true} passengers={passengers} />
             </Fieldset>
 
             <MinorModal handleMinorReturn={setMinorDetails} minorData={minorDetails} viewmode={viewmode} show={showMinorModal} hide={setShowMinorModal} />

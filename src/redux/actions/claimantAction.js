@@ -2,8 +2,8 @@ import { getClaimant } from "../../services/Claimant";
 import { performActionOnRtaFromDirectIntro, performActionOnRta } from "../../services/Rta";
 import { GETCLAIMANTSUCCESS, GETCLAIMANTERROR, PERFORMACTIONSUCCESS, PERFORMACTIONERROR } from "../slices/claimantSlice";
 
-export const getClaimantDetails = (rtaCode) => async (dispatch) => {
-    const res = await getClaimant(rtaCode);
+export const getClaimantDetails = (url, code) => async (dispatch) => {
+    const res = await getClaimant(url, code);
     if (res) {
         dispatch(GETCLAIMANTSUCCESS(res));
         return res;

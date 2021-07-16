@@ -2,11 +2,11 @@ import { baseURL } from "../Config";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export const getClaimant = async (rtaCode) => {
+export const getClaimant = async (url, code) => {
     let res;
     await axios({
         method: "GET",
-        url: `${baseURL}rta/getAuthRtaCase/${rtaCode}`,
+        url: `${baseURL + url + code}`,
         headers: {
             Authorization: localStorage.getItem("token"),
             "Content-Type": "application/json",

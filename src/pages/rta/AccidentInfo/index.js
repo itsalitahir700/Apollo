@@ -47,6 +47,7 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
     useEffect(() => {
         setaccidentDetails(accidentdata);
     }, [accidentdata]);
+
     return (
         <div>
             <div className="p-fluid p-formgrid p-grid">
@@ -202,20 +203,20 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Length Of Injury *</label>
+                    <label>Length Of Injury {ongoingInjury ? "" : "*"}</label>
                     <div className="p-inputgroup">
                         <InputText
-                            disabled={viewmode}
+                            disabled={viewmode || ongoingInjury}
                             value={accidentDetails?.injlength}
                             onChange={(e) => {
                                 setaccidentDetails({ ...accidentDetails, injlength: e.target.value });
                             }}
                             type="number"
-                            className={errors?.firstname && "p-invalid p-d-block"}
+                            className={!ongoingInjury  && errors?.firstname && "p-invalid p-d-block"}
                         />
                         <span className="p-inputgroup-addon">Weeks</span>
                     </div>
-                    <small className="p-error p-d-block">{errors?.injlength}</small>
+                    <small className="p-error p-d-block">{!ongoingInjury && errors?.injlength}</small>
                 </div>
 
                 <div className="p-field p-col-12 p-md-4 p-d-flex">
@@ -223,8 +224,9 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                         disabled={viewmode}
                         onChange={(e) => {
                             const ongoing = e.checked ? "Y" : "N";
-                            setaccidentDetails({ ...accidentDetails, ongoing });
+                            setaccidentDetails({ ...accidentDetails, ongoing , injlength: e.checked?  e.target.value : accidentDetails.injlength });
                             setongoingInjury(e.checked);
+                            delete errors?.injlength;
                         }}
                         checked={ongoingInjury}
                     ></Checkbox>

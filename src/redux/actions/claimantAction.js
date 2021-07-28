@@ -13,8 +13,9 @@ export const getClaimantDetails = (rtaCode) => async (dispatch) => {
 };
 export const ActionOnRtaFromDirectIntro = (data) => async (dispatch) => {
     const res = await performActionOnRtaFromDirectIntro(data);
+    console.log("res from api ::", res);
     if (res) {
-        dispatch(PERFORMACTIONSUCCESS(res));
+        dispatch(PERFORMACTIONSUCCESS(res.data.data));
         return res;
     } else {
         dispatch(PERFORMACTIONERROR(res));
@@ -23,7 +24,7 @@ export const ActionOnRtaFromDirectIntro = (data) => async (dispatch) => {
 export const ActionOnRta = (data) => async (dispatch) => {
     const res = await performActionOnRta(data);
     if (res) {
-        dispatch(PERFORMACTIONSUCCESS(res));
+        dispatch(PERFORMACTIONSUCCESS(res.data.data));
         return res;
     } else {
         dispatch(PERFORMACTIONERROR(res));

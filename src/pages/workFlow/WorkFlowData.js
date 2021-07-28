@@ -32,6 +32,10 @@ const WorkFlowData = () => {
     const [rtaflowcode, setrtaflowcode] = useState("");
     const [taskflag, settaskflag] = useState("");
     const [editflag, seteditflag] = useState("");
+    const [acceptflag, setacceptflag] = useState("");
+    const [assignflag, setassignflag] = useState("");
+    const [rejectflag, setrejectflag] = useState("");
+    const [compaignCheck, setcompaignCheck] = useState("");
     const dt = useRef(null);
 
     const funcGetWorkFlow = async () => {
@@ -62,12 +66,17 @@ const WorkFlowData = () => {
 
     const handleAddWorkFlow = async () => {
         setloading(true);
+        const listusercategory = userCategoryValue.map((item) => {
+            return item.code;
+        });
+        const usercategoryList = listusercategory.toString();
         const data = {
             companycode: companyCodeValue.code,
             compaingcode: compaignValue.code,
             statuscode: statusValue.code,
             editflag: editflag.code,
             taskflag: taskflag.code,
+            usercategory: `${usercategoryList}`,
         };
         await handlePostRequest(data, "rta/addWorkFlow");
         setInitialValue();
@@ -100,6 +109,9 @@ const WorkFlowData = () => {
             listusercategory: `${usercategoryList}`,
             rtaflowcode,
             rtastatuscode: statusValue.code,
+            caseacceptdialog: acceptflag,
+            caseassigndialog: assignflag,
+            caserejectdialog: rejectflag,
         };
         await handlePostRequest(data, "rta/addWorkFlowDetail");
         funcGetWorkFlow();
@@ -140,6 +152,7 @@ const WorkFlowData = () => {
     };
 
     const addDetails = (rowData) => {
+        setcompaignCheck(rowData?.tblCompaign?.compaignname);
         setrtaflowcode(rowData.rtaflowcode);
         setshowModalAddDetails(true);
     };
@@ -174,6 +187,7 @@ const WorkFlowData = () => {
                     label="Cancel"
                     icon="pi pi-times"
                     onClick={(e) => {
+                        setInitialValue();
                         setshowModal(false);
                         setloading(false);
                     }}
@@ -261,7 +275,19 @@ const WorkFlowData = () => {
                             optionLabel="name"
                         />
                     </div>
-                    <div className="p-field p-col-6">
+                    <div className="p-field p-col-4">
+                        <label>User Category</label>
+                        <MultiSelect
+                            options={userCategory}
+                            value={userCategoryValue}
+                            onChange={(e) => {
+                                setuserCategoryValue(e.value);
+                            }}
+                            placeholder="Select"
+                            optionLabel="name"
+                        />
+                    </div>
+                    <div className="p-field p-col-4">
                         <label>Task Flag</label>
                         <Dropdown
                             options={[
@@ -276,7 +302,7 @@ const WorkFlowData = () => {
                             optionLabel="name"
                         />
                     </div>
-                    <div className="p-field p-col-6">
+                    <div className="p-field p-col-4">
                         <label>Edit Flag</label>
                         <Dropdown
                             options={[
@@ -324,18 +350,6 @@ const WorkFlowData = () => {
                             optionLabel="name"
                         />
                     </div>
-                    <div className="p-field p-col-6">
-                        <label>Api Flag</label>
-                        <Dropdown
-                            options={apiFlag}
-                            value={apiFlagValue}
-                            onChange={(e) => {
-                                setapiFlagValue(e.value);
-                            }}
-                            placeholder="Select"
-                            optionLabel="name"
-                        />
-                    </div>
 
                     <div className="p-field p-col-6">
                         <label>Button Name</label>
@@ -347,6 +361,75 @@ const WorkFlowData = () => {
                             placeholder="Button Name"
                         />
                     </div>
+                    {compaignCheck === "RTA" ? (
+                        <div className="p-field p-col-6">
+                            <label>Api Flag</label>
+                            <Dropdown
+                                options={apiFlag}
+                                value={apiFlagValue}
+                                onChange={(e) => {
+                                    setapiFlagValue(e.value);
+                                }}
+                                placeholder="Select"
+                                optionLabel="name"
+                            />
+                        </div>
+                    ) : (
+                        ""
+                    )}
+
+                    {compaignCheck === "HIRE" ? (
+                        <React.Fragment>
+                            {" "}
+                            <div className="p-field p-col-6 ">
+                                <label>Case Accepting Flag</label>
+                                <Dropdown
+                                    options={[
+                                        { code: "Y", name: "Yes" },
+                                        { code: "N", name: "No" },
+                                    ]}
+                                    value={acceptflag}
+                                    onChange={(e) => {
+                                        setacceptflag(e.value);
+                                    }}
+                                    placeholder="Select"
+                                    optionLabel="name"
+                                />
+                            </div>
+                            <div className="p-field p-col-6 ">
+                                <label>Case Assigning Flag</label>
+                                <Dropdown
+                                    options={[
+                                        { code: "Y", name: "Yes" },
+                                        { code: "N", name: "No" },
+                                    ]}
+                                    value={assignflag}
+                                    onChange={(e) => {
+                                        setassignflag(e.value);
+                                    }}
+                                    placeholder="Select"
+                                    optionLabel="name"
+                                />
+                            </div>
+                            <div className="p-field p-col-6 ">
+                                <label>Case Reject Flag</label>
+                                <Dropdown
+                                    options={[
+                                        { code: "Y", name: "Yes" },
+                                        { code: "N", name: "No" },
+                                    ]}
+                                    value={rejectflag}
+                                    onChange={(e) => {
+                                        setrejectflag(e.value);
+                                    }}
+                                    placeholder="Select"
+                                    optionLabel="name"
+                                />
+                            </div>
+                        </React.Fragment>
+                    ) : (
+                        ""
+                    )}
                 </div>
             </Dialog>
         </div>

@@ -220,7 +220,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <div className="p-inputgroup">
                         <InputText
                             disabled={viewmode}
-                            value={claimantDetails?.ninumber || ""}
+                            value={claimantDetails?.ninumber ? claimantDetails?.ninumber : minor ?  "Minor" : ""}
                             onChange={(e) => {
                                 setclaimantDetails({ ...claimantDetails, ninumber: e.target.value });
                             }}
@@ -329,7 +329,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <div className="p-inputgroup">
                         <InputText
                             disabled={viewmode}
-                            placeholder="postalcode"
+                            placeholder="post code"
                             value={claimantDetails?.postalcode || ""}
                             onChange={(e) => {
                                 setclaimantDetails({ ...claimantDetails, postalcode: e.target.value });

@@ -35,7 +35,23 @@ function Notes() {
     };
 
     const handleUserLov = async () => {
-        setUsersLov(await getLovUserCategory());
+        let userList= await getLovUserCategory()
+        const  loggedIn=  JSON.parse(localStorage.getItem("loggedIn")).tblUsercategory.categorycode;
+        console.log(userList)
+        switch (Number(loggedIn)) {
+            case 1 : userList=  userList.filter((item)=> (item.code==="4"))
+            break;
+            case 2 : 
+            userList=  userList.filter((item)=> (item.code==="4"))
+            break;
+            case 4:
+             userList=  userList.filter((item)=> (item.code!=="4" && item.code!=="3"))
+                break;
+            default:
+                userList=  userList.filter((item)=> (item.code==="4"))
+                break;
+        }
+        setUsersLov(userList);
     };
 
     const sortmessages = () => {

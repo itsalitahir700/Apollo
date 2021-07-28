@@ -289,7 +289,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                             <div className="p-inputgroup">
                                 <InputText
                                     disabled={viewmode}
-                                    placeholder="postalcode"
+                                    placeholder="post code"
                                     value={passengerDetails?.postalcode || ""}
                                     onChange={(e) => {
                                         setPassengerDetails({ ...passengerDetails, postalcode: e.target.value });
@@ -456,7 +456,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                             <label>Length Of Injury</label>
                             <div className="p-inputgroup">
                                 <InputText
-                                    disabled={viewmode}
+                                    disabled={viewmode || passengerDetails.ongoinginjury === "Y" }
                                     type="number"
                                     value={passengerDetails?.injlength || ""}
                                     onChange={(e) => {
@@ -471,7 +471,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                             <Checkbox
                                 disabled={viewmode}
                                 onChange={(e) => {
-                                    setPassengerDetails({ ...passengerDetails, ongoinginjury: e.checked ? "Y" : "N" });
+                                    setPassengerDetails({ ...passengerDetails, ongoinginjury: e.checked ? "Y" : "N"  ,injlength: e.checked?  e.target.value : passengerDetails.injlength});
                                 }}
                                 p
                                 checked={"Y" === passengerDetails?.ongoinginjury}

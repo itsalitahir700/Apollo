@@ -215,7 +215,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minordata,
                     <div className="p-inputgroup">
                         <InputText
                             disabled={viewmode}
-                            placeholder="postalcode"
+                            placeholder="post code"
                             value={minorDetails?.gpostalcode || ""}
                             onChange={(e) => {
                                 setMinorDetails({ ...minorDetails, gpostalcode: e.target.value });

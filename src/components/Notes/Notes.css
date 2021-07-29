@@ -9,7 +9,7 @@
     flex: auto;
     flex-direction: row-reverse;
     max-height: calc(100% - 60px);
-    background: #2f323b;
+    background: #f3f3ef;
     overflow: auto;
     padding: 0.5rem 0rem;
 }

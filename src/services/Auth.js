@@ -17,7 +17,7 @@ export const login = async (data) => {
             res = response.data.data;
         })
         .catch((err) => {
-            toast.warn(err?.response?.data?.messages);
+            toast.warn(err?.response?.data?.messages || "Something went wrong!!");
             res = false;
         });
     return res;

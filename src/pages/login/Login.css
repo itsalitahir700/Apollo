@@ -31,7 +31,7 @@
 .login_button {
     border-radius: 20px;
     border: 1px solid #037203;
-    background-color: #037203;
+    background-color: #156519 !important;
     color: #ffffff;
     font-size: 12px;
     font-weight: bold;
@@ -39,6 +39,7 @@
     letter-spacing: 1px;
     text-transform: uppercase;
     transition: transform 80ms ease-in;
+    width: 100px;
 }
 
 .login_button:active {

@@ -791,3 +791,10 @@ pre[class*="language-"] {
 .float-right {
     float: right !important;
 }
+.welcome-msg
+{
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}

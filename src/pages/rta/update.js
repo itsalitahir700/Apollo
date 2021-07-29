@@ -124,7 +124,9 @@ function UpdateClaimant() {
                 <PassengersTable isView={true} passengers={passengers} />
             </Fieldset>
 
-            <MinorModal handleMinorReturn={setMinorDetails} minorData={minorDetails} viewmode={viewmode} show={showMinorModal} hide={setShowMinorModal} />
+            <MinorModal  
+                claimantAddress={{ gpostalcode: claimantDetails?.postalcode, gaddress1: claimantDetails?.address1, gaddress2: claimantDetails?.address2, gaddress3: claimantDetails?.address3, gcity: claimantDetails?.city, gregion: claimantDetails?.region }}
+                handleMinorReturn={setMinorDetails} minorData={minorDetails} viewmode={viewmode} show={showMinorModal} hide={setShowMinorModal} />
             <center className="p-mt-2 p-button-outlined" onClick={handleSubmit}>
                 <Button disabled={loading} icon={loading ? "pi pi-spin pi-spinner" : ""} label="Update" />
             </center>

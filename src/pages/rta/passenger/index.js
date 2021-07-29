@@ -13,7 +13,7 @@ import { vehicledetails } from "../../../utilities/constants";
 import { passengerValidation } from "../../../utilities/validation";
 import { getAddress, getAddressValues, getFurtherAddressService } from "../../../services/Rta";
 
-function PassengerModel({ driverOrPassenger, status, show, hide, handlePassengerReturn, passenger, isEdit, viewmode }) {
+function PassengerModel({ driverOrPassenger, status, show, hide, handlePassengerReturn, passenger, isEdit, viewmode , claimantAddress }) {
     if (viewmode) {
         isEdit = "View";
     }
@@ -519,7 +519,9 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                     </div>
                 </TabPanel>
             </TabView>
-            <MinorModal disabled={viewmode} handleMinorReturn={setMinorDetails} details={passengerDetails} show={showMinorModal} hide={setShowMinorModal} isEdit={isEdit} />
+            <MinorModal
+            claimantAddress={claimantAddress}     
+            disabled={viewmode} handleMinorReturn={setMinorDetails} details={passengerDetails} show={showMinorModal} hide={setShowMinorModal} isEdit={isEdit} />
         </Dialog>
     );
 }

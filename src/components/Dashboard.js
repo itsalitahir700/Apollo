@@ -83,6 +83,7 @@ export const Dashboard = () => {
     };
 
     return (
+        JSON.parse(localStorage.getItem("loggedIn")).tblUsercategory.categorycode !== "4" ?
         <div className="p-grid p-fluid dashboard">
             <div className="p-col-12 p-lg-4">
                 <div className="card summary">
@@ -331,5 +332,7 @@ export const Dashboard = () => {
                 </Panel>
             </div>
         </div>
+        :
+        <center className="welcome-msg"><h2>Welcome <br/>To<br/> LEGAL ASSIST </h2></center>
     );
 }

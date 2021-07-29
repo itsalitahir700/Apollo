@@ -108,6 +108,12 @@ function RTATable() {
         );
     };
 
+    const nameTemplate = (rowData) => {
+        const {firstname,middlename,lastname}=rowData
+        return `${firstname!==null ? firstname :""} ${middlename!==null ? middlename :""} ${lastname!==null ? lastname :""}`
+    };
+
+
     return (
         <Card>
             {!loading && rtalist && rtalist.length ? (
@@ -115,7 +121,7 @@ function RTATable() {
                     <Column expander style={{ width: "2.5rem" }}></Column>
                     <Column field="createdon" header="Creation On" filter sortable></Column>
                     <Column field="rtanumber" header="Code" filter sortable></Column>
-                    <Column field="firstname" header="Name" filter sortable></Column>
+                    <Column body={nameTemplate} header="Name" filter sortable></Column>
                     <Column field="contactdue" header="Contact Due" filter sortable></Column>
                     <Column field="contactdue" header="Current Task" filter sortable></Column>
                     <Column field="status" body={statusTemplate} header="Status" filter sortable></Column>

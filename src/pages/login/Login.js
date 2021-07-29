@@ -9,16 +9,22 @@ import "./Login.css";
 const Login = () => {
     const [username, setusername] = useState("");
     const [password, setpassword] = useState("");
+    const [loading, setloading] = useState(false);
+    const [loadingIcon, setloadingIcon] = useState("");
 
     let history = useHistory();
     const dispatch = useDispatch();
     const handleLogin = async (e) => {
         e.preventDefault();
+        setloading(true);
+        setloadingIcon("pi pi-spin pi-spinner");
         const data = {
             userName: username,
             password: password,
         };
         const res = await dispatch(loginAction(data));
+        setloading(false);
+        setloadingIcon("");
         if (res?.login) history.push("/");
     };
     return (
@@ -36,9 +42,7 @@ const Login = () => {
                             <input className="login_input" value={username} onChange={(e) => setusername(e.target.value)} type="text" placeholder="User Name" />
                             <input className="login_input" value={password} onChange={(e) => setpassword(e.target.value)} type="password" placeholder="Password" />
                             <div className="p-mt-4">
-                                <button className="login_button" onClick={handleLogin}>
-                                    Login
-                                </button>
+                                <Button className="login_button" label="Login" icon={loadingIcon || ""} iconPos="right" disabled={loading} onClick={handleLogin} />
                             </div>
                         </div>
                     </form>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { Fieldset } from "primereact/fieldset";
 import { InputTextarea } from "primereact/inputtextarea";
 import PassengerModal from "./passenger";
@@ -14,6 +14,7 @@ import { validation } from "../../utilities/validation";
 import { claimantdetails, accidentdetails, minordetails, vehicledetails } from "../../utilities/constants";
 
 import "./rta.css";
+import { toast } from "react-toastify";
 
 function RTA() {
     let states = [
@@ -101,6 +102,12 @@ function RTA() {
         setloading(false);
     };
 
+    useEffect(() => {
+        Object.keys(errors).length && toast.error("Required fields must be filled.")
+    }, [errors])
+
+    console.log(errors);
+
     return (
         <>
             <Fieldset className="p-mt-2" legend="Claimant Info">
@@ -128,10 +135,7 @@ function RTA() {
             <Fieldset className="p-mt-2" legend="Attachments">
                 <ImagesUpload handleImages={setimages} />
             </Fieldset>
-            <center className="p-mt-2 p-button-outlined" disabled={loading} onClick={handleSubmit}>
-                {Object.keys(errors).length ? <p className="p-error p-d-block">Please fill out required fields</p> : ""}
-                <Button label="Create RTA" disabled={loading} icon={loading ? "pi pi-spin pi-spinner" : ""} />
-            </center>
+                <Button label="Create RTA"  disabled={loading} onClick={handleSubmit} className="fixed-bottom" icon={loading ? "pi pi-spin pi-spinner" : ""} />
             <MinorModal
                 handleMinorReturn={setMinorDetails}
                 claimantAddress={{ gpostalcode: claimantDetails?.postalcode, gaddress1: claimantDetails?.address1, gaddress2: claimantDetails?.address2, gaddress3: claimantDetails?.address3, gcity: claimantDetails?.city, gregion: claimantDetails?.region }}

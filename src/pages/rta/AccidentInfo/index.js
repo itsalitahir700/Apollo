@@ -77,6 +77,19 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
+                    <label>Location *</label>
+                    <InputText
+                        disabled={viewmode}
+                        value={accidentDetails?.location}
+                        onChange={(e) => {
+                            setaccidentDetails({ ...accidentDetails, location: e.target.value });
+                        }}
+                        className={errors?.location && "p-invalid p-d-block"}
+                    />
+                    <small className="p-error p-d-block">{errors?.location}</small>
+                </div>
+
+                <div className="p-field p-col-12 p-md-4">
                     <label>Circumstances *</label>
                     <Dropdown
                         disabled={viewmode}
@@ -90,19 +103,6 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                         className={errors?.circumcode && "p-invalid"}
                     />
                     <small className="p-error p-d-block">{errors?.circumcode}</small>
-                </div>
-
-                <div className="p-field p-col-12 p-md-4">
-                    <label>Location *</label>
-                    <InputText
-                        disabled={viewmode}
-                        value={accidentDetails?.location}
-                        onChange={(e) => {
-                            setaccidentDetails({ ...accidentDetails, location: e.target.value });
-                        }}
-                        className={errors?.location && "p-invalid p-d-block"}
-                    />
-                    <small className="p-error p-d-block">{errors?.location}</small>
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">

@@ -109,9 +109,9 @@ const WorkFlowData = () => {
             listusercategory: `${usercategoryList}`,
             rtaflowcode,
             rtastatuscode: statusValue.code,
-            caseacceptdialog: acceptflag,
-            caseassigndialog: assignflag,
-            caserejectdialog: rejectflag,
+            caseacceptdialog: acceptflag.code,
+            caseassigndialog: assignflag.code,
+            caserejectdialog: rejectflag.code,
         };
         await handlePostRequest(data, "rta/addWorkFlowDetail");
         funcGetWorkFlow();

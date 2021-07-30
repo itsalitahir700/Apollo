@@ -92,7 +92,7 @@ const validation = async (post) => {
         errors.injdescription = "Injury description is required";
     }
 
-    if (validator.isEmpty(injlength)) {
+    if (validator.isEmpty(injlength) && post.ongoing !== "Y") {
         errors.injlength = "Length of injury is required";
     }
 

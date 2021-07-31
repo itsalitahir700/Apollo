@@ -83,7 +83,7 @@ export const Dashboard = () => {
     };
 
     return (
-        JSON.parse(localStorage.getItem("loggedIn")).tblUsercategory.categorycode !== "4" ?
+        JSON.parse(localStorage.getItem("loggedIn")).tblUsercategory.categorycode === "4" ?
         <div className="p-grid p-fluid dashboard">
             <div className="p-col-12 p-lg-4">
                 <div className="card summary">

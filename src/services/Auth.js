@@ -23,6 +23,27 @@ export const login = async (data) => {
     return res;
 };
 
+export const refreshToken = async (data) => {
+    let res;
+    await axios({
+        method: "get",
+        url: `${baseURL}refreshToken`,
+        data: data,
+        headers: {
+             Authorization: localStorage.getItem("token"),
+            "Content-Type": "application/json",
+        },
+    })
+        .then((response) => {
+            localStorage.setItem("token",response.data.data);
+        })
+        .catch((err) => {
+          res = false;
+          console.err(err);
+        });
+    return res;
+};
+
 export const updatePassword = async (password) => {
     let res;
     await axios({

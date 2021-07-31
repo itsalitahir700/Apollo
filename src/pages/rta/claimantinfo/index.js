@@ -60,7 +60,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
     const [showFurtherAddress, setshowFurtherAddress] = useState(false);
 
     const handleAge = (dob) => {
-        setclaimantDetails({ ...claimantDetails, dob: dob });
+        setclaimantDetails({ ...claimantDetails, dob: dob , ninumber: "Minor" });
         if (calculate_age(dob) < 15) {
             setMinor(true);
         } else {
@@ -220,7 +220,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <div className="p-inputgroup">
                         <InputText
                             disabled={viewmode}
-                            value={claimantDetails?.ninumber ? claimantDetails?.ninumber : minor ?  "Minor" : ""}
+                            value={claimantDetails?.ninumber}
                             onChange={(e) => {
                                 setclaimantDetails({ ...claimantDetails, ninumber: e.target.value });
                             }}

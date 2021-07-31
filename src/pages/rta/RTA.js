@@ -12,6 +12,7 @@ import ImagesUpload from "../../components/ImageUpload";
 import { postRta } from "../../services/Rta";
 import { validation } from "../../utilities/validation";
 import { claimantdetails, accidentdetails, minordetails, vehicledetails } from "../../utilities/constants";
+import { useHistory } from "react-router-dom";
 
 import "./rta.css";
 import { toast } from "react-toastify";
@@ -71,6 +72,8 @@ function RTA() {
     const [errors, seterrors] = useState({});
     const [loading, setloading] = useState(false);
 
+    const history = useHistory();
+
     const handleAddPassenger = (passenger) => {
         let newArr = JSON.parse(JSON.stringify(passengers));
         newArr.push(passenger);
@@ -97,7 +100,8 @@ function RTA() {
         const isvalid = await validation(post);
         seterrors(isvalid?.errors);
         if (!Object.keys(isvalid?.errors).length) {
-            await postRta(post, localStorage.getItem("token"));
+            const resp = await postRta(post, localStorage.getItem("token"));
+            history.push(`rtaCase?id=${resp.data.rtacode}&mode=v`)
         }
         setloading(false);
     };
@@ -105,8 +109,6 @@ function RTA() {
     useEffect(() => {
         Object.keys(errors).length && toast.error("Required fields must be filled.")
     }, [errors])
-
-    console.log(errors);
 
     return (
         <>
@@ -135,7 +137,7 @@ function RTA() {
             <Fieldset className="p-mt-2" legend="Attachments">
                 <ImagesUpload handleImages={setimages} />
             </Fieldset>
-                <Button label="Create RTA"  disabled={loading} onClick={handleSubmit} className="fixed-bottom" icon={loading ? "pi pi-spin pi-spinner" : ""} />
+                <Button label="Create RTA" disabled={loading}  onClick={handleSubmit} className="fixed-bottom" icon={loading ? "pi pi-spin pi-spinner" : ""} />
             <MinorModal
                 handleMinorReturn={setMinorDetails}
                 claimantAddress={{ gpostalcode: claimantDetails?.postalcode, gaddress1: claimantDetails?.address1, gaddress2: claimantDetails?.address2, gaddress3: claimantDetails?.address3, gcity: claimantDetails?.city, gregion: claimantDetails?.region }}

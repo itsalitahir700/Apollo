@@ -42,6 +42,7 @@ import "./layout/layout.scss";
 import "./App.scss";
 
 import { useSelector } from "react-redux";
+import { refreshToken } from "./services/Auth";
 const App = () => {
     const [layoutMode, setLayoutMode] = useState("static");
     const [layoutColorMode, setLayoutColorMode] = useState("dark");
@@ -59,6 +60,7 @@ const App = () => {
     const history = useHistory();
 
     let menuClick = false;
+    const minutes = 840000; // Refresh Token after 14minutes 
 
     useEffect(() => {
         if (mobileMenuActive) {
@@ -194,6 +196,25 @@ const App = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [nav]);
+
+  
+
+useEffect(() => {
+ const handleRefreshToken = async()=>
+ {
+await refreshToken();
+ }
+
+  const interval = setInterval(async() => {
+      if(localStorage.getItem("token"))
+      {
+      console.warn('Refreshing Token ...');
+      await handleRefreshToken();
+      }
+  }, minutes);
+
+  return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+}, [])
 
     return (
         <div className={wrapperClass} onClick={onWrapperClick}>

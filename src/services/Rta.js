@@ -26,8 +26,8 @@ export const postRta = async (data) => {
         },
     });
     if (response.status === 200) {
-        toast.success(response.data.messages);
-        return response;
+        await toast.success(response.data.messages);
+        return response.data
     } else {
         return false;
     }

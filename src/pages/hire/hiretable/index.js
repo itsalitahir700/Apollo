@@ -107,7 +107,7 @@ function HireTable() {
     const statusTemplate = (rowData) => {
         return (
             <center>
-                <Chip label={rowData?.status} className="p-px-4 custom-chip" />
+                <Chip label={rowData?.tblRtastatus?.descr} className="p-px-4 custom-chip" />
             </center>
         );
     };
@@ -118,10 +118,9 @@ function HireTable() {
                 <DataTable value={rtalist} expandedRows={expandedRows} dataKey="rtanumber" onRowToggle={(e) => setExpandedRows(e.data)} rowExpansionTemplate={rowExpansionTemplate}>
                     <Column expander style={{ width: "2.5rem" }}></Column>
                     <Column field="createdon" header="Creation On" filter sortable></Column>
-                    <Column field="rtanumber" header="Code" filter sortable></Column>
+                    <Column field="hirenumber" header="Code" filter sortable></Column>
                     <Column field="firstname" header="Name" filter sortable></Column>
                     <Column field="contactdue" header="Contact Due" filter sortable></Column>
-                    <Column field="contactdue" header="Current Task" filter sortable></Column>
                     <Column field="status" body={statusTemplate} header="Status" filter sortable></Column>
                     <Column body={actionTemplate} header="Actions"></Column>
                 </DataTable>

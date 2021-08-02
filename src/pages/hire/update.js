@@ -21,8 +21,8 @@ function UpdateClaimant() {
     const [vehicleDetails, setVehicleDetails] = useState(vehicledetails);
     const [showMinorModal, setShowMinorModal] = useState(false);
     const claimantstore = useSelector((state) => state.claimantSlice.claimantDetails);
-    const rtaNumber = useSelector((state) => state.claimantSlice.claimantDetails.rtanumber);
-    const status = useSelector((state) => state.claimantSlice.claimantDetails.status);
+    const hirenumber = useSelector((state) => state.claimantSlice?.claimantDetails?.hirenumber);
+    const status = useSelector((state) => state.claimantSlice?.claimantDetails?.tblRtastatus.descr);
     const [viewmode, setviewmode] = useState(false);
     const [loading, setloading] = useState(false);
 
@@ -80,7 +80,7 @@ function UpdateClaimant() {
     return (
         <div>
             <center>
-                <Badge value={"Rta No. : " + rtaNumber} size="large" severity="info" className="p-mr-2"></Badge>
+                <Badge value={"Rta No. : " + hirenumber} size="large" severity="info" className="p-mr-2"></Badge>
                 <Badge value={"Status : " + status} size="large" severity="warning" className="p-mr-2"></Badge>
             </center>
             <div style={{ textAlign: "right" }}>

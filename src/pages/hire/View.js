@@ -2,18 +2,18 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
 import { Badge } from "primereact/badge";
-import { getClaimantDetails, ActionOnRtaFromDirectIntro, ActionOnRta } from "../../redux/actions/claimantAction";
+import { getClaimantDetails, ActionOnHire } from "../../redux/actions/claimantAction";
 import ClaimantInfo from "./claimantinfo";
 import AccidentInfo from "./AccidentInfo";
 import VehiclesInfo from "./VehiclesInfo";
 import MinorModal from "./minormodal";
-import TaskData from "./TaskData";
+import { RadioButton } from "primereact/radiobutton";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "primereact/button";
 import { Fieldset } from "primereact/fieldset";
+import { InputTextarea } from "primereact/inputtextarea";
+import { InputText } from "primereact/inputtext";
 import { claimantdetails, minordetails, accidentdetails, vehicledetails } from "../../utilities/constants";
-import { getPassengers } from "../../services/Rta";
-import { getSolicitorsForRta, getCompanyWiseUser } from "../../services/Lovs";
 import { handleGetRequest } from "../../services/GetTemplate";
 
 function ViewClaimant() {
@@ -25,23 +25,27 @@ function ViewClaimant() {
     const [accidentDetails, setAccidentDetails] = useState(accidentdetails);
     const [vehicleDetails, setVehicleDetails] = useState(vehicledetails);
     const [showMinorModal, setShowMinorModal] = useState(false);
-    const [passengers, setpassengers] = useState("");
     const claimantstore = useSelector((state) => state.claimantSlice.claimantDetails);
-    const [viewmode, setviewmode] = useState(true);
-    const [rtaHotkeyModal, setrtaHotkeyModal] = useState(false);
-    const [solicitorRtaData, setsolicitorRtaData] = useState("");
-    const [solicitorRtaDataValue, setsolicitorRtaDataValue] = useState("");
+    const [viewmode] = useState(true);
+    const [hireActionModal, sethireActionModal] = useState(false);
+    const [hireCompanies, sethireCompanies] = useState("");
+    const [hireCompaniesValue, sethireCompaniesValue] = useState("");
     const [companyWiseUser, setcompanyWiseUser] = useState("");
     const [companyWiseUserValue, setcompanyWiseUserValue] = useState("");
     const [btnValue, setbtnValue] = useState("");
-    const [taskBtnLoading, settaskBtnLoading] = useState(false);
-    const [showModal, setshowModal] = useState(false);
-    const [taskActionData, settaskActionData] = useState(false);
-    const rtaActionButtons = useSelector((state) => state.claimantSlice.claimantDetails.rtaActionButtons);
-    const taskFlag = useSelector((state) => state.claimantSlice.claimantDetails.taskflag);
-    const rtaNumber = useSelector((state) => state.claimantSlice.claimantDetails.rtanumber);
-    const status = useSelector((state) => state.claimantSlice.claimantDetails.status);
-    const directIntroducer = useSelector((state) => state.authenticationSlice?.directIntroducer);
+    const [message, setmessage] = useState("");
+    const [caseDialogs, setcaseDialogs] = useState("");
+    const [acceptanceFor, setacceptanceFor] = useState("");
+    const [mode, setmode] = useState("");
+    const [bookingDate, setbookingDate] = useState("");
+    const [hireStartDate, sethireStartDate] = useState("");
+    const [hireEndDate, sethireEndDate] = useState("");
+    const [caseOutsourced, setcaseOutsourced] = useState("");
+    const [loading, setloading] = useState(false);
+    const [loadingIcon, setloadingIcon] = useState("");
+    const hireActionButtons = useSelector((state) => state.claimantSlice.claimantDetails.hireActionButtons);
+    const hirenumber = useSelector((state) => state.claimantSlice?.claimantDetails?.hirenumber);
+    const status = useSelector((state) => state.claimantSlice?.claimantDetails?.tblRtastatus?.descr);
 
     const dispatch = useDispatch();
 
@@ -89,123 +93,87 @@ function ViewClaimant() {
     }, [mapData]);
 
     const funcgetSolicitorsForRta = async () => {
-        const res = await getSolicitorsForRta();
-        setsolicitorRtaData(res.data);
+        const res = await handleGetRequest("lovHireCompanies");
+        sethireCompanies(res.data);
     };
 
     useEffect(() => {
         funcgetSolicitorsForRta();
     }, []);
 
-    const token = localStorage.getItem("token");
-    const rtaCode = urlObj?.query?.id;
-
-    const funcGetPassengers = async () => {
-        const rtaCode = urlObj?.query?.id;
-        const res = await getPassengers(rtaCode, token);
-        setpassengers(res);
-    };
-
-    const handleTaskAction = async () => {
-        settaskBtnLoading(true);
-        const rtaCode = urlObj?.query?.id;
-        const res = await handleGetRequest(`rta/getAuthRtaCaseTasks/${rtaCode}`);
-        console.log("res", res);
-        settaskBtnLoading(false);
-        setshowModal(true);
-        settaskActionData(res.data);
-    };
-
-    const refreshTasks = async () => {
-        const res = await handleGetRequest(`rta/getAuthRtaCaseTasks/${rtaCode}`);
-        settaskActionData(res.data);
-    };
-
-    const taskButton = <div>{taskFlag === "Y" ? <Button onClick={handleTaskAction} label="Tasks" icon="pi pi-check" iconPos="right" className="p-button-info" /> : ""}</div>;
+    const hireclaimcode = urlObj?.query?.id;
 
     const actionButtons = (
         <div>
-            {rtaActionButtons
-                ? rtaActionButtons.map((item) => {
-                      if (item.apiflag === "Y" && directIntroducer === "true")
-                          return (
-                              <Button
-                                  value={item.buttonvalue}
-                                  onClick={(e) => {
-                                      handleActionHotKey(item.buttonvalue);
-                                  }}
-                                  label={item.buttonname}
-                                  className="p-button-sm p-button-primary p-mr-2 p-mb-2"
-                              />
-                          );
-                      else if (item.apiflag === "N")
-                          return (
-                              <Button
-                                  value={item.buttonvalue}
-                                  onClick={(e) => {
-                                      handleActionButton(item.buttonvalue);
-                                  }}
-                                  label={item.buttonname}
-                                  className="p-button-sm p-button-primary p-mr-2 p-mb-2"
-                              />
-                          );
+            {hireActionButtons
+                ? hireActionButtons.map((item) => {
+                      return (
+                          <Button
+                              value={item.buttonvalue}
+                              onClick={(e) => {
+                                  handleActionBtn(item);
+                              }}
+                              label={item.buttonname}
+                              className="p-button-sm p-button-primary p-mr-2 p-mb-2"
+                          />
+                      );
                   })
                 : ""}
         </div>
     );
 
-    const handleSolicitor = async (e) => {
-        setsolicitorRtaDataValue(e.value);
-        const res = await getCompanyWiseUser(e.value.code);
+    const getHireCompanyUser = async (e) => {
+        sethireCompaniesValue(e.value);
+        const res = await handleGetRequest(`lovCompanyWiseUSer/${e.value.code}`);
         setcompanyWiseUser(res.data);
     };
 
-    const handleSubmitSolicitor = async () => {
+    const handleActionSubmit = async () => {
+        setloading(true);
+        setloadingIcon("pi pi-spin pi-spinner");
+        let key = "message";
+        if (caseDialogs.caserejectdialog === "Y" || caseDialogs.caseacceptdialog === "Y") {
+            key = "notes";
+        }
         const data = {
-            rtaCode,
-            toStatus: btnValue,
-            solicitioCode: companyWiseUserValue.code,
-            solicitorUserCode: solicitorRtaDataValue.code,
+            hireclaimcode: hireclaimcode,
+            [key]: message,
+            companyprofilecode: companyWiseUserValue.code,
+            userCode: hireCompaniesValue.code,
+            statusCode: btnValue,
         };
-        await dispatch(ActionOnRtaFromDirectIntro(data));
-        setrtaHotkeyModal(false);
+        if (caseDialogs.caserejectdialog === "Y") {
+            delete data.userCode;
+        }
+        await dispatch(ActionOnHire(data, "hire/assignCaseToBusiness"));
+        setloading(false);
+        setloadingIcon("");
+        sethireActionModal(false);
     };
 
     const footer = (
         <div>
             <center className="p-mt-2 p-button-outlined">
-                <Button onClick={handleSubmitSolicitor} label="Submit" />
+                <Button icon={loadingIcon || ""} iconPos="right" disabled={loading} onClick={handleActionSubmit} label="Submit" />
             </center>
         </div>
     );
 
-    const handleActionHotKey = (value) => {
-        setrtaHotkeyModal(true);
-        setbtnValue(value);
+    const handleActionBtn = (value) => {
+        setcaseDialogs(value);
+        sethireActionModal(true);
+        setbtnValue(value.buttonvalue);
     };
-
-    const handleActionButton = async (value) => {
-        const data = {
-            rtaCode,
-            toStatus: value,
-        };
-        await dispatch(ActionOnRta(data));
-    };
-
-    useEffect(() => {
-        funcGetPassengers();
-    }, []);
 
     return (
         <div>
             <div>
                 <center>
-                    <Badge value={"Rta No. : " + rtaNumber} size="large" severity="info" className="p-mr-2"></Badge>
+                    <Badge value={"Rta No. : " + hirenumber} size="large" severity="info" className="p-mr-2"></Badge>
                     <Badge value={"Status : " + status} size="large" severity="warning" className="p-mr-2"></Badge>
                 </center>
             </div>
             <div className="p-d-flex p-jc-between">
-                <div className="p-mr-2">{taskButton}</div>
                 <div className="p-mr-2">{actionButtons}</div>
             </div>
 
@@ -223,36 +191,171 @@ function ViewClaimant() {
 
             <MinorModal handleMinorReturn={setMinorDetails} minorData={minorDetails} viewmode={viewmode} show={showMinorModal} hide={setShowMinorModal} />
 
-            <Dialog header="Solicitor for RTA" visible={rtaHotkeyModal} footer={footer} onHide={() => setrtaHotkeyModal(false)} breakpoints={breakpoints} style={{ width: "50vw" }}>
-                <div className="p-fluid p-formgrid p-grid" style={{ paddingBottom: "30%" }}>
+            <Dialog header="Assign Hire Company" visible={hireActionModal} footer={footer} onHide={() => sethireActionModal(false)} breakpoints={breakpoints} style={{ width: "50vw" }}>
+                <div className="p-fluid p-formgrid p-grid" style={{ paddingBottom: "10%" }}>
                     <div className="p-field p-col-12 p-md-6">
-                        <label>Solicitor for Rta</label>
+                        <label>Hire company</label>
                         <Dropdown
-                            options={solicitorRtaData}
-                            value={solicitorRtaDataValue}
+                            options={hireCompanies}
+                            value={hireCompaniesValue}
                             onChange={(e) => {
-                                handleSolicitor(e);
+                                getHireCompanyUser(e);
                             }}
                             placeholder="Select"
                             optionLabel="name"
                         />
                     </div>
-                    <div className="p-field p-col-12 p-md-6">
-                        <label>Solicitor for Rta</label>
-                        <Dropdown
-                            options={companyWiseUser}
-                            value={companyWiseUserValue}
+                    {caseDialogs?.casedialogs === "Y" ? (
+                        <div className="p-field p-col-12 p-md-6">
+                            <label>Hire Company User</label>
+                            <Dropdown
+                                options={companyWiseUser}
+                                value={companyWiseUserValue}
+                                onChange={(e) => {
+                                    setcompanyWiseUserValue(e.value);
+                                }}
+                                placeholder="Select"
+                                optionLabel="name"
+                            />
+                        </div>
+                    ) : (
+                        ""
+                    )}
+
+                    <div className="p-field p-col-12 p-md-12">
+                        <label>Is this for</label>
+                        <div className="p-field-radiobutton p-d-flex">
+                            <RadioButton
+                                value="HR"
+                                onChange={(e) => {
+                                    setacceptanceFor(e.value);
+                                }}
+                                checked={acceptanceFor === "HR"}
+                            />
+                            <label>Hire & Repair</label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <RadioButton
+                                value="HO"
+                                onChange={(e) => {
+                                    setacceptanceFor(e.value);
+                                }}
+                                checked={acceptanceFor === "HO"}
+                            />
+                            <label>Hire Only </label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <RadioButton
+                                value="RO"
+                                onChange={(e) => {
+                                    setacceptanceFor(e.value);
+                                }}
+                                checked={acceptanceFor === "RO"}
+                            />
+                            <label>Repair Only </label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <RadioButton
+                                value="TL"
+                                onChange={(e) => {
+                                    setacceptanceFor(e.value);
+                                }}
+                                checked={acceptanceFor === "TL"}
+                            />
+                            <label>Total Loss</label>
+                        </div>
+                    </div>
+
+                    <div className="p-field p-col-12 p-md-12">
+                        <label>Mode</label>
+                        <div className="p-field-radiobutton p-d-flex">
+                            <RadioButton
+                                value="D"
+                                onChange={(e) => {
+                                    setmode(e.value);
+                                }}
+                                checked={mode === "D"}
+                            />
+                            <label>Driveable</label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <RadioButton
+                                value="N"
+                                onChange={(e) => {
+                                    setmode(e.value);
+                                }}
+                                checked={mode === "N"}
+                            />
+                            <label>Non-Driveable</label>
+                        </div>
+                    </div>
+                    <div className="p-field p-col-12 p-md-4">
+                        <label>Booking in date</label>
+                        <InputText
+                            value={bookingDate}
                             onChange={(e) => {
-                                setcompanyWiseUserValue(e.value);
+                                setbookingDate(e.target.value);
                             }}
-                            placeholder="Select"
-                            optionLabel="name"
+                            placeholder="Date"
+                            type="date"
                         />
                     </div>
+                    <div className="p-field p-col-12 p-md-4">
+                        <label>Hire start date</label>
+                        <InputText
+                            value={hireStartDate}
+                            onChange={(e) => {
+                                sethireStartDate(e.target.value);
+                            }}
+                            placeholder="Date"
+                            type="date"
+                        />
+                    </div>
+                    <div className="p-field p-col-12 p-md-4">
+                        <label>Hire end date</label>
+                        <InputText
+                            value={hireEndDate}
+                            onChange={(e) => {
+                                sethireEndDate(e.target.value);
+                            }}
+                            placeholder="Date"
+                            type="date"
+                        />
+                    </div>
+
+                    <div className="p-field p-col-12 p-md-12">
+                        <label>Was this Case Outsourced?</label>
+                        <div className="p-field-radiobutton p-d-flex">
+                            <RadioButton
+                                value="Y"
+                                onChange={(e) => {
+                                    setcaseOutsourced(e.value);
+                                }}
+                                checked={caseOutsourced === "Y"}
+                            />
+                            <label>Yes</label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <RadioButton
+                                value="N"
+                                onChange={(e) => {
+                                    setcaseOutsourced(e.value);
+                                }}
+                                checked={caseOutsourced === "N"}
+                            />
+                            <label>No</label>
+                        </div>
+                    </div>
+
+                    {caseDialogs.casedialogs === "Y" ? (
+                        <div className="p-field p-col-12 p-md-12">
+                            <label>Message</label>
+                            <InputTextarea value={message} onChange={(e) => setmessage(e.target.value)} rows={5} cols={30} />
+                        </div>
+                    ) : caseDialogs.caserejectdialog === "Y" ? (
+                        <div className="p-field p-col-12 p-md-12">
+                            <label>Notes</label>
+                            <InputTextarea value={message} onChange={(e) => setmessage(e.target.value)} rows={5} cols={30} />
+                        </div>
+                    ) : (
+                        ""
+                    )}
                 </div>
-            </Dialog>
-            <Dialog header="Tasks" visible={showModal} style={{ width: "70vw" }} onHide={() => setshowModal(false)}>
-                <TaskData rtaCode={rtaCode} refreshTasks={() => refreshTasks()} taskActionData={taskActionData} />
             </Dialog>
         </div>
     );

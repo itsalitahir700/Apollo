@@ -1,0 +1,11 @@
+.box {
+    margin-bottom: 12px;
+}
+.expanded-card {
+    background-color: rgb(242, 246, 250);
+    padding: 2rem;
+    font-size: 90%;
+}
+.custom-chip {
+    background-color: rgb(196, 225, 255) !important;
+}

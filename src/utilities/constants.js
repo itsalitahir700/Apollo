@@ -62,6 +62,7 @@ const accidentdetails = {
     ongoing: "N",
     medicalinfo: "N",
     evidenceDetails: "",
+    vehicledamage: "",
 };
 
 const vehicledetails = {
@@ -87,6 +88,13 @@ const vehicledetails = {
     partyaddress: "",
     evidenceDetails: "",
     alternativeNumber: "",
+    policycover: "",
+    policyholder: "",
+    recovered: "",
+    recoveredby: "",
+    instorage: "",
+    storage: "",
+    lengthoflicenceheld: "",
 };
 
 export { claimantdetails, minordetails, accidentdetails, vehicledetails };

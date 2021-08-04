@@ -17,8 +17,11 @@ import Module from "./pages/register/Module";
 import Role from "./pages/register/Role";
 import Pages from "./pages/register/Pages";
 import RTA from "./pages/rta/RTA";
+import Hire from "./pages/hire/Hire";
 import RTATable from "./pages/rta/rtatable";
+import HireTable from "./pages/hire/hiretable";
 import RTACase from "./pages/rta/rtacase";
+import HireCase from "./pages/hire/HireCase";
 import Login from "./pages/login/Login";
 import ESign from "./pages/ESign";
 import RoleRights from "./pages/register/RoleRights";
@@ -257,6 +260,9 @@ await refreshToken();
                             {routes && routes.includes("/rta") && <Route exact path="/rta" component={RTA} />}
                             {routes && routes.includes("/rtalist") && <Route exact path="/rtalist" component={RTATable} />}
                             {routes && routes.includes("/rtalist") && <Route exact path="/rtaCase" component={RTACase} />}
+                            {<Route exact path="/hire" component={Hire} />}
+                            {<Route exact path="/hirelist" component={HireTable} />}
+                            <Route exact path="/hireCase" component={HireCase} />
                             <Route exact path="/users" component={Users} />
                             <Route exact path="/updatepassword" component={UpdatePassword} />
                             <Route exact path="/eSign" component={ESign} />

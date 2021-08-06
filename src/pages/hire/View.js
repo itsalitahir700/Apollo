@@ -15,6 +15,7 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { InputText } from "primereact/inputtext";
 import { claimantdetails, minordetails, accidentdetails, vehicledetails } from "../../utilities/constants";
 import { handleGetRequest } from "../../services/GetTemplate";
+import HireCompanies from "./HireCompanies";
 
 function ViewClaimant() {
     const url = require("url");
@@ -45,6 +46,8 @@ function ViewClaimant() {
     const [caseOutsourcedReason, setcaseOutsourcedReason] = useState("");
     const [loading, setloading] = useState(false);
     const [loadingIcon, setloadingIcon] = useState("");
+    const [hireBusinessData, sethireBusinessData] = useState("");
+    const [showModal, setshowModal] = useState(false);
     const hireActionButtons = useSelector((state) => state.claimantSlice.claimantDetails.hireActionButtons);
     const hirenumber = useSelector((state) => state.claimantSlice?.claimantDetails?.hirenumber);
     const status = useSelector((state) => state.claimantSlice?.claimantDetails?.tblRtastatus?.descr);
@@ -99,8 +102,15 @@ function ViewClaimant() {
         sethireCompanies(res.data);
     };
 
+    const funcGetHireBusiness = async () => {
+        const hireCode = urlObj?.query?.id;
+        const res = await handleGetRequest(`hire/getHireBusinesses/${hireCode}`);
+        sethireBusinessData(res.data);
+    };
+
     useEffect(() => {
         funcgetSolicitorsForRta();
+        funcGetHireBusiness();
     }, []);
 
     const hireclaimcode = urlObj?.query?.id;
@@ -218,9 +228,18 @@ function ViewClaimant() {
                 <div className="p-mr-2">{actionButtons}</div>
             </div>
 
-            <Fieldset className="p-mt-2" legend="Claimant Info">
-                <ClaimantInfo handleClaimantReturn={setClaimantDetails} claimantdata={claimantDetails} viewmode={viewmode} showMinorModal={setShowMinorModal} />
-            </Fieldset>
+            <div className="p-grid">
+                <div className="p-col-8">
+                    <Fieldset className="p-mt-2" legend="Claimant Info">
+                        <ClaimantInfo handleClaimantReturn={setClaimantDetails} claimantdata={claimantDetails} viewmode={viewmode} showMinorModal={setShowMinorModal} />
+                    </Fieldset>
+                </div>
+                <div className="p-col">
+                    <Fieldset className="p-mt-2" legend="Assigned Companies">
+                        <HireCompanies hireBusinessData={hireBusinessData} />
+                    </Fieldset>
+                </div>
+            </div>
 
             <Fieldset className="p-mt-2" legend="Accident Info">
                 <AccidentInfo viewmode={viewmode} accidentdata={accidentDetails} handleAccidentReturn={setAccidentDetails} />
@@ -459,6 +478,10 @@ function ViewClaimant() {
                         ""
                     )}
                 </div>
+            </Dialog>
+
+            <Dialog header="Hire Companies" visible={showModal} onHide={() => setshowModal(false)} breakpoints={breakpoints} style={{ width: "50vw" }}>
+                <HireCompanies hireBusinessData={hireBusinessData} />
             </Dialog>
         </div>
     );

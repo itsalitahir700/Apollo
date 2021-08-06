@@ -7,7 +7,7 @@ import { Dialog } from "primereact/dialog";
 import { handlePostRequest } from "../../services/PostTemplate";
 import ImagesUpload from "../../components/ImageUpload";
 
-const TaskData = ({ rtaCode, taskActionData, refreshTasks }) => {
+const HireCompanies = ({ rtaCode, hireBusinessData, refreshTasks }) => {
     const [taskData, settaskData] = useState(null);
     const dt = useRef(null);
     const [showModal, setshowModal] = useState(false);
@@ -16,14 +16,23 @@ const TaskData = ({ rtaCode, taskActionData, refreshTasks }) => {
     const [taskCode, settaskCode] = useState(false);
 
     useEffect(() => {
-        settaskData(taskActionData);
-    }, [taskActionData]);
+        settaskData(hireBusinessData);
+    }, [hireBusinessData]);
 
-    const descBodyTemplate = (rowData) => {
+    const NameBodyTemplate = (rowData) => {
         return (
             <React.Fragment>
-                <span className="p-column-title">Description</span>
-                {rowData.tblTask.descr}
+                <span className="p-column-title">Name</span>
+                {rowData?.tblCompanyprofile?.name}
+            </React.Fragment>
+        );
+    };
+
+    const UserBodyTemplate = (rowData) => {
+        return (
+            <React.Fragment>
+                <span className="p-column-title">User Name</span>
+                {rowData?.statususername}
             </React.Fragment>
         );
     };
@@ -32,7 +41,15 @@ const TaskData = ({ rtaCode, taskActionData, refreshTasks }) => {
         return (
             <React.Fragment>
                 <span className="p-column-title">Status</span>
-                {rowData.status === "N" ? <Badge value="New" severity="warning" className="p-mr-2"></Badge> : rowData.status === "P" ? <Badge value="Pending" severity="info" className="p-mr-2"></Badge> : <Badge value="Completed" severity="success" className="p-mr-2"></Badge>}
+                {rowData.status === "W" ? (
+                    <Badge value="Widthdraw" severity="warning" className="p-mr-2"></Badge>
+                ) : rowData.status === "P" ? (
+                    <Badge value="Pending" severity="info" className="p-mr-2"></Badge>
+                ) : rowData.status === "P" ? (
+                    <Badge value="Accepted" severity="success" className="p-mr-2"></Badge>
+                ) : (
+                    ""
+                )}
             </React.Fragment>
         );
     };
@@ -74,10 +91,11 @@ const TaskData = ({ rtaCode, taskActionData, refreshTasks }) => {
         <div>
             <div className="datatable-filter-demo">
                 <div className="card p-datatable-sm">
-                    <DataTable ref={dt} value={taskData} stripedRows paginator rows={10} className="p-datatable-customers" emptyMessage="No customers found.">
-                        <Column style={{ width: "60%" }} field="tblTask.descr" header="Description" body={descBodyTemplate} filter sortable />
-                        <Column style={{ width: "20%" }} field="status" header="Status" body={statusBodyTemplate} filter sortable />
-                        <Column style={{ width: "20%" }} header="Action" body={actionBodyTemplate}></Column>
+                    <DataTable ref={dt} value={taskData} stripedRows paginator rows={10} className="p-datatable-customers" emptyMessage="No data found.">
+                        <Column field="tblCompanyprofile.name" header="Name" body={NameBodyTemplate} filter sortable />
+                        <Column field="statususername" header="User Name" body={UserBodyTemplate} filter sortable />
+                        <Column field="status" header="Status" body={statusBodyTemplate} filter sortable />
+                        <Column header="Action" body={actionBodyTemplate}></Column>
                     </DataTable>
                 </div>
             </div>
@@ -92,4 +110,4 @@ const TaskData = ({ rtaCode, taskActionData, refreshTasks }) => {
         </div>
     );
 };
-export default TaskData;
+export default HireCompanies;

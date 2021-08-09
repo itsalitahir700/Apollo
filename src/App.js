@@ -63,7 +63,7 @@ const App = () => {
     const history = useHistory();
 
     let menuClick = false;
-    const minutes = 840000; // Refresh Token after 14minutes 
+    const minutes = 840000; // Refresh Token after 14minutes
 
     useEffect(() => {
         if (mobileMenuActive) {
@@ -174,7 +174,7 @@ const App = () => {
     };
 
     useIdleTimer({
-        timeout: 900000,
+        timeout: 18000000,
         onIdle: handleLogout,
         debounce: 500,
     });
@@ -200,24 +200,20 @@ const App = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [nav]);
 
-  
+    useEffect(() => {
+        const handleRefreshToken = async () => {
+            await refreshToken();
+        };
 
-useEffect(() => {
- const handleRefreshToken = async()=>
- {
-await refreshToken();
- }
+        const interval = setInterval(async () => {
+            if (localStorage.getItem("token")) {
+                console.warn("Refreshing Token ...");
+                await handleRefreshToken();
+            }
+        }, minutes);
 
-  const interval = setInterval(async() => {
-      if(localStorage.getItem("token"))
-      {
-      console.warn('Refreshing Token ...');
-      await handleRefreshToken();
-      }
-  }, minutes);
-
-  return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
-}, [])
+        return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+    }, []);
 
     return (
         <div className={wrapperClass} onClick={onWrapperClick}>

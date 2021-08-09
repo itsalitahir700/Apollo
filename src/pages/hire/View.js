@@ -16,6 +16,7 @@ import { InputText } from "primereact/inputtext";
 import { claimantdetails, minordetails, accidentdetails, vehicledetails } from "../../utilities/constants";
 import { handleGetRequest } from "../../services/GetTemplate";
 import HireCompanies from "./HireCompanies";
+import "./Hire.css"
 
 function ViewClaimant() {
     const url = require("url");
@@ -111,6 +112,7 @@ function ViewClaimant() {
     useEffect(() => {
         funcgetSolicitorsForRta();
         funcGetHireBusiness();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const hireclaimcode = urlObj?.query?.id;
@@ -119,17 +121,17 @@ function ViewClaimant() {
         <div>
             {hireActionButtons
                 ? hireActionButtons.map((item) => {
-                      return (
-                          <Button
-                              value={item.buttonvalue}
-                              onClick={(e) => {
-                                  handleActionBtn(item);
-                              }}
-                              label={item.buttonname}
-                              className="p-button-sm p-button-primary p-mr-2 p-mb-2"
-                          />
-                      );
-                  })
+                    return (
+                        <Button
+                            value={item.buttonvalue}
+                            onClick={(e) => {
+                                handleActionBtn(item);
+                            }}
+                            label={item.buttonname}
+                            className="p-button-sm p-button-primary p-mr-2 p-mb-2"
+                        />
+                    );
+                })
                 : ""}
         </div>
     );
@@ -230,22 +232,22 @@ function ViewClaimant() {
 
             <div className="p-grid">
                 <div className="p-col-8">
-                    <Fieldset className="p-mt-2" legend="Claimant Info">
+                    <Fieldset className="p-mt-2 custom-fieldset" legend="Claimant Info">
                         <ClaimantInfo handleClaimantReturn={setClaimantDetails} claimantdata={claimantDetails} viewmode={viewmode} showMinorModal={setShowMinorModal} />
                     </Fieldset>
                 </div>
                 <div className="p-col">
-                    <Fieldset className="p-mt-2" legend="Assigned Companies">
+                    <Fieldset className="p-mt-2 custom-fieldset" legend="Assigned Companies">
                         <HireCompanies hireBusinessData={hireBusinessData} />
                     </Fieldset>
                 </div>
             </div>
 
-            <Fieldset className="p-mt-2" legend="Accident Info">
+            <Fieldset className="p-mt-2 custom-fieldset" legend="Accident Info">
                 <AccidentInfo viewmode={viewmode} accidentdata={accidentDetails} handleAccidentReturn={setAccidentDetails} />
             </Fieldset>
 
-            <Fieldset className="p-mt-2" legend="Vehicles Info">
+            <Fieldset className="p-mt-2 custom-fieldset" legend="Vehicles Info">
                 <VehiclesInfo viewmode={viewmode} vehicledata={vehicleDetails} handleVehicleInfoReturn={setVehicleDetails} />
             </Fieldset>
 

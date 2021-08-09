@@ -10,3 +10,7 @@
     border-radius: 10rem !important;
     padding: 0.3rem 0.3rem !important;
 }
+.custom-fieldset
+{
+    background-color: ghostwhite !important;
+}

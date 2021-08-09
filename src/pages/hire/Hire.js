@@ -43,7 +43,7 @@ function Hire() {
                 <AccidentInfo handleAccidentReturn={setaccidentDetails} errors={errors} />
             </Fieldset>
 
-            <Fieldset className="p-mt-2" legend="Vehicles & Passenger Info">
+            <Fieldset className="p-mt-2" legend="Vehicle Info">
                 <VehiclesInfo handleVehicleInfoReturn={setvehiclesDetails} errors={errors} />
             </Fieldset>
 

@@ -29,13 +29,13 @@ function RTATable() {
     const tableSkeleton = () => {
         return (
             <DataTable value={[{}, {}, {}, {}, {}, {}]}>
-                <Column body={skeleteon} header="Creation On" sortable></Column>
-                <Column body={skeleteon} header="Code" sortable></Column>
-                <Column body={skeleteon} header="Name" sortable></Column>
+                <Column body={skeleteon} header="Created On" sortable></Column>
+                <Column body={skeleteon} header="Reference Number" sortable></Column>
+                <Column body={skeleteon} header="Clients Name" sortable></Column>
                 <Column body={skeleteon} header="Contact Due" sortable></Column>
                 <Column body={skeleteon} header="Current Task" sortable></Column>
                 <Column body={skeleteon} header="Status" sortable></Column>
-                <Column body={skeleteon} header="Actions"></Column>
+                <Column body={skeleteon} header="Acts"></Column>
             </DataTable>
         );
     };
@@ -119,13 +119,13 @@ function RTATable() {
             {!loading && rtalist && rtalist.length ? (
                 <DataTable value={rtalist} expandedRows={expandedRows} dataKey="rtanumber" onRowToggle={(e) => setExpandedRows(e.data)} rowExpansionTemplate={rowExpansionTemplate}>
                     <Column expander style={{ width: "2.5rem" }}></Column>
-                    <Column field="createdon" header="Creation On" filter sortable></Column>
-                    <Column field="rtanumber" header="Code" filter sortable></Column>
+                    <Column field="createdon" header="Created On" filter sortable></Column>
+                    <Column field="rtanumber" header="Reference Number" filter sortable></Column>
                     <Column body={nameTemplate} header="Name" filter sortable></Column>
                     <Column field="contactdue" header="Contact Due" filter sortable></Column>
                     <Column field="contactdue" header="Current Task" filter sortable></Column>
                     <Column field="status" body={statusTemplate} header="Status" filter sortable></Column>
-                    <Column body={actionTemplate} header="Actions"></Column>
+                    <Column body={actionTemplate} header="Acts"></Column>
                 </DataTable>
             ) : (
                 tableSkeleton()

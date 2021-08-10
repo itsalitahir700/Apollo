@@ -19,7 +19,7 @@ function MessagesTable({ messages, loading }) {
                 <Column body={skeleteon} header="Created On" sortable></Column>
                 <Column body={skeleteon} header="Current Task" sortable></Column>
                 <Column body={skeleteon} header="Remarks" sortable></Column>
-                <Column body={skeleteon} header="Actions"></Column>
+                <Column body={skeleteon} header="Acts"></Column>
             </DataTable>
         );
     };
@@ -41,7 +41,7 @@ function MessagesTable({ messages, loading }) {
                     <Column field="message" header="Message" filter sortable></Column>
                     <Column field="createdon" header="Created On" filter sortable></Column>
                     <Column field="remarks" header="Remarks" filter sortable></Column>
-                    <Column body={actionTemplate} header="Actions"></Column>
+                    <Column body={actionTemplate} header="Acts"></Column>
                 </DataTable>
             ) : (
                 tableSkeleton()

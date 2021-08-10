@@ -107,9 +107,10 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
 
                 <div className="p-field p-col-12 p-md-4">
                     <label>Description *</label>
-                    <InputText
+                    <InputTextarea
                         disabled={viewmode}
                         area
+                        rows={5}
                         value={accidentDetails?.description}
                         onChange={(e) => {
                             setaccidentDetails({ ...accidentDetails, description: e.target.value });
@@ -189,20 +190,6 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
-                    <label>Injury Description *</label>
-                    <InputText
-                        disabled={viewmode}
-                        area
-                        value={accidentDetails?.injdescription}
-                        onChange={(e) => {
-                            setaccidentDetails({ ...accidentDetails, injdescription: e.target.value });
-                        }}
-                        className={errors?.injdescription && "p-invalid p-d-block"}
-                    />
-                    <small className="p-error p-d-block">{errors?.injdescription}</small>
-                </div>
-
-                <div className="p-field p-col-12 p-md-4">
                     <label>Length Of Injury {ongoingInjury ? "" : "*"}</label>
                     <div className="p-inputgroup">
                         <InputText
@@ -218,6 +205,22 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                     </div>
                     <small className="p-error p-d-block">{!ongoingInjury && errors?.injlength}</small>
                 </div>
+
+                <div className="p-field p-col-12 p-md-4">
+                    <label>Injury Description *</label>
+                    <InputTextarea
+                        disabled={viewmode}
+                        area
+                        rows={5}
+                        value={accidentDetails?.injdescription}
+                        onChange={(e) => {
+                            setaccidentDetails({ ...accidentDetails, injdescription: e.target.value })
+                        }}
+                        className={errors?.injdescription && "p-invalid p-d-block"}
+                    />
+                    <small className="p-error p-d-block">{errors?.injdescription}</small>
+                </div>
+
 
                 <div className="p-field p-col-12 p-md-4 p-d-flex">
                     <Checkbox

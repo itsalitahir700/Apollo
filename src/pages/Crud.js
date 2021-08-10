@@ -301,7 +301,7 @@ export const Crud = () => {
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
                         globalFilter={globalFilter} emptyMessage="No products found." header={header}>
                         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-                        <Column field="code" header="Code" sortable body={codeBodyTemplate}></Column>
+                        <Column field="code" header="Reference Number" sortable body={codeBodyTemplate}></Column>
                         <Column field="name" header="Name" sortable body={nameBodyTemplate}></Column>
                         <Column header="Image" body={imageBodyTemplate}></Column>
                         <Column field="price" header="Price" body={priceBodyTemplate} sortable></Column>

@@ -75,7 +75,7 @@ function PassengerTable({ passengers, handleRemovePassenger, handleUpdatePasseng
             <DataTable value={passengers}>
                 <Column field="firstname" header="Name" sortable></Column>
                 <Column field="dob" header="DOB" sortable></Column>
-                {isView === true ? <Column body={actionTemplateView} header="Actions"></Column> : <Column body={actionTemplate} header="Actions"></Column>}
+                {isView === true ? <Column body={actionTemplateView} header="Acts"></Column> : <Column body={actionTemplate} header="Acts"></Column>}
             </DataTable>
             <PassengerModal status={states} viewmode={viewmode} show={displayBasic} hide={setDisplayBasic} passenger={passenger} handlePassengerReturn={handleUpdatePassenger} isEdit={true} />
         </div>

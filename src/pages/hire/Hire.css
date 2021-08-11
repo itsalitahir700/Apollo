@@ -11,5 +11,6 @@
     padding: 0.3rem 0.3rem !important;
 }
 .p-fieldset {
+    position: relative;
     background-color: ghostwhite !important;
 }

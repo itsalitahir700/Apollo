@@ -9,10 +9,54 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "primereact/button";
 import { Fieldset } from "primereact/fieldset";
 import { claimantdetails, minordetails, accidentdetails, vehicledetails } from "../../utilities/constants";
-import { updataRta, getPassengers } from "../../services/Rta";
+import { updataRta, getPassengers, postPassengers } from "../../services/Rta";
 import { Badge } from "primereact/badge";
+import PassengerModal from "./passenger";
 
 function UpdateClaimant() {
+    let states = [
+        {
+            code: "Mr",
+            name: "Mr",
+            type: null,
+        },
+        {
+            code: "Mrs",
+            name: "Mrs",
+            type: null,
+        },
+        {
+            code: "Miss",
+            name: "Miss",
+            type: null,
+        },
+        {
+            code: "Ms",
+            name: "Ms",
+            type: null,
+        },
+        {
+            code: "Mstr",
+            name: "Mstr",
+            type: null,
+        },
+        {
+            code: "Dr",
+            name: "Dr",
+            type: null,
+        },
+        {
+            code: "Prof",
+            name: "Prof",
+            type: null,
+        },
+        {
+            code: "Rev",
+            name: "Rev",
+            type: null,
+        },
+    ];
+
     const url = require("url");
     const urlObj = url.parse(document.location.href, true);
 
@@ -25,15 +69,17 @@ function UpdateClaimant() {
     const claimantstore = useSelector((state) => state.claimantSlice.claimantDetails);
     const rtaNumber = useSelector((state) => state.claimantSlice.claimantDetails.rtanumber);
     const status = useSelector((state) => state.claimantSlice.claimantDetails.status);
-    const [viewmode, setviewmode] = useState(false);
+    const [viewmode] = useState(false);
     const [loading, setloading] = useState(false);
+    const [displayBasic, setDisplayBasic] = useState(false);
 
     const dispatch = useDispatch();
+    const rtaCode = urlObj?.query?.id;
 
     const fetchClaimantDetails = useCallback(() => {
-        const rtaCode = urlObj?.query?.id;
+       
         dispatch(getClaimantDetails("rta/getAuthRtaCase/", rtaCode));
-    }, [dispatch, urlObj?.query?.id]);
+    }, [dispatch, rtaCode]);
 
     useEffect(() => {
         fetchClaimantDetails();
@@ -82,9 +128,13 @@ function UpdateClaimant() {
     };
 
     const funcGetPassengers = async () => {
-        const rtaCode = urlObj?.query?.id;
         const res = await getPassengers(rtaCode, token);
         setpassengers(res);
+    };
+    
+    const handleAddPassenger = async(passenger) => {
+      const pObj= {passengers:[{...passenger}], rtacode : rtaCode}
+      setpassengers(await postPassengers(pObj));
     };
 
     useEffect(() => {
@@ -121,7 +171,11 @@ function UpdateClaimant() {
             </Fieldset>
 
             <Fieldset className="p-mt-2" legend="Passenger Info">
+                <Button label="Add" className="add-passenger-btn" icon="pi pi-external-link" onClick={() => setDisplayBasic(!displayBasic)} />
                 <PassengersTable isView={true} passengers={passengers} />
+                <PassengerModal claimantAddress={{ gpostalcode: claimantDetails?.postalcode, gaddress1: claimantDetails?.address1, gaddress2: claimantDetails?.address2, gaddress3: claimantDetails?.address3, gcity: claimantDetails?.city, gregion: claimantDetails?.region }}
+                driverOrPassenger={accidentDetails?.driverpassenger} status={states} show={displayBasic} hide={setDisplayBasic} handlePassengerReturn={handleAddPassenger} />
+            
             </Fieldset>
 
             <MinorModal  

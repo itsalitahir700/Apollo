@@ -1,6 +1,5 @@
 import React, { useState , useEffect} from "react";
 import { Fieldset } from "primereact/fieldset";
-import { InputTextarea } from "primereact/inputtextarea";
 import PassengerModal from "./passenger";
 import { Button } from "primereact/button";
 import ClaimantInfo from "./claimantinfo";
@@ -129,10 +128,6 @@ function RTA() {
             <Fieldset className="p-mt-2" legend="Passenger Info">
                 <Button label="Add" icon="pi pi-external-link" onClick={() => setDisplayBasic(!displayBasic)} />
                 <PassengersTable handleUpdatePassenger={handleUpdatePassenger} passengers={passengers} handleRemovePassenger={handleRemovePassenger} />
-                <div className="p-field p-col-12 p-md-4">
-                    <label>Passenger Info</label>
-                    <InputTextarea />
-                </div>
             </Fieldset>
             <Fieldset className="p-mt-2" legend="Attachments">
                 <ImagesUpload handleImages={setimages} />

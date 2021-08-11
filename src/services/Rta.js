@@ -62,6 +62,28 @@ export const getPassengers = async (rtacode) => {
     } catch (error) {}
 };
 
+export const postPassengers = async (data) => {
+    try
+    {
+    const response = await axios({
+        method: "post",
+        url: `${baseURL}rta/addNewPassengersToRtaCase`,
+        data: data,
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("token"),
+        },
+    });
+         toast.success(response.data.messages);
+         return response?.data?.data;
+    } 
+    catch(error)
+    {
+        toast.warn(error?.response?.data?.messages || "Something went wrong");
+        return false;
+    }
+};
+
 export const performActionOnRtaFromDirectIntro = async (data) => {
     const response = await axios({
         method: "post",

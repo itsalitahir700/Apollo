@@ -246,16 +246,16 @@ export const Dashboard = () => {
                 <div className="card">
                     <h1 style={{ fontSize: '16px' }}>Recent Sales</h1>
                     <DataTable value={products} className="p-datatable-customers" rows={5} style={{ marginBottom: '20px' }} paginator>
-                        <Column header="Logo" body={(data) => <img src={`assets/demo/images/product/${data.image}`} alt={data.image} width="50" />}></Column>
-                        <Column field="name" header="Name" sortable></Column>
-                        <Column field="category" header="Category" sortable></Column>
-                        <Column field="price" header="Price" sortable body={(data) => formatCurrency(data.price)}></Column>
+                        <Column header="Logo" body={(data) => <img src={`assets/demo/images/product/${data.image}`} alt={data.image} width="50" />} filterMatchMode="contains"></Column>
+                        <Column field="name" header="Name" sortable filterMatchMode="contains"></Column>
+                        <Column field="category" header="Category" sortable filterMatchMode="contains"></Column>
+                        <Column field="price" header="Price" sortable body={(data) => formatCurrency(data.price)} filterMatchMode="contains"></Column>
                         <Column header="View" body={() => (
                             <>
                                 <Button icon="pi pi-search" type="button" className="p-button-success p-mr-2 p-mb-1"></Button>
                                 <Button icon="pi pi-times" type="button" className="p-button-danger p-mb-1"></Button>
                             </>
-                        )}></Column>
+                        )} filterMatchMode="contains"></Column>
                     </DataTable>
                 </div>
             </div>

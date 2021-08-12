@@ -79,7 +79,7 @@ const RoleRightsData = ({ pagesData, editRow, viewDetails }) => {
                     {/* <Column
             style={{ textAlign: "center" }}
             body={actionBodyTemplate}
-          ></Column> */}
+           filterMatchMode="contains"></Column> */}
                 </DataTable>
             </div>
         </div>

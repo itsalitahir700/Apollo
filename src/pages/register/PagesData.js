@@ -78,15 +78,15 @@ const PagesData = ({ pagesData, editRow, viewDetails }) => {
         <div className="datatable-filter-demo">
             <div className="card p-datatable-sm">
                 <DataTable ref={dt} value={usersData} paginator rows={10} className="p-datatable-customers" emptyMessage="No data found.">
-                    <Column style={{ textAlign: "center" }} field="pagename" header="Name" body={nameBodyTemplate} filter sortable />
-                    <Column style={{ textAlign: "center" }} field="pagedescr" header="Description" body={descrfeeBodyTemplate} filter sortable />
-                    <Column style={{ textAlign: "center" }} field="pageicon" header="Icon" body={iconBodyTemplate} filter sortable />
-                    <Column style={{ textAlign: "center" }} field="pagepath" header="Path" body={pathBodyTemplate} filter sortable />
-                    <Column style={{ textAlign: "center" }} field="pagestatus" header="Status" body={statusBodyTemplate} filter sortable />
+                    <Column style={{ textAlign: "center" }} field="pagename" header="Name" body={nameBodyTemplate} filter sortable  filterMatchMode="contains"/>
+                    <Column style={{ textAlign: "center" }} field="pagedescr" header="Description" body={descrfeeBodyTemplate} filter sortable  filterMatchMode="contains"/>
+                    <Column style={{ textAlign: "center" }} field="pageicon" header="Icon" body={iconBodyTemplate} filter sortable  filterMatchMode="contains"/>
+                    <Column style={{ textAlign: "center" }} field="pagepath" header="Path" body={pathBodyTemplate} filter sortable  filterMatchMode="contains"/>
+                    <Column style={{ textAlign: "center" }} field="pagestatus" header="Status" body={statusBodyTemplate} filter sortable  filterMatchMode="contains"/>
                     {/* <Column
             style={{ textAlign: "center" }}
             body={actionBodyTemplate}
-          ></Column> */}
+           filterMatchMode="contains"></Column> */}
                 </DataTable>
             </div>
         </div>

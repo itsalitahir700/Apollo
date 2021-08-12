@@ -82,7 +82,7 @@ const EditViewUsersData = ({ companyUsersData, editRow }) => {
           <Column
             style={{ textAlign: "center" }}
             body={actionBodyTemplate}
-          ></Column>
+           filterMatchMode="contains"></Column>
         </DataTable>
       </div>
     </div>

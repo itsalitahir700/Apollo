@@ -29,9 +29,9 @@ export const TreeDemo = () => {
                 <div className="card">
                     <h5>TreeTable</h5>
                     <TreeTable value={treeTableNodes} header="FileSystem" selectionMode="checkbox" selectionKeys={selectedTreeTableNodeKeys} onSelectionChange={(e) => setSelectedTreeTableNodeKeys(e.value)}>
-                        <Column field="name" header="Name" expander></Column>
-                        <Column field="size" header="Size"></Column>
-                        <Column field="type" header="Type"></Column>
+                        <Column field="name" header="Name" expander filterMatchMode="contains"></Column>
+                        <Column field="size" header="Size" filterMatchMode="contains"></Column>
+                        <Column field="type" header="Type" filterMatchMode="contains"></Column>
                     </TreeTable>
                 </div>
             </div>

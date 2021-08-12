@@ -126,7 +126,7 @@ function RTA() {
             </Fieldset>
 
             <Fieldset className="p-mt-2" legend="Passenger Info">
-                <Button label="Add" icon="pi pi-external-link" onClick={() => setDisplayBasic(!displayBasic)} />
+                <Button label="Add" className="add-passenger-btn" icon="pi pi-external-link" onClick={() => setDisplayBasic(!displayBasic)} />
                 <PassengersTable handleUpdatePassenger={handleUpdatePassenger} passengers={passengers} handleRemovePassenger={handleRemovePassenger} />
             </Fieldset>
             <Fieldset className="p-mt-2" legend="Attachments">

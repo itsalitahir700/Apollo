@@ -110,9 +110,9 @@ export const OverlayDemo = () => {
                                 <OverlayPanel ref={op2} appendTo={document.body} showCloseIcon id="overlay_panel" style={{ width: '450px' }}>
                                     <DataTable value={products} selection={selectedProduct} onSelectionChange={(e) => setSelectedProduct(e.value)} selectionMode="single"
                                         paginator rows={5} onRowSelect={onProductSelect}>
-                                        <Column field="name" header="Name" sortable></Column>
-                                        <Column header="Image" body={imageBodyTemplate}></Column>
-                                        <Column field="price" header="Price" body={priceBodyTemplate} sortable></Column>
+                                        <Column field="name" header="Name" sortable filterMatchMode="contains"></Column>
+                                        <Column header="Image" body={imageBodyTemplate} filterMatchMode="contains"></Column>
+                                        <Column field="price" header="Price" body={priceBodyTemplate} sortable filterMatchMode="contains"></Column>
                                     </DataTable>
                                 </OverlayPanel>
                             </div>

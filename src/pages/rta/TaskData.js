@@ -75,9 +75,9 @@ const TaskData = ({ rtaCode, taskActionData, refreshTasks }) => {
             <div className="datatable-filter-demo">
                 <div className="card p-datatable-sm">
                     <DataTable ref={dt} value={taskData} stripedRows paginator rows={10} className="p-datatable-customers" emptyMessage="No customers found.">
-                        <Column style={{ width: "60%" }} field="tblTask.descr" header="Description" body={descBodyTemplate} filter sortable />
-                        <Column style={{ width: "20%" }} field="status" header="Status" body={statusBodyTemplate} filter sortable />
-                        <Column style={{ width: "20%" }} header="Action" body={actionBodyTemplate}></Column>
+                        <Column style={{ width: "60%" }} field="tblTask.descr" header="Description" body={descBodyTemplate} filter sortable  filterMatchMode="contains" />
+                        <Column style={{ width: "20%" }} field="status" header="Status" body={statusBodyTemplate} filter sortable  filterMatchMode="contains" />
+                        <Column style={{ width: "20%" }} header="Action" body={actionBodyTemplate} filterMatchMode="contains"></Column>
                     </DataTable>
                 </div>
             </div>

@@ -300,15 +300,15 @@ export const Crud = () => {
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
                         globalFilter={globalFilter} emptyMessage="No products found." header={header}>
-                        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-                        <Column field="code" header="Reference Number" sortable body={codeBodyTemplate}></Column>
-                        <Column field="name" header="Name" sortable body={nameBodyTemplate}></Column>
-                        <Column header="Image" body={imageBodyTemplate}></Column>
-                        <Column field="price" header="Price" body={priceBodyTemplate} sortable></Column>
-                        <Column field="category" header="Category" sortable body={categoryBodyTemplate}></Column>
-                        <Column field="rating" header="Reviews" body={ratingBodyTemplate} sortable></Column>
-                        <Column field="inventoryStatus" header="Status" body={statusBodyTemplate} sortable></Column>
-                        <Column body={actionBodyTemplate}></Column>
+                        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} filterMatchMode="contains"></Column>
+                        <Column field="code" header="Reference Number" sortable body={codeBodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="name" header="Name" sortable body={nameBodyTemplate} filterMatchMode="contains"></Column>
+                        <Column header="Image" body={imageBodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="price" header="Price" body={priceBodyTemplate} sortable filterMatchMode="contains"></Column>
+                        <Column field="category" header="Category" sortable body={categoryBodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="rating" header="Reviews" body={ratingBodyTemplate} sortable filterMatchMode="contains"></Column>
+                        <Column field="inventoryStatus" header="Status" body={statusBodyTemplate} sortable filterMatchMode="contains"></Column>
+                        <Column body={actionBodyTemplate} filterMatchMode="contains"></Column>
                     </DataTable>
 
                     <Dialog visible={productDialog} style={{ width: '450px' }} header="Product Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>

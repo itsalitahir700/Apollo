@@ -94,13 +94,13 @@ const ProfileComapanyData = () => {
         <div className="datatable-filter-demo">
             <div className="card p-datatable-sm">
                 <DataTable ref={dt} value={companyData} paginator rows={10} className="p-datatable-customers" emptyMessage="No customers found.">
-                    <Column field="name" header="Name" body={nameBodyTemplate} filter sortable filterPlaceholder="Search by name" />
-                    <Column field="email" style={{ width: "25%" }} header="Email" body={emailBodyTemplate} filter sortable filterPlaceholder="Search by email" />
-                    <Column field="tag" style={{ textAlign: "center" }} header="Tag" body={tagBodyTemplate} filter sortable filterPlaceholder="Search by tag" />
-                    <Column field="addressline1" header="Address" body={addressBodyTemplate} filter sortable filterPlaceholder="Search by address" />
-                    <Column field="tblUsercategory.categoryname" header="Category" body={categoryBodyTemplate} filter sortable filterPlaceholder="Search by category" />
-                    <Column className="p-column-filter-status" field="companystatus" header="Status" body={statusBodyTemplate} filter sortable filterPlaceholder="Search by status" />
-                    <Column body={actionBodyTemplate}></Column>
+                    <Column field="name" header="Name" body={nameBodyTemplate} filter sortable filterPlaceholder="Search by name"  filterMatchMode="contains"/>
+                    <Column field="email" style={{ width: "25%" }} header="Email" body={emailBodyTemplate} filter sortable filterPlaceholder="Search by email"  filterMatchMode="contains"/>
+                    <Column field="tag" style={{ textAlign: "center" }} header="Tag" body={tagBodyTemplate} filter sortable filterPlaceholder="Search by tag"  filterMatchMode="contains"/>
+                    <Column field="addressline1" header="Address" body={addressBodyTemplate} filter sortable filterPlaceholder="Search by address"  filterMatchMode="contains"/>
+                    <Column field="tblUsercategory.categoryname" header="Category" body={categoryBodyTemplate} filter sortable filterPlaceholder="Search by category"  filterMatchMode="contains"/>
+                    <Column className="p-column-filter-status" field="companystatus" header="Status" body={statusBodyTemplate} filter sortable filterPlaceholder="Search by status"  filterMatchMode="contains"/>
+                    <Column body={actionBodyTemplate} filterMatchMode="contains"></Column>
                 </DataTable>
             </div>
         </div>

@@ -16,7 +16,7 @@ import { InputText } from "primereact/inputtext";
 import { claimantdetails, minordetails, accidentdetails, vehicledetails } from "../../utilities/constants";
 import { handleGetRequest } from "../../services/GetTemplate";
 import HireCompanies from "./HireCompanies";
-import "./Hire.css"
+import "./Hire.css";
 
 function ViewClaimant() {
     const url = require("url");
@@ -98,7 +98,7 @@ function ViewClaimant() {
         mapData();
     }, [mapData]);
 
-    const funcgetSolicitorsForRta = async () => {
+    const funcgetLovHireCompanies = async () => {
         const res = await handleGetRequest("lovHireCompanies");
         sethireCompanies(res.data);
     };
@@ -109,10 +109,14 @@ function ViewClaimant() {
         sethireBusinessData(res.data);
     };
 
+    const funcGetLoveHireBusiness = async () => {
+        const hireCode = urlObj?.query?.id;
+        const res = await handleGetRequest(`hire/loveHireBusiness/${hireCode}`);
+        sethireBusinessData(res.data);
+    };
+
     useEffect(() => {
-        funcgetSolicitorsForRta();
-        funcGetHireBusiness();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        funcgetLovHireCompanies();
     }, []);
 
     const hireclaimcode = urlObj?.query?.id;
@@ -121,17 +125,17 @@ function ViewClaimant() {
         <div>
             {hireActionButtons
                 ? hireActionButtons.map((item) => {
-                    return (
-                        <Button
-                            value={item.buttonvalue}
-                            onClick={(e) => {
-                                handleActionBtn(item);
-                            }}
-                            label={item.buttonname}
-                            className="p-button-sm p-button-primary p-mr-2 p-mb-2"
-                        />
-                    );
-                })
+                      return (
+                          <Button
+                              value={item.buttonvalue}
+                              onClick={(e) => {
+                                  handleActionBtn(item);
+                              }}
+                              label={item.buttonname}
+                              className="p-button-sm p-button-primary p-mr-2 p-mb-2"
+                          />
+                      );
+                  })
                 : ""}
         </div>
     );
@@ -203,6 +207,7 @@ function ViewClaimant() {
     );
 
     const handleActionBtn = async (value) => {
+        console.log(value);
         if (value.caserejectdialog === "N" && value.caseassigndialog === "N" && value.caseacceptdialog === "N") {
             const data = {
                 hireCode: hireclaimcode,
@@ -210,6 +215,11 @@ function ViewClaimant() {
             };
             await dispatch(ActionOnHire(data, "hire/performActionOnHire"));
         } else {
+            if (value.caserejectdialog === "Y" || value.caseacceptdialog === "Y") {
+                await funcGetLoveHireBusiness();
+            } else {
+                await funcGetHireBusiness();
+            }
             setcaseDialogs(value);
             sethireActionModal(true);
             setbtnValue(value.buttonvalue);
@@ -231,14 +241,14 @@ function ViewClaimant() {
             </div>
 
             <div className="p-grid">
-                <div className="p-col-8">
-                    <Fieldset className="p-mt-2 custom-fieldset" legend="Claimant Info">
+                <div className="p-col-6">
+                    <Fieldset className="p-mt-2" legend="Claimant Info">
                         <ClaimantInfo handleClaimantReturn={setClaimantDetails} claimantdata={claimantDetails} viewmode={viewmode} showMinorModal={setShowMinorModal} />
                     </Fieldset>
                 </div>
                 <div className="p-col">
-                    <Fieldset className="p-mt-2 custom-fieldset" legend="Assigned Companies">
-                        <HireCompanies hireBusinessData={hireBusinessData} />
+                    <Fieldset className="p-mt-2" legend="Assigned Companies">
+                        <HireCompanies hireclaimcode={hireclaimcode} hireBusinessData={hireBusinessData} />
                     </Fieldset>
                 </div>
             </div>

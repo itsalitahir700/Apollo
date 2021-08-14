@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import "./Notes.css";
 import { getLovUserCategory } from "../../services/Lovs";
 
-function Notes() {
+function Notes({ getNotesService, addNotesService, caseType }) {
     const dispatch = useDispatch();
 
     const url = require("url");
     const urlObj = url.parse(document.location.href, true);
+
     const rtaCode = urlObj?.query?.id;
 
     const messages = useSelector((state) => state.notesSlice?.notes);
@@ -21,13 +22,17 @@ function Notes() {
     const messagesEndRef = useRef(null);
 
     const handleNotes = useCallback(async () => {
-        await dispatch(getNotes(rtaCode));
-    }, [dispatch, rtaCode]);
+        await dispatch(getNotes(getNotesService, rtaCode));
+    }, [dispatch, rtaCode, getNotesService]);
 
     const handleAddNote = async () => {
         if (note) {
+            let code = "rtaCode";
+            if (caseType === "hire") {
+                code = "hireCode";
+            }
             setsending(true);
-            await dispatch(addNotes({ note, rtaCode, userCatCode: selectedUser }));
+            await dispatch(addNotes(addNotesService, { note, [code]: rtaCode, userCatCode: selectedUser }));
             await handleNotes();
             setnote();
             setsending(false);
@@ -35,19 +40,20 @@ function Notes() {
     };
 
     const handleUserLov = async () => {
-        let userList= await getLovUserCategory()
-        const  loggedIn=  JSON.parse(localStorage.getItem("loggedIn")).tblUsercategory.categorycode;
+        let userList = await getLovUserCategory();
+        const loggedIn = JSON.parse(localStorage.getItem("loggedIn")).tblUsercategory.categorycode;
         switch (Number(loggedIn)) {
-            case 1 : userList=  userList.filter((item)=> (item.code==="4"))
-            break;
-            case 2 : 
-            userList=  userList.filter((item)=> (item.code==="4"))
-            break;
+            case 1:
+                userList = userList.filter((item) => item.code === "4");
+                break;
+            case 2:
+                userList = userList.filter((item) => item.code === "4");
+                break;
             case 4:
-             userList=  userList.filter((item)=> (item.code!=="4" && item.code!=="3"))
+                userList = userList.filter((item) => item.code !== "4" && item.code !== "3");
                 break;
             default:
-                userList=  userList.filter((item)=> (item.code==="4"))
+                userList = userList.filter((item) => item.code === "4");
                 break;
         }
         setUsersLov(userList);

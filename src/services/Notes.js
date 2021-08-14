@@ -3,11 +3,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 export const notesService = {
-    getNotes: async (rtaCode) => {
+    getNotes: async (getNotesService, rtaCode) => {
         let res;
         await axios({
             method: "GET",
-            url: `${baseURL}rta/getAuthRtaCaseNotes/${rtaCode}`,
+            url: `${baseURL + getNotesService}/${rtaCode}`,
             headers: {
                 Authorization: localStorage.getItem("token"),
                 "Content-Type": "application/json",
@@ -23,11 +23,11 @@ export const notesService = {
         return res;
     },
 
-    addNotes: async (note) => {
+    addNotes: async (addNotesService, note) => {
         let res;
         await axios({
             method: "post",
-            url: `${baseURL}rta/addNoteToRta`,
+            url: `${baseURL + addNotesService}`,
             data: note,
             headers: {
                 Authorization: localStorage.getItem("token"),

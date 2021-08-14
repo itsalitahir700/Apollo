@@ -308,6 +308,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                             className={errors?.postalcode && "p-invalid p-d-block"}
                         />
                         <Button
+                            disabled={viewmode}
                             label="lookup"
                             onClick={() => {
                                 handleAdress();

@@ -60,7 +60,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
     const [showFurtherAddress, setshowFurtherAddress] = useState(false);
 
     const handleAge = (dob) => {
-        setclaimantDetails({ ...claimantDetails, dob: dob , ninumber: "Minor" });
+        setclaimantDetails({ ...claimantDetails, dob: dob, ninumber: calculate_age(dob) < 15 ? "Minor" : '' });
         if (calculate_age(dob) < 15) {
             setMinor(true);
         } else {

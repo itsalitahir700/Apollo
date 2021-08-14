@@ -6,8 +6,6 @@ import Notes from "../../../components/Notes";
 import Messages from "../../../components/Messages";
 import Documents from "../../../components/Documents";
 
-import { SRLWrapper } from "simple-react-lightbox";
-
 const RTACase = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const url = require("url");

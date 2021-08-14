@@ -10,10 +10,14 @@
     border-radius: 10rem !important;
     padding: 0.3rem 0.3rem !important;
 }
-.fixed-bottom
-{
+.fixed-bottom {
     position: fixed !important;
     bottom: 10px;
     transform: translateX(-50%);
     left: 50%;
+}
+.add-passenger-btn {
+    position: absolute !important;
+    top: -40px;
+    right: 7px;
 }

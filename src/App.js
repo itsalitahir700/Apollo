@@ -28,6 +28,7 @@ import RoleRights from "./pages/register/RoleRights";
 import WorkFlow from "./pages/workFlow/WorkFlow";
 import Users from "./pages/Users";
 import UpdatePassword from "./pages/UpdatePassword";
+import CaseList from "./pages/CaseList";
 
 import { Dashboard } from "./components/Dashboard";
 import PrimeReact from "primereact/api";
@@ -46,6 +47,7 @@ import "./App.scss";
 
 import { useSelector } from "react-redux";
 import { refreshToken } from "./services/Auth";
+
 const App = () => {
     const [layoutMode, setLayoutMode] = useState("static");
     const [layoutColorMode, setLayoutColorMode] = useState("dark");
@@ -260,8 +262,10 @@ const App = () => {
                             {<Route exact path="/hirelist" component={HireTable} />}
                             <Route exact path="/hireCase" component={HireCase} />
                             <Route exact path="/users" component={Users} />
+                            <Route exact path="/caseList" component={CaseList} />
                             <Route exact path="/updatepassword" component={UpdatePassword} />
                             <Route exact path="/eSign" component={ESign} />
+                            
                         </Switch>
                     )}
                 </Switch>

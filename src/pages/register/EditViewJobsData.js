@@ -98,15 +98,15 @@ const EditViewJobsData = ({ editRow, companyJobsData }) => {
         <div className="datatable-filter-demo">
             <div className="card p-datatable-sm">
                 <DataTable ref={dt} value={jobsData} paginator rows={10} className="p-datatable-customers" emptyMessage="No customers found.">
-                    <Column field="compaigndescr" header="Compaign" body={compaignfeeBodyTemplate} filter sortable />
-                    <Column field="adultfee" header="Adult Fee" body={adultfeeBodyTemplate} filter sortable />
-                    <Column field="childfee" header="Child Fee" body={childfeeBodyTemplate} filter sortable />
-                    <Column field="scotadultfee" header="Scot Adult Fee" body={scotadultfeeBodyTemplate} filter sortable />
-                    <Column field="scotchildfee" header="Scot Child Fee" body={scotchildfeeBodyTemplate} filter sortable />
-                    <Column field="childpostreforms" header="Child Post Reforms" body={childpostreformsBodyTemplate} filter sortable />
-                    <Column field="adultpostreforms" header="Adult Post Reforms" body={adultpostreformsBodyTemplate} filter sortable />
-                    <Column field="status" header="Status" body={statusBodyTemplate} filter sortable />
-                    <Column body={actionBodyTemplate}></Column>
+                    <Column field="compaigndescr" header="Compaign" body={compaignfeeBodyTemplate} filter sortable  filterMatchMode="contains" />
+                    <Column field="adultfee" header="Adult Fee" body={adultfeeBodyTemplate} filter sortable  filterMatchMode="contains" />
+                    <Column field="childfee" header="Child Fee" body={childfeeBodyTemplate} filter sortable  filterMatchMode="contains" />
+                    <Column field="scotadultfee" header="Scot Adult Fee" body={scotadultfeeBodyTemplate} filter sortable  filterMatchMode="contains" />
+                    <Column field="scotchildfee" header="Scot Child Fee" body={scotchildfeeBodyTemplate} filter sortable  filterMatchMode="contains" />
+                    <Column field="childpostreforms" header="Child Post Reforms" body={childpostreformsBodyTemplate} filter sortable  filterMatchMode="contains" />
+                    <Column field="adultpostreforms" header="Adult Post Reforms" body={adultpostreformsBodyTemplate} filter sortable  filterMatchMode="contains" />
+                    <Column field="status" header="Status" body={statusBodyTemplate} filter sortable  filterMatchMode="contains" />
+                    <Column body={actionBodyTemplate} filterMatchMode="contains"></Column>
                 </DataTable>
             </div>
         </div>

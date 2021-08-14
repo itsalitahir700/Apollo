@@ -13,13 +13,13 @@ function MessagesTable({ messages, loading }) {
     const tableSkeleton = () => {
         return (
             <DataTable value={[{}, {}, {}, {}, {}, {}]}>
-                <Column body={skeleteon} header="Sent To" sortable></Column>
-                <Column body={skeleteon} header="User Name" sortable></Column>
-                <Column body={skeleteon} header="Message" sortable></Column>
-                <Column body={skeleteon} header="Created On" sortable></Column>
-                <Column body={skeleteon} header="Current Task" sortable></Column>
-                <Column body={skeleteon} header="Remarks" sortable></Column>
-                <Column body={skeleteon} header="Actions"></Column>
+                <Column body={skeleteon} header="Sent To" sortable filterMatchMode="contains"></Column>
+                <Column body={skeleteon} header="User Name" sortable filterMatchMode="contains"></Column>
+                <Column body={skeleteon} header="Message" sortable filterMatchMode="contains"></Column>
+                <Column body={skeleteon} header="Created On" sortable filterMatchMode="contains"></Column>
+                <Column body={skeleteon} header="Current Task" sortable filterMatchMode="contains"></Column>
+                <Column body={skeleteon} header="Remarks" sortable filterMatchMode="contains"></Column>
+                <Column body={skeleteon} header="Acts" filterMatchMode="contains"></Column>
             </DataTable>
         );
     };
@@ -36,12 +36,12 @@ function MessagesTable({ messages, loading }) {
         <Card>
             {!loading && messages && messages.length ? (
                 <DataTable value={messages} dataKey="rtamessagecode">
-                    <Column field="sentto" header="Sent To" filter sortable></Column>
-                    <Column field="userName" header="User Name" filter sortable></Column>
-                    <Column field="message" header="Message" filter sortable></Column>
-                    <Column field="createdon" header="Created On" filter sortable></Column>
-                    <Column field="remarks" header="Remarks" filter sortable></Column>
-                    <Column body={actionTemplate} header="Actions"></Column>
+                    <Column field="sentto" header="Sent To" filter sortable filterMatchMode="contains"></Column>
+                    <Column field="userName" header="User Name" filter sortable filterMatchMode="contains"></Column>
+                    <Column field="message" header="Message" filter sortable filterMatchMode="contains"></Column>
+                    <Column field="createdon" header="Created On" filter sortable filterMatchMode="contains"></Column>
+                    <Column field="remarks" header="Remarks" filter sortable filterMatchMode="contains"></Column>
+                    <Column body={actionTemplate} header="Acts" filterMatchMode="contains"></Column>
                 </DataTable>
             ) : (
                 tableSkeleton()

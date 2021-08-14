@@ -68,10 +68,10 @@ const RoleData = ({ roleData, editRow, viewDetails }) => {
         <div className="datatable-filter-demo">
             <div className="card p-datatable-sm">
                 <DataTable ref={dt} value={usersData} paginator rows={10} className="p-datatable-customers" emptyMessage="No customers found.">
-                    <Column style={{ textAlign: "center" }} field="rolename" header="Name" body={nameBodyTemplate} filter sortable />
-                    <Column style={{ textAlign: "center" }} field="descr" header="Description" body={descrfeeBodyTemplate} filter sortable />
-                    <Column style={{ textAlign: "center" }} field="rolestatus" header="Status" body={statusBodyTemplate} filter sortable />
-                    <Column style={{ textAlign: "center" }} body={actionBodyTemplate}></Column>
+                    <Column style={{ textAlign: "center" }} field="rolename" header="Name" body={nameBodyTemplate} filter sortable  filterMatchMode="contains"/>
+                    <Column style={{ textAlign: "center" }} field="descr" header="Description" body={descrfeeBodyTemplate} filter sortable  filterMatchMode="contains"/>
+                    <Column style={{ textAlign: "center" }} field="rolestatus" header="Status" body={statusBodyTemplate} filter sortable  filterMatchMode="contains"/>
+                    <Column style={{ textAlign: "center" }} body={actionBodyTemplate} filterMatchMode="contains"></Column>
                 </DataTable>
             </div>
         </div>

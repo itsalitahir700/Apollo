@@ -106,9 +106,10 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
 
                 <div className="p-field p-col-12 p-md-4">
                     <label>Description *</label>
-                    <InputText
+                    <InputTextarea
                         disabled={viewmode}
                         area
+                        rows={5}
                         value={accidentDetails?.description}
                         onChange={(e) => {
                             setaccidentDetails({ ...accidentDetails, description: e.target.value });
@@ -188,10 +189,28 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">
+                    <label>Length Of Injury *</label>
+                    <div className="p-inputgroup">
+                        <InputText
+                            disabled={viewmode || ongoingInjury}
+                            value={accidentDetails?.injlength || ""}
+                            onChange={(e) => {
+                                setaccidentDetails({ ...accidentDetails, injlength: e.target.value });
+                            }}
+                            type="number"
+                            className={!ongoingInjury && errors?.firstname && "p-invalid p-d-block"}
+                        />
+                        <span className="p-inputgroup-addon">Weeks</span>
+                    </div>
+                    <small className="p-error p-d-block">{errors?.injlength}</small>
+                </div>
+
+                <div className="p-field p-col-12 p-md-4">
                     <label>Injury Description *</label>
-                    <InputText
+                    <InputTextarea
                         disabled={viewmode}
                         area
+                        rows={5}
                         value={accidentDetails?.injdescription}
                         onChange={(e) => {
                             setaccidentDetails({ ...accidentDetails, injdescription: e.target.value });
@@ -201,30 +220,14 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                     <small className="p-error p-d-block">{errors?.injdescription}</small>
                 </div>
 
-                <div className="p-field p-col-12 p-md-4">
-                    <label>Length Of Injury *</label>
-                    <div className="p-inputgroup">
-                        <InputText
-                            disabled={viewmode}
-                            value={accidentDetails?.injlength}
-                            onChange={(e) => {
-                                setaccidentDetails({ ...accidentDetails, injlength: e.target.value });
-                            }}
-                            type="number"
-                            className={errors?.firstname && "p-invalid p-d-block"}
-                        />
-                        <span className="p-inputgroup-addon">Weeks</span>
-                    </div>
-                    <small className="p-error p-d-block">{errors?.injlength}</small>
-                </div>
-
                 <div className="p-field p-col-12 p-md-4 p-d-flex p-mt-4">
                     <Checkbox
                         disabled={viewmode}
                         onChange={(e) => {
                             const ongoing = e.checked ? "Y" : "N";
-                            setaccidentDetails({ ...accidentDetails, ongoing });
+                            setaccidentDetails({ ...accidentDetails, ongoing, injlength: e.checked ? e.target.value : accidentDetails.injlength });
                             setongoingInjury(e.checked);
+                            delete errors?.injlength;
                         }}
                         checked={ongoingInjury}
                     ></Checkbox>

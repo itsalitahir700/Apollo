@@ -30,13 +30,14 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
     const [showFurtherAddress, setshowFurtherAddress] = useState(false);
 
     const handleAge = (dob) => {
-        setclaimantDetails({ ...claimantDetails, dob: dob });
+        setclaimantDetails({ ...claimantDetails, dob, ninumber: calculate_age(dob) < 15 ? "Minor" : '' });
         if (calculate_age(dob) < 15) {
             setMinor(true);
         } else {
             setMinor(false);
         }
     };
+
     const calculate_age = (dob1) => {
         var today = new Date();
         var birthDate = new Date(dob1); // create a date object directly from `dob1` argument
@@ -190,7 +191,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <div className="p-inputgroup">
                         <InputText
                             disabled={viewmode}
-                            value={claimantDetails?.ninumber || ""}
+                            value={claimantDetails?.ninumber}
                             onChange={(e) => {
                                 setclaimantDetails({ ...claimantDetails, ninumber: e.target.value });
                             }}

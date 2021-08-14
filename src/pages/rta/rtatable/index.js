@@ -29,13 +29,13 @@ function RTATable() {
     const tableSkeleton = () => {
         return (
             <DataTable value={[{}, {}, {}, {}, {}, {}]}>
-                <Column body={skeleteon} header="Creation On" sortable></Column>
-                <Column body={skeleteon} header="Code" sortable></Column>
-                <Column body={skeleteon} header="Name" sortable></Column>
-                <Column body={skeleteon} header="Contact Due" sortable></Column>
-                <Column body={skeleteon} header="Current Task" sortable></Column>
-                <Column body={skeleteon} header="Status" sortable></Column>
-                <Column body={skeleteon} header="Actions"></Column>
+                <Column body={skeleteon} header="Created On" sortable filterMatchMode="contains"></Column>
+                <Column body={skeleteon} header="Reference Number" sortable filterMatchMode="contains"></Column>
+                <Column body={skeleteon} header="Clients Name" sortable filterMatchMode="contains"></Column>
+                <Column body={skeleteon} header="Contact Due" sortable filterMatchMode="contains"></Column>
+                <Column body={skeleteon} header="Current Task" sortable filterMatchMode="contains"></Column>
+                <Column body={skeleteon} header="Status" sortable filterMatchMode="contains"></Column>
+                <Column body={skeleteon} header="Acts" filterMatchMode="contains"></Column>
             </DataTable>
         );
     };
@@ -113,19 +113,25 @@ function RTATable() {
         return `${firstname!==null ? firstname :""} ${middlename!==null ? middlename :""} ${lastname!==null ? lastname :""}`
     };
 
+    const dateTemplate = (rowData) => { 
+            let allDate = rowData.createdon.split(' ')
+            let thisDate = allDate[0].split('-')
+            let newDate = [thisDate[2],thisDate[1],thisDate[0] ].join("-")
+            return newDate    
+    };
 
     return (
         <Card>
             {!loading && rtalist && rtalist.length ? (
                 <DataTable value={rtalist} expandedRows={expandedRows} dataKey="rtanumber" onRowToggle={(e) => setExpandedRows(e.data)} rowExpansionTemplate={rowExpansionTemplate}>
-                    <Column expander style={{ width: "2.5rem" }}></Column>
-                    <Column field="createdon" header="Creation On" filter sortable></Column>
-                    <Column field="rtanumber" header="Code" filter sortable></Column>
-                    <Column body={nameTemplate} header="Name" filter sortable></Column>
-                    <Column field="contactdue" header="Contact Due" filter sortable></Column>
-                    <Column field="contactdue" header="Current Task" filter sortable></Column>
-                    <Column field="status" body={statusTemplate} header="Status" filter sortable></Column>
-                    <Column body={actionTemplate} header="Actions"></Column>
+                    <Column expander style={{ width: "2.5rem" }} filterMatchMode="contains"></Column>
+                    <Column field="createdon" body={dateTemplate} header="Created On" filter sortable ></Column>
+                    <Column field="rtanumber" header="Reference Number" filter sortable filterMatchMode="contains"></Column>
+                    <Column body={nameTemplate} header="Name" filter sortable filterMatchMode="contains"></Column>
+                    <Column field="contactdue" header="Contact Due" filter sortable filterMatchMode="contains"></Column>
+                    <Column field="contactdue" header="Current Task" filter sortable filterMatchMode="contains"></Column>
+                    <Column field="status" body={statusTemplate} header="Status" filter sortable filterMatchMode="contains"></Column>
+                    <Column body={actionTemplate} header="Acts" filterMatchMode="contains"></Column>
                 </DataTable>
             ) : (
                 tableSkeleton()

@@ -188,12 +188,12 @@ export const TableDemo = () => {
             <div className="orders-subtable">
                 <h5>Orders for {data.name}</h5>
                 <DataTable value={data.orders}>
-                    <Column field="id" header="Id" sortable body={bodyTemplate}></Column>
-                    <Column field="customer" header="Customer" sortable body={bodyTemplate}></Column>
-                    <Column field="date" header="Date" sortable body={bodyTemplate}></Column>
-                    <Column field="amount" header="Amount" sortable body={bodyTemplate}></Column>
-                    <Column field="status" header="Status" sortable body={statusBodyTemplate}></Column>
-                    <Column headerStyle={{ width: '4rem' }} body={() => <Button icon="pi pi-search" />}></Column>
+                    <Column field="id" header="Id" sortable body={bodyTemplate} filterMatchMode="contains"></Column>
+                    <Column field="customer" header="Customer" sortable body={bodyTemplate} filterMatchMode="contains"></Column>
+                    <Column field="date" header="Date" sortable body={bodyTemplate} filterMatchMode="contains"></Column>
+                    <Column field="amount" header="Amount" sortable body={bodyTemplate} filterMatchMode="contains"></Column>
+                    <Column field="status" header="Status" sortable body={statusBodyTemplate} filterMatchMode="contains"></Column>
+                    <Column headerStyle={{ width: '4rem' }} body={() => <Button icon="pi pi-search" />} filterMatchMode="contains"></Column>
                 </DataTable>
             </div>
         );
@@ -225,14 +225,14 @@ export const TableDemo = () => {
                     <p>Pagination, sorting, filtering and checkbox selection.</p>
                     <DataTable value={customer1} paginator className="p-datatable-customers" rows={10} dataKey="id" rowHover selection={selectedCustomers} onSelectionChange={(e) => setSelectedCustomers(e.value)}
                         globalFilter={globalFilter1} emptyMessage="No customers found." loading={loading1} header={customer1TableHeader}>
-                        <Column selectionMode="multiple" headerStyle={{ width: '3em' }}></Column>
-                        <Column field="name" header="Name" sortable body={bodyTemplate}></Column>
-                        <Column field="country.name" header="Country" sortable body={countryBodyTemplate}></Column>
-                        <Column field="representative.name" header="Representative" sortable body={representativeBodyTemplate}></Column>
-                        <Column field="date" header="Date" sortable body={bodyTemplate}></Column>
-                        <Column field="status" header="Status" sortable body={statusBodyTemplate}></Column>
-                        <Column field="activity" header="Activity" sortable body={activityBody}></Column>
-                        <Column headerStyle={{ width: '8rem', textAlign: 'center' }} bodyStyle={{ textAlign: 'center', overflow: 'visible', justifyContent: 'center' }} body={actionTemplate}></Column>
+                        <Column selectionMode="multiple" headerStyle={{ width: '3em' }} filterMatchMode="contains"></Column>
+                        <Column field="name" header="Name" sortable body={bodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="country.name" header="Country" sortable body={countryBodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="representative.name" header="Representative" sortable body={representativeBodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="date" header="Date" sortable body={bodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="status" header="Status" sortable body={statusBodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="activity" header="Activity" sortable body={activityBody} filterMatchMode="contains"></Column>
+                        <Column headerStyle={{ width: '8rem', textAlign: 'center' }} bodyStyle={{ textAlign: 'center', overflow: 'visible', justifyContent: 'center' }} body={actionTemplate} filterMatchMode="contains"></Column>
                     </DataTable>
                 </div>
             </div>
@@ -242,12 +242,12 @@ export const TableDemo = () => {
                     <p>Scrollable table with gridlines (<mark>.p-datatable-gridlines</mark>), striped rows (<mark>.p-datatable-striped</mark>) and smaller paddings (<mark>p-datatable-sm</mark>).</p>
                     <DataTable value={customer2} scrollable scrollHeight="600px" className="p-datatable-gridlines p-datatable-striped p-datatable-sm p-datatable-customers" dataKey="id" rowHover
                         globalFilter={globalFilter2} emptyMessage="No customers found." loading={loading2} header={customer2TableHeader}>
-                        <Column field="name" header="Name" sortable body={bodyTemplate}></Column>
-                        <Column field="country.name" header="Country" sortable body={countryBodyTemplate}></Column>
-                        <Column field="representative.name" header="Representative" sortable body={representativeBodyTemplate}></Column>
-                        <Column field="date" header="Date" sortable body={bodyTemplate}></Column>
-                        <Column field="status" header="Status" sortable body={statusBodyTemplate}></Column>
-                        <Column field="activity" header="Activity" sortable body={activityBody}></Column>
+                        <Column field="name" header="Name" sortable body={bodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="country.name" header="Country" sortable body={countryBodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="representative.name" header="Representative" sortable body={representativeBodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="date" header="Date" sortable body={bodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="status" header="Status" sortable body={statusBodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="activity" header="Activity" sortable body={activityBody} filterMatchMode="contains"></Column>
                     </DataTable>
                 </div>
             </div>
@@ -260,12 +260,12 @@ export const TableDemo = () => {
                     <DataTable value={products} expandedRows={expandedRows} className="p-datatable-customers" dataKey="id" onRowToggle={(e) => setExpandedRows(e.data)} onRowExpand={onRowExpand} onRowCollapse={onRowCollapse}
                         header={productsTableHeader} rowExpansionTemplate={rowExpansionTemplate}>
                         <Column expander headerStyle={{ width: '3rem' }} />
-                        <Column field="name" header="Name" sortable body={bodyTemplate}></Column>
-                        <Column header="Image" body={imageBodyTemplate}></Column>
-                        <Column field="price" header="Price" sortable body={priceBodyTemplate}></Column>
-                        <Column field="category" header="Category" sortable body={bodyTemplate}></Column>
-                        <Column field="rating" header="Reviews" sortable body={reviewsBodyTemplate}></Column>
-                        <Column field="inventoryStatus" header="Status" sortable body={productStatusBodyTemplate}></Column>
+                        <Column field="name" header="Name" sortable body={bodyTemplate} filterMatchMode="contains"></Column>
+                        <Column header="Image" body={imageBodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="price" header="Price" sortable body={priceBodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="category" header="Category" sortable body={bodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="rating" header="Reviews" sortable body={reviewsBodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="inventoryStatus" header="Status" sortable body={productStatusBodyTemplate} filterMatchMode="contains"></Column>
                     </DataTable>
                 </div>
             </div>
@@ -275,12 +275,12 @@ export const TableDemo = () => {
                     <h5>Row Group</h5>
                     <DataTable value={customer3} rowGroupMode="subheader" className="p-datatable-customers" groupField="representative.name" sortMode="single" sortField="representative.name" sortOrder={1}
                         rowGroupHeaderTemplate={headerRowGroup} rowGroupFooterTemplate={footerRowGroup}>
-                        <Column field="representative.name" header="Representative"></Column>
-                        <Column field="name" header="Name" body={bodyTemplate}></Column>
-                        <Column field="country" header="Country" body={countryBodyTemplate}></Column>
-                        <Column field="company" header="Company" body={bodyTemplate}></Column>
-                        <Column field="status" header="Status" body={statusBodyTemplate}></Column>
-                        <Column field="date" header="Date" body={bodyTemplate}></Column>
+                        <Column field="representative.name" header="Representative" filterMatchMode="contains"></Column>
+                        <Column field="name" header="Name" body={bodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="country" header="Country" body={countryBodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="company" header="Company" body={bodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="status" header="Status" body={statusBodyTemplate} filterMatchMode="contains"></Column>
+                        <Column field="date" header="Date" body={bodyTemplate} filterMatchMode="contains"></Column>
                     </DataTable>
                 </div>
             </div>

@@ -34,9 +34,9 @@ function Users() {
 
     const tableSkeleton = () => (
         <DataTable value={userslist} dataKey="usercode">
-            <Column body={skeleteon} header="User Name" filter></Column>
-            <Column body={skeleteon} header="Status" filter></Column>
-            <Column body={skeleteon} header="Update Password"></Column>
+            <Column body={skeleteon} header="User Name" filter filterMatchMode="contains"></Column>
+            <Column body={skeleteon} header="Status" filter filterMatchMode="contains"></Column>
+            <Column body={skeleteon} header="Update Password" filterMatchMode="contains"></Column>
         </DataTable>
     );
 
@@ -65,9 +65,9 @@ function Users() {
         <Card>
             {!loading && userslist && userslist.length ? (
                 <DataTable value={userslist} dataKey="usercode">
-                    <Column field="username" header="User Name" filter sortable></Column>
-                    <Column field="status" body={statusTemplate} header="Status" filter sortable></Column>
-                    <Column body={actionTemplate} header="Update Password"></Column>
+                    <Column field="username" header="User Name" filter sortable filterMatchMode="contains"></Column>
+                    <Column field="status" body={statusTemplate} header="Status" filter sortable filterMatchMode="contains"></Column>
+                    <Column body={actionTemplate} header="Update Password" filterMatchMode="contains"></Column>
                 </DataTable>
             ) : (
                 tableSkeleton()

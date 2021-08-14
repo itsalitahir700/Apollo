@@ -16,6 +16,7 @@ import { InputText } from "primereact/inputtext";
 import { claimantdetails, minordetails, accidentdetails, vehicledetails } from "../../utilities/constants";
 import { handleGetRequest } from "../../services/GetTemplate";
 import HireCompanies from "./HireCompanies";
+import "./Hire.css";
 
 function ViewClaimant() {
     const url = require("url");
@@ -252,11 +253,11 @@ function ViewClaimant() {
                 </div>
             </div>
 
-            <Fieldset className="p-mt-2" legend="Accident Info">
+            <Fieldset className="p-mt-2 custom-fieldset" legend="Accident Info">
                 <AccidentInfo viewmode={viewmode} accidentdata={accidentDetails} handleAccidentReturn={setAccidentDetails} />
             </Fieldset>
 
-            <Fieldset className="p-mt-2" legend="Vehicles Info">
+            <Fieldset className="p-mt-2 custom-fieldset" legend="Vehicles Info">
                 <VehiclesInfo viewmode={viewmode} vehicledata={vehicleDetails} handleVehicleInfoReturn={setVehicleDetails} />
             </Fieldset>
 

@@ -24,7 +24,7 @@ const RTACase = () => {
                     </TabPanel>
 
                     <TabPanel header="Notes">
-                        <Notes />
+                        <Notes getNotesService={"hire/getHireCaseNotes"} addNotesService={"hire/addHireNotes"} caseType={"hire"} />
                     </TabPanel>
                     <TabPanel header="Messages">
                         <Messages />

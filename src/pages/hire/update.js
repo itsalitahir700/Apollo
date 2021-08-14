@@ -22,7 +22,7 @@ function UpdateClaimant() {
     const [showMinorModal, setShowMinorModal] = useState(false);
     const claimantstore = useSelector((state) => state.claimantSlice.claimantDetails);
     const hirenumber = useSelector((state) => state.claimantSlice?.claimantDetails?.hirenumber);
-    const status = useSelector((state) => state.claimantSlice?.claimantDetails?.tblRtastatus.descr);
+    const status = useSelector((state) => state.claimantSlice?.claimantDetails?.tblRtastatus?.descr);
     const [viewmode, setviewmode] = useState(false);
     const [loading, setloading] = useState(false);
 

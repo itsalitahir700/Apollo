@@ -117,6 +117,7 @@ function ViewClaimant() {
 
     useEffect(() => {
         funcgetLovHireCompanies();
+        funcGetHireBusiness();
     }, []);
 
     const hireclaimcode = urlObj?.query?.id;

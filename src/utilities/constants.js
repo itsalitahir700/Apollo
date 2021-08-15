@@ -40,9 +40,9 @@ const claimantdetails = {
     vehiclesDetails: "",
     images: "",
     passengers: "",
-    language_details: "",
+    translatordetail: "",
     password: "",
-    alternativeNumber: "",
+    alternativenumber: "",
 };
 
 const accidentdetails = {
@@ -61,7 +61,7 @@ const accidentdetails = {
     injlength: "",
     ongoing: "N",
     medicalinfo: "N",
-    evidenceDetails: "",
+    evidencedatails: "",
     vehicledamage: "",
 };
 
@@ -86,8 +86,8 @@ const vehicledetails = {
     partyname: "",
     partycontactno: "",
     partyaddress: "",
-    evidenceDetails: "",
-    alternativeNumber: "",
+    evidencedatails: "",
+    alternativenumber: "",
     policycover: "",
     policyholder: "",
     recovered: "",
@@ -95,6 +95,7 @@ const vehicledetails = {
     instorage: "",
     storage: "",
     lengthoflicenceheld: "",
+    detail: "",
 };
 
 export { claimantdetails, minordetails, accidentdetails, vehicledetails };

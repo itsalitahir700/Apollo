@@ -13,11 +13,55 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "primereact/button";
 import { Fieldset } from "primereact/fieldset";
 import { claimantdetails, minordetails, accidentdetails, vehicledetails } from "../../utilities/constants";
-import { getPassengers } from "../../services/Rta";
+import { getPassengers, postPassengers } from "../../services/Rta";
 import { getSolicitorsForRta, getCompanyWiseUser } from "../../services/Lovs";
 import { handleGetRequest } from "../../services/GetTemplate";
+import PassengerModal from "./passenger";
 
 function ViewClaimant() {
+    let states = [
+        {
+            code: "Mr",
+            name: "Mr",
+            type: null,
+        },
+        {
+            code: "Mrs",
+            name: "Mrs",
+            type: null,
+        },
+        {
+            code: "Miss",
+            name: "Miss",
+            type: null,
+        },
+        {
+            code: "Ms",
+            name: "Ms",
+            type: null,
+        },
+        {
+            code: "Mstr",
+            name: "Mstr",
+            type: null,
+        },
+        {
+            code: "Dr",
+            name: "Dr",
+            type: null,
+        },
+        {
+            code: "Prof",
+            name: "Prof",
+            type: null,
+        },
+        {
+            code: "Rev",
+            name: "Rev",
+            type: null,
+        },
+    ];
+
     const url = require("url");
     const urlObj = url.parse(document.location.href, true);
 
@@ -28,14 +72,13 @@ function ViewClaimant() {
     const [showMinorModal, setShowMinorModal] = useState(false);
     const [passengers, setpassengers] = useState("");
     const claimantstore = useSelector((state) => state.claimantSlice.claimantDetails);
-    const [viewmode, setviewmode] = useState(true);
+    const [viewmode] = useState(true);
     const [rtaHotkeyModal, setrtaHotkeyModal] = useState(false);
     const [solicitorRtaData, setsolicitorRtaData] = useState("");
     const [solicitorRtaDataValue, setsolicitorRtaDataValue] = useState("");
     const [companyWiseUser, setcompanyWiseUser] = useState("");
     const [companyWiseUserValue, setcompanyWiseUserValue] = useState("");
     const [btnValue, setbtnValue] = useState("");
-    const [taskBtnLoading, settaskBtnLoading] = useState(false);
     const [showModal, setshowModal] = useState(false);
     const [taskActionData, settaskActionData] = useState(false);
     const rtaActionButtons = useSelector((state) => state.claimantSlice.claimantDetails.rtaActionButtons);
@@ -43,6 +86,7 @@ function ViewClaimant() {
     const rtaNumber = useSelector((state) => state.claimantSlice.claimantDetails.rtanumber);
     const status = useSelector((state) => state.claimantSlice.claimantDetails.status);
     const directIntroducer = useSelector((state) => state.authenticationSlice?.directIntroducer);
+    const [displayBasic, setDisplayBasic] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -108,11 +152,9 @@ function ViewClaimant() {
     };
 
     const handleTaskAction = async () => {
-        settaskBtnLoading(true);
         const rtaCode = urlObj?.query?.id;
         const res = await handleGetRequest(`rta/getAuthRtaCaseTasks/${rtaCode}`);
         console.log("res", res);
-        settaskBtnLoading(false);
         setshowModal(true);
         settaskActionData(res.data);
     };
@@ -121,6 +163,11 @@ function ViewClaimant() {
         const res = await handleGetRequest(`rta/getAuthRtaCaseTasks/${rtaCode}`);
         settaskActionData(res.data);
     };
+
+    const handleAddPassenger = async(passenger) => {
+        const pObj= {passengers:[{...passenger}], rtacode : rtaCode}
+        setpassengers(await postPassengers(pObj));
+      };
 
     const taskButton = <div>{taskFlag === "Y" ? <Button onClick={handleTaskAction} label="Tasks" icon="pi pi-check" iconPos="right" className="p-button-info" /> : ""}</div>;
 
@@ -223,7 +270,11 @@ function ViewClaimant() {
             </Fieldset>
 
             <Fieldset className="p-mt-2" legend="Passenger Info">
+            <Button label="Add" className="add-passenger-btn" icon="pi pi-external-link" onClick={() => {setDisplayBasic(!displayBasic)}} />
                 <PassengersTable viewmode={viewmode} isView={true} passengers={passengers} />
+                <PassengerModal claimantAddress={{ gpostalcode: claimantDetails?.postalcode, gaddress1: claimantDetails?.address1, gaddress2: claimantDetails?.address2, gaddress3: claimantDetails?.address3, gcity: claimantDetails?.city, gregion: claimantDetails?.region }}
+                driverOrPassenger={accidentDetails?.driverpassenger} status={states} show={displayBasic} hide={setDisplayBasic} handlePassengerReturn={handleAddPassenger} />
+           
             </Fieldset>
 
             <MinorModal handleMinorReturn={setMinorDetails} minorData={minorDetails} viewmode={viewmode} show={showMinorModal} hide={setShowMinorModal} />

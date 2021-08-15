@@ -112,17 +112,10 @@ const HireCompanies = ({ hireclaimcode, hireBusinessData }) => {
             <div className="datatable-filter-demo">
                 <div className="card p-datatable-sm">
                     <DataTable ref={dt} value={taskData} stripedRows paginator rows={10} className="p-datatable-customers" emptyMessage="No data found.">
-<<<<<<< HEAD
                         <Column field="tblCompanyprofile.name" header="Name" body={NameBodyTemplate} filter sortable />
                         <Column style={{ width: "28%", textAlign: "left" }} field="statususername" header="User Name" body={UserBodyTemplate} filter sortable />
                         <Column style={{ textAlign: "end" }} field="status" header="Status" body={statusBodyTemplate} filter sortable />
                         <Column header="Action" body={actionBodyTemplate}></Column>
-=======
-                        <Column field="tblCompanyprofile.name" header="Name" body={NameBodyTemplate} filter sortable  filterMatchMode="contains" />
-                        <Column field="statususername" header="User Name" body={UserBodyTemplate} filter sortable  filterMatchMode="contains" />
-                        <Column field="status" header="Status" body={statusBodyTemplate} filter sortable  filterMatchMode="contains" />
-                        <Column header="Action" body={actionBodyTemplate} filterMatchMode="contains"></Column>
->>>>>>> d25ebc89e6507d4f9ba7c312814a6993f02d9225
                     </DataTable>
                 </div>
             </div>

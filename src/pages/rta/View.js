@@ -139,7 +139,7 @@ function ViewClaimant() {
                                   className="p-button-sm p-button-primary p-mr-2 p-mb-2"
                               />
                           );
-                      else if (item.apiflag === "N")
+                      else
                           return (
                               <Button
                                   value={item.buttonvalue}

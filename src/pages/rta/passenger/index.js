@@ -13,7 +13,7 @@ import { vehicledetails } from "../../../utilities/constants";
 import { passengerValidation } from "../../../utilities/validation";
 import { getAddress, getAddressValues, getFurtherAddressService } from "../../../services/Rta";
 
-function PassengerModel({ driverOrPassenger, status, show, hide, handlePassengerReturn, passenger, isEdit, viewmode , claimantAddress }) {
+function PassengerModel({ driverOrPassenger, status, show, hide, handlePassengerReturn, passenger, isEdit, viewmode, claimantAddress }) {
     if (viewmode) {
         isEdit = "View";
     }
@@ -267,9 +267,9 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                             <label>Alternative Number</label>
                             <InputText
                                 disabled={viewmode}
-                                value={passengerDetails?.alternativeNumber}
+                                value={passengerDetails?.alternativenumber}
                                 onChange={(e) => {
-                                    setPassengerDetails({ ...passengerDetails, alternativeNumber: e.target.value });
+                                    setPassengerDetails({ ...passengerDetails, alternativenumber: e.target.value });
                                 }}
                             />
                         </div>
@@ -456,7 +456,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                             <label>Length Of Injury</label>
                             <div className="p-inputgroup">
                                 <InputText
-                                    disabled={viewmode || passengerDetails.ongoinginjury === "Y" }
+                                    disabled={viewmode || passengerDetails.ongoinginjury === "Y"}
                                     type="number"
                                     value={passengerDetails?.injlength || ""}
                                     onChange={(e) => {
@@ -471,7 +471,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                             <Checkbox
                                 disabled={viewmode}
                                 onChange={(e) => {
-                                    setPassengerDetails({ ...passengerDetails, ongoinginjury: e.checked ? "Y" : "N"  ,injlength: e.checked?  e.target.value : passengerDetails.injlength});
+                                    setPassengerDetails({ ...passengerDetails, ongoinginjury: e.checked ? "Y" : "N", injlength: e.checked ? e.target.value : passengerDetails.injlength });
                                 }}
                                 p
                                 checked={"Y" === passengerDetails?.ongoinginjury}
@@ -495,9 +495,9 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                                 <label>Medical Evidence Details</label>
                                 <InputText
                                     disabled={viewmode}
-                                    value={passengerDetails?.evidenceDetails}
+                                    value={passengerDetails?.evidencedatails}
                                     onChange={(e) => {
-                                        setPassengerDetails({ ...passengerDetails, evidenceDetails: e.target.value });
+                                        setPassengerDetails({ ...passengerDetails, evidencedatails: e.target.value });
                                     }}
                                     className={errors?.mobile && "p-invalid p-d-block"}
                                 />
@@ -510,18 +510,16 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                             <label>Details</label>
                             <InputTextarea
                                 disabled={viewmode}
-                                value={passengerDetails?.details}
+                                value={passengerDetails?.detail}
                                 onChange={(e) => {
-                                    setPassengerDetails({ ...passengerDetails, details: e.target.value });
+                                    setPassengerDetails({ ...passengerDetails, detail: e.target.value });
                                 }}
                             />
                         </div>
                     </div>
                 </TabPanel>
             </TabView>
-            <MinorModal
-            claimantAddress={claimantAddress}     
-            disabled={viewmode} handleMinorReturn={setMinorDetails} details={passengerDetails} show={showMinorModal} hide={setShowMinorModal} isEdit={isEdit} />
+            <MinorModal claimantAddress={claimantAddress} disabled={viewmode} handleMinorReturn={setMinorDetails} details={passengerDetails} show={showMinorModal} hide={setShowMinorModal} isEdit={isEdit} />
         </Dialog>
     );
 }

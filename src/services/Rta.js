@@ -205,3 +205,16 @@ export const getMakeModelService = async (url) => {
         toast.warn(error?.response?.data?.messages || "Something went wrong");
     }
 };
+
+export const getRtaCaseReport = async (from,to) => {
+    try {
+        const response = await axios.get(`${baseURL}rta/getRtaCaseReport/${from}/${to}`, {
+            headers: {
+                Authorization: localStorage.getItem("token"),
+            },
+        });
+        return response?.data?.data;
+    } catch (error) {
+        toast.warn(error?.response?.data?.messages || "Something went wrong");
+    }
+};

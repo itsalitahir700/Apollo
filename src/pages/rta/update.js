@@ -171,10 +171,10 @@ function UpdateClaimant() {
             </Fieldset>
 
             <Fieldset className="p-mt-2" legend="Passenger Info">
-                P<PassengersTable isView={true} passengers={passengers} />
+                <Button label="Add" className="add-passenger-btn" icon="pi pi-external-link" onClick={() => {setDisplayBasic(!displayBasic) }} />
+                <PassengersTable isView={true} passengers={passengers} />
                 <PassengerModal claimantAddress={{ gpostalcode: claimantDetails?.postalcode, gaddress1: claimantDetails?.address1, gaddress2: claimantDetails?.address2, gaddress3: claimantDetails?.address3, gcity: claimantDetails?.city, gregion: claimantDetails?.region }}
                 driverOrPassenger={accidentDetails?.driverpassenger} status={states} show={displayBasic} hide={setDisplayBasic} handlePassengerReturn={handleAddPassenger} />
-            
             </Fieldset>
 
             <MinorModal  

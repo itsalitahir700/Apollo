@@ -77,7 +77,7 @@ function PassengerTable({ passengers, handleRemovePassenger, handleUpdatePasseng
                 <Column field="dob" header="DOB" sortable filterMatchMode="contains"></Column>
                 {isView === true ? <Column body={actionTemplateView} header="Acts" filterMatchMode="contains"></Column> : <Column body={actionTemplate} header="Acts" filterMatchMode="contains"></Column>}
             </DataTable>
-            <PassengerModal status={states} viewmode={viewmode} show={displayBasic} hide={setDisplayBasic} passenger={passenger} handlePassengerReturn={handleUpdatePassenger} isEdit={true} />
+            <PassengerModal status={states} viewmode={isView||viewmode} show={displayBasic} hide={setDisplayBasic} passenger={passenger} handlePassengerReturn={handleUpdatePassenger} isEdit={true} />
         </div>
     );
 }

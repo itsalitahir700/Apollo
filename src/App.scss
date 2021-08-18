@@ -791,17 +791,20 @@ pre[class*="language-"] {
 .float-right {
     float: right !important;
 }
-.welcome-msg
-{
+.welcome-msg {
     position: relative;
     left: 50%;
     top: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
 }
-.welcome-msg h2
-{
+.welcome-msg h2 {
     font-weight: bolder;
     color: #1ea40e !important;
     font-weight: bold;
     text-shadow: 0px 0px 3px #33f01c;
+}
+.p-f-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

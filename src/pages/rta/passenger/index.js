@@ -227,11 +227,6 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                                             name: "Will be provided to solicitor",
                                             type: null,
                                         },
-                                        {
-                                            code: "Will be provided to solicitor",
-                                            name: "Will be provided to solicitor",
-                                            type: null,
-                                        },
                                     ]}
                                     placeholder="Select"
                                     optionLabel="name"
@@ -393,7 +388,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                 </TabPanel>
                 <TabPanel header="Injury Info">
                     <div className="p-fluid p-formgrid p-grid">
-                        <div className="p-field p-col-12 p-md-4">
+                        <div className="p-field p-col-12 p-md-2 p-d-flex p-justify-between">
                             {driverOrPassenger === "P" || driverOrPassenger === undefined ? (
                                 <div className="p-field-radiobutton">
                                     <RadioButton
@@ -441,18 +436,41 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                             />
                         </div>
 
-                        <div className="p-field p-col-12 p-md-4">
+                        <div className="p-field p-col-12 p-md-3 p-f-center">
+                            <Checkbox
+                                disabled={viewmode}
+                                onChange={(e) => {
+                                    setPassengerDetails({ ...passengerDetails, ongoinginjury: e.checked ? "Y" : "N", injlength: e.checked ? e.target.value : passengerDetails.injlength });
+                                }}
+                                p
+                                checked={"Y" === passengerDetails?.ongoinginjury}
+                            ></Checkbox>
+                            <label>&nbsp;Ongoing Injury</label>
+                        </div>
+
+                        <div className="p-field p-col-12 p-md-3 p-f-center">
+                            <Checkbox
+                                disabled={viewmode}
+                                onChange={(e) => {
+                                    setPassengerDetails({ ...passengerDetails, medicalinfo: e.checked ? "Y" : "N" });
+                                }}
+                                checked={"Y" === passengerDetails?.medicalinfo}
+                            ></Checkbox>
+                            <label>&nbsp;Medical evidence avaliable</label>
+                        </div>
+
+                        <div className="p-field p-col-12 p-md-8">
                             <label>Injury Description</label>
                             <InputTextarea
                                 disabled={viewmode}
-                                value={passengerDetails?.description || ""}
+                                value={passengerDetails?.injdescr || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, injdescr: e.target.value });
                                 }}
                             />
                         </div>
 
-                        <div className="p-field p-col-12 p-md-3">
+                        <div className="p-field p-col-12 p-md-4">
                             <label>Length Of Injury</label>
                             <div className="p-inputgroup">
                                 <InputText
@@ -467,33 +485,10 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                             </div>
                         </div>
 
-                        <div className="p-field p-col-12 p-md-3 p-d-flex">
-                            <Checkbox
-                                disabled={viewmode}
-                                onChange={(e) => {
-                                    setPassengerDetails({ ...passengerDetails, ongoinginjury: e.checked ? "Y" : "N", injlength: e.checked ? e.target.value : passengerDetails.injlength });
-                                }}
-                                p
-                                checked={"Y" === passengerDetails?.ongoinginjury}
-                            ></Checkbox>
-                            <label>Ongoing Injury</label>
-                        </div>
-
-                        <div className="p-field p-col-12 p-md-3 p-d-flex">
-                            <Checkbox
-                                disabled={viewmode}
-                                onChange={(e) => {
-                                    setPassengerDetails({ ...passengerDetails, medicalinfo: e.checked ? "Y" : "N" });
-                                }}
-                                checked={"Y" === passengerDetails?.medicalinfo}
-                            ></Checkbox>
-                            <label>Medical evidence avaliable</label>
-                        </div>
-
                         {passengerDetails?.medicalinfo === "Y" ? (
                             <div className="p-field p-col-12 p-md-3">
                                 <label>Medical Evidence Details</label>
-                                <InputText
+                                <InputTextarea
                                     disabled={viewmode}
                                     value={passengerDetails?.evidencedatails}
                                     onChange={(e) => {

@@ -13,12 +13,15 @@ const ESign = () => {
     const [eDetails, setEDetails] = useState({});
     const eFields = useSelector((state) => state?.eSignSlice?.eFields);
     const dispatch = useDispatch();
+    const url = require("url");
+    const urlObj = url.parse(document.location.href, true);
+    const rtaCode = urlObj?.query?.rta;
 
     const handleESigns = useCallback(async () => {
         setloading(true);
-        await dispatch(await getESigns(88));
+        await dispatch(await getESigns(rtaCode));
         setloading(false);
-    }, [dispatch]);
+    }, [dispatch, rtaCode]);
 
     useEffect(() => {
         handleESigns();
@@ -47,7 +50,7 @@ const ESign = () => {
             }
         }
         if (flag) {
-            await addESign({ rtaCode: 88, eSign: sigPad.getTrimmedCanvas().toDataURL("image/png").replace("data:image/png;base64,", ""), ...eDetails });
+            await addESign({ rtaCode, eSign: sigPad.getTrimmedCanvas().toDataURL("image/png").replace("data:image/png;base64,", ""), ...eDetails });
         } else {
             toast.warn("Please fill all the fields");
         }

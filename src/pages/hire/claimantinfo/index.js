@@ -30,7 +30,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
     const [showFurtherAddress, setshowFurtherAddress] = useState(false);
 
     const handleAge = (dob) => {
-        setclaimantDetails({ ...claimantDetails, dob, ninumber: calculate_age(dob) < 15 ? "Minor" : '' });
+        setclaimantDetails({ ...claimantDetails, dob, ninumber: calculate_age(dob) < 15 ? "Minor" : "" });
         if (calculate_age(dob) < 15) {
             setMinor(true);
         } else {
@@ -237,9 +237,9 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         <label>Translator Details</label>
                         <InputText
                             disabled={viewmode}
-                            value={claimantDetails?.language_details || ""}
+                            value={claimantDetails?.translatordetail || ""}
                             onChange={(e) => {
-                                setclaimantDetails({ ...claimantDetails, language_details: e.target.value });
+                                setclaimantDetails({ ...claimantDetails, translatordetail: e.target.value });
                             }}
                             className={errors?.mobile && "p-invalid p-d-block"}
                         />
@@ -278,9 +278,9 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                     <InputText
                         type="number"
                         disabled={viewmode}
-                        value={claimantDetails?.alternativeNumber || ""}
+                        value={claimantDetails?.alternativenumber || ""}
                         onChange={(e) => {
-                            setclaimantDetails({ ...claimantDetails, alternativeNumber: e.target.value });
+                            setclaimantDetails({ ...claimantDetails, alternativenumber: e.target.value });
                         }}
                     />
                 </div>

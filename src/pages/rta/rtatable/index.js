@@ -6,13 +6,18 @@ import { Skeleton } from "primereact/skeleton";
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { Chip } from "primereact/chip";
+import { ConfirmDialog } from "primereact/confirmdialog";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { CopyRtatoHire } from "../../../redux/actions/claimantAction";
 import "./rtatable.css";
 
 function RTATable() {
     const [rtalist, setrtalist] = useState([]);
     const [loading, setloading] = useState(false);
     const [expandedRows, setExpandedRows] = useState();
+    const [visible, setVisible] = useState(false);
+    const [rtaCode, setrtaCode] = useState("");
 
     const history = useHistory();
 
@@ -90,12 +95,26 @@ function RTATable() {
             </div>
         );
     };
+    const confirmCopy = (rtaCode) => {
+        setVisible(true);
+        setrtaCode(rtaCode);
+    };
+    const dispatch = useDispatch();
+    const accept = async () => {
+        const data = {
+            hireCode: "",
+            rtaCode,
+        };
+        const res = await dispatch(CopyRtatoHire(data, "/hire/copyRtaToHire"));
+        history.push(`hireCase?id=${res?.data?.hirecode}&mode=v`);
+    };
 
     const actionTemplate = (rowData) => {
         return (
             <div>
-                {rowData.editflag === "Y" ? <Button icon="pi pi-pencil" onClick={() => history.push(`rtaCase?id=${rowData?.rtacode}&mode=e`)} className="p-button-rounded p-button-warning p-mr-2" /> : ""}
-                <Button icon="pi pi-eye" onClick={() => history.push(`rtaCase?id=${rowData?.rtacode}&mode=v`)} className="p-button-rounded p-button-primary" />
+                {rowData.editflag === "Y" ? <Button tooltip="Edit" icon="pi pi-pencil" onClick={() => history.push(`rtaCase?id=${rowData?.rtacode}&mode=e`)} className="p-button-rounded p-button-warning p-mr-2" /> : ""}
+                <Button tooltip="View" icon="pi pi-eye" onClick={() => history.push(`rtaCase?id=${rowData?.rtacode}&mode=v`)} className="p-button-rounded p-button-primary p-mr-2" />
+                <Button tooltip="Copy to Hire" icon="pi pi-copy" onClick={() => confirmCopy(rowData?.rtacode)} className="p-button-rounded p-button-info" />
             </div>
         );
     };
@@ -109,15 +128,15 @@ function RTATable() {
     };
 
     const nameTemplate = (rowData) => {
-        const {firstname,middlename,lastname}=rowData
-        return `${firstname!==null ? firstname :""} ${middlename!==null ? middlename :""} ${lastname!==null ? lastname :""}`
+        const { firstname, middlename, lastname } = rowData;
+        return `${firstname !== null ? firstname : ""} ${middlename !== null ? middlename : ""} ${lastname !== null ? lastname : ""}`;
     };
 
-    const dateTemplate = (rowData) => { 
-            let allDate = rowData.createdon.split(' ')
-            let thisDate = allDate[0].split('-')
-            let newDate = [thisDate[2],thisDate[1],thisDate[0] ].join("-")
-            return newDate    
+    const dateTemplate = (rowData) => {
+        let allDate = rowData.createdon.split(" ");
+        let thisDate = allDate[0].split("-");
+        let newDate = [thisDate[2], thisDate[1], thisDate[0]].join("-");
+        return newDate;
     };
 
     return (
@@ -125,17 +144,18 @@ function RTATable() {
             {!loading && rtalist && rtalist.length ? (
                 <DataTable value={rtalist} expandedRows={expandedRows} dataKey="rtanumber" onRowToggle={(e) => setExpandedRows(e.data)} rowExpansionTemplate={rowExpansionTemplate}>
                     <Column expander style={{ width: "2.5rem" }} filterMatchMode="contains"></Column>
-                    <Column field="createdon" body={dateTemplate} header="Created On" filter sortable ></Column>
+                    <Column field="createdon" body={dateTemplate} header="Created On" filter sortable></Column>
                     <Column field="rtanumber" header="Reference Number" filter sortable filterMatchMode="contains"></Column>
                     <Column body={nameTemplate} header="Name" filter sortable filterMatchMode="contains"></Column>
                     <Column field="contactdue" header="Contact Due" filter sortable filterMatchMode="contains"></Column>
-                    <Column field="contactdue" header="Current Task" filter sortable filterMatchMode="contains"></Column>
+                    <Column field="rtataskname" header="Current Task" filter sortable filterMatchMode="contains"></Column>
                     <Column field="status" body={statusTemplate} header="Status" filter sortable filterMatchMode="contains"></Column>
                     <Column body={actionTemplate} header="Acts" filterMatchMode="contains"></Column>
                 </DataTable>
             ) : (
                 tableSkeleton()
             )}
+            <ConfirmDialog visible={visible} onHide={() => setVisible(false)} message="Are you sure you want to proceed?" header="Confirmation" icon="pi pi-exclamation-triangle" accept={accept} />
         </Card>
     );
 }

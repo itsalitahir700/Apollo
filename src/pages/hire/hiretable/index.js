@@ -6,13 +6,18 @@ import { Skeleton } from "primereact/skeleton";
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { Chip } from "primereact/chip";
+import { ConfirmDialog } from "primereact/confirmdialog";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { CopyHiretoRta } from "../../../redux/actions/claimantAction";
 import "./HireTable.css";
 
 function HireTable() {
     const [rtalist, setrtalist] = useState([]);
     const [loading, setloading] = useState(false);
     const [expandedRows, setExpandedRows] = useState();
+    const [visible, setVisible] = useState(false);
+    const [hireCode, sethireCode] = useState("");
 
     const history = useHistory();
 
@@ -94,12 +99,27 @@ function HireTable() {
         );
     };
 
+    const confirmCopy = (hireCode) => {
+        setVisible(true);
+        sethireCode(hireCode);
+    };
+    const dispatch = useDispatch();
+    const accept = async () => {
+        const data = {
+            hireCode,
+            rtaCode: "",
+        };
+        const res = await dispatch(CopyHiretoRta(data, "/rta/copyHireToRta"));
+        if (res?.responsecode === 1) history.push(`hireCase?id=${res?.data?.rtacode}&mode=v`);
+    };
+
     const actionTemplate = (rowData) => {
         return (
             <div>
                 {/* by pass for now */}
-                {rowData.editflag !== "Y" ? <Button icon="pi pi-pencil" onClick={() => history.push(`hireCase?id=${rowData?.hirecode}&mode=e`)} className="p-button-rounded p-button-warning p-mr-2" /> : ""}
-                <Button icon="pi pi-eye" onClick={() => history.push(`hireCase?id=${rowData?.hirecode}&mode=v`)} className="p-button-rounded p-button-primary" />
+                {rowData.editflag !== "Y" ? <Button tooltip="Edit" icon="pi pi-pencil" onClick={() => history.push(`hireCase?id=${rowData?.hirecode}&mode=e`)} className="p-button-rounded p-button-warning p-mr-2" /> : ""}
+                <Button tooltip="View" icon="pi pi-eye" onClick={() => history.push(`hireCase?id=${rowData?.hirecode}&mode=v`)} className="p-button-rounded p-button-primary p-mr-2" />
+                <Button tooltip="Copy to RTA" icon="pi pi-copy" onClick={() => confirmCopy(rowData?.hirecode)} className="p-button-rounded p-button-info" />
             </div>
         );
     };
@@ -127,6 +147,7 @@ function HireTable() {
             ) : (
                 tableSkeleton()
             )}
+            <ConfirmDialog visible={visible} onHide={() => setVisible(false)} message="Are you sure you want to proceed?" header="Confirmation" icon="pi pi-exclamation-triangle" accept={accept} />
         </Card>
     );
 }

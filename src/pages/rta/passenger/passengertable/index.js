@@ -4,7 +4,7 @@ import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 import PassengerModal from "../../passenger";
 
-function PassengerTable({ passengers, handleRemovePassenger, handleUpdatePassenger, isView, viewmode }) {
+function PassengerTable({ passengers, claimantAddress, handleRemovePassenger, handleUpdatePassenger, isView, viewmode }) {
     let states = [
         {
             code: "Mr",
@@ -70,14 +70,25 @@ function PassengerTable({ passengers, handleRemovePassenger, handleUpdatePasseng
         setDisplayBasic(true);
     };
 
+    const nameTemplate = (rowData) => {
+        const { firstname, middlename, lastname } = rowData;
+        return `${firstname !== null ? firstname : ""} ${middlename !== null ? middlename : ""} ${lastname !== null ? lastname : ""}`;
+    };
+
+    const dateTemplate = (rowData) => {
+        let allDate = rowData.dob.split(" ");
+        let thisDate = allDate[0].split("-");
+        let newDate = [thisDate[2], thisDate[1], thisDate[0]].join("-");
+        return newDate;
+    };
     return (
         <div className="card">
             <DataTable value={passengers}>
-                <Column field="firstname" header="Name" sortable filterMatchMode="contains"></Column>
-                <Column field="dob" header="DOB" sortable filterMatchMode="contains"></Column>
+                <Column body={nameTemplate} field="firstname" header="Name" sortable filterMatchMode="contains"></Column>
+                <Column body={dateTemplate} header="DOB" sortable filterMatchMode="contains"></Column>
                 {isView === true ? <Column body={actionTemplateView} header="Acts" filterMatchMode="contains"></Column> : <Column body={actionTemplate} header="Acts" filterMatchMode="contains"></Column>}
             </DataTable>
-            <PassengerModal status={states} viewmode={isView||viewmode} show={displayBasic} hide={setDisplayBasic} passenger={passenger} handlePassengerReturn={handleUpdatePassenger} isEdit={true} />
+            <PassengerModal status={states} claimantAddress={claimantAddress} viewmode={isView || viewmode} show={displayBasic} hide={setDisplayBasic} passenger={passenger} handlePassengerReturn={handleUpdatePassenger} isEdit={true} />
         </div>
     );
 }

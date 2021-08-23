@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Fieldset } from "primereact/fieldset";
 import PassengerModal from "./passenger";
 import { Button } from "primereact/button";
@@ -100,14 +100,14 @@ function RTA() {
         seterrors(isvalid?.errors);
         if (!Object.keys(isvalid?.errors).length) {
             const resp = await postRta(post, localStorage.getItem("token"));
-            history.push(`rtaCase?id=${resp.data.rtacode}&mode=v`)
+            history.push(`rtaCase?id=${resp.data.rtacode}&mode=v`);
         }
         setloading(false);
     };
 
     useEffect(() => {
-        Object.keys(errors).length && toast.error("Required fields must be filled.")
-    }, [errors])
+        Object.keys(errors).length && toast.error("Required fields must be filled.");
+    }, [errors]);
 
     return (
         <>
@@ -121,18 +121,29 @@ function RTA() {
 
             <Fieldset className="p-mt-2" legend="Vehicles & Passenger Info">
                 <VehiclesInfo handleVehicleInfoReturn={setvehiclesDetails} errors={errors} />
-                <PassengerModal  claimantAddress={{ gpostalcode: claimantDetails?.postalcode, gaddress1: claimantDetails?.address1, gaddress2: claimantDetails?.address2, gaddress3: claimantDetails?.address3, gcity: claimantDetails?.city, gregion: claimantDetails?.region }}
-                driverOrPassenger={accidentDetails?.driverpassenger} status={states} show={displayBasic} hide={setDisplayBasic} handlePassengerReturn={handleAddPassenger} />
+                <PassengerModal
+                    claimantAddress={{ gpostalcode: claimantDetails?.postalcode, gaddress1: claimantDetails?.address1, gaddress2: claimantDetails?.address2, gaddress3: claimantDetails?.address3, gcity: claimantDetails?.city, gregion: claimantDetails?.region }}
+                    driverOrPassenger={accidentDetails?.driverpassenger}
+                    status={states}
+                    show={displayBasic}
+                    hide={setDisplayBasic}
+                    handlePassengerReturn={handleAddPassenger}
+                />
             </Fieldset>
 
             <Fieldset className="p-mt-2" legend="Passenger Info">
                 <Button label="Add" className="add-passenger-btn" icon="pi pi-external-link" onClick={() => setDisplayBasic(!displayBasic)} />
-                <PassengersTable handleUpdatePassenger={handleUpdatePassenger} passengers={passengers} handleRemovePassenger={handleRemovePassenger} />
+                <PassengersTable
+                    claimantAddress={{ gpostalcode: claimantDetails?.postalcode, gaddress1: claimantDetails?.address1, gaddress2: claimantDetails?.address2, gaddress3: claimantDetails?.address3, gcity: claimantDetails?.city, gregion: claimantDetails?.region }}
+                    handleUpdatePassenger={handleUpdatePassenger}
+                    passengers={passengers}
+                    handleRemovePassenger={handleRemovePassenger}
+                />
             </Fieldset>
             <Fieldset className="p-mt-2" legend="Attachments">
                 <ImagesUpload handleImages={setimages} />
             </Fieldset>
-                <Button label="Create RTA" disabled={loading}  onClick={handleSubmit} className="fixed-bottom" icon={loading ? "pi pi-spin pi-spinner" : ""} />
+            <Button label="Create RTA" disabled={loading} onClick={handleSubmit} className="fixed-bottom" icon={loading ? "pi pi-spin pi-spinner" : ""} />
             <MinorModal
                 handleMinorReturn={setMinorDetails}
                 claimantAddress={{ gpostalcode: claimantDetails?.postalcode, gaddress1: claimantDetails?.address1, gaddress2: claimantDetails?.address2, gaddress3: claimantDetails?.address3, gcity: claimantDetails?.city, gregion: claimantDetails?.region }}

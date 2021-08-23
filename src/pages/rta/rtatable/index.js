@@ -142,7 +142,7 @@ function RTATable() {
     return (
         <Card>
             {!loading && rtalist && rtalist.length ? (
-                <DataTable value={rtalist} expandedRows={expandedRows} dataKey="rtanumber" onRowToggle={(e) => setExpandedRows(e.data)} rowExpansionTemplate={rowExpansionTemplate}>
+                <DataTable value={rtalist} sortField="createdon" sortOrder={-1} expandedRows={expandedRows} dataKey="rtanumber" onRowToggle={(e) => setExpandedRows(e.data)} rowExpansionTemplate={rowExpansionTemplate}>
                     <Column expander style={{ width: "2.5rem" }} filterMatchMode="contains"></Column>
                     <Column field="createdon" body={dateTemplate} header="Created On" filter sortable></Column>
                     <Column field="rtanumber" header="Reference Number" filter sortable filterMatchMode="contains"></Column>

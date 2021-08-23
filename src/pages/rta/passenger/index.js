@@ -17,7 +17,18 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
     if (viewmode) {
         isEdit = "View";
     }
-    const footer = <div>{!viewmode ? <Button label={!isEdit ? "Add" : "Update"} onClick={() => handlePassenger()} icon="pi pi-check" /> : ""}</div>;
+    const footer = (
+        <div>
+            {!viewmode ? (
+                <>
+                    <Button label={!isEdit ? "Add" : "Update"} onClick={() => handlePassenger()} icon="pi pi-check" />
+                    {!isEdit && <Button className="p-button-secondary" label={"Reset"} onClick={() => setPassengerDetails(vehicledetails)} icon="pi pi-refresh" />}
+                </>
+            ) : (
+                ""
+            )}
+        </div>
+    );
 
     const [passengerDetails, setPassengerDetails] = useState(vehicledetails);
     const [showMinorModal, setShowMinorModal] = useState(false);
@@ -130,7 +141,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
 
     useEffect(() => {
         if (passenger && Object.keys(passenger).length !== 0) setPassengerDetails(passenger);
-    }, [passenger]);
+    }, [passenger, show]);
 
     return (
         <Dialog header={isEdit && isEdit !== "View" ? "Edit Passenger" : isEdit === "View" ? isEdit + " Passenger Details" : "Add Passenger"} footer={footer} visible={show} style={{ width: "80%" }} onHide={() => hide(false)}>
@@ -141,7 +152,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                             <label htmlFor="Status">Title</label>
                             <Dropdown
                                 disabled={viewmode}
-                                value={titleValue}
+                                value={titleValue || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, title: e.value.code });
                                     settitleValue(e.value);
@@ -155,7 +166,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                             <label>First Name * </label>
                             <InputText
                                 disabled={viewmode}
-                                value={passengerDetails?.firstname}
+                                value={passengerDetails?.firstname || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, firstname: e.target.value });
                                 }}
@@ -167,7 +178,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                             <label>Middle Name</label>
                             <InputText
                                 disabled={viewmode}
-                                value={passengerDetails?.middlename}
+                                value={passengerDetails?.middlename || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, middlename: e.target.value });
                                 }}
@@ -178,7 +189,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                             <label>Last Name * </label>
                             <InputText
                                 disabled={viewmode}
-                                value={passengerDetails?.lastname}
+                                value={passengerDetails?.lastname || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, lastname: e.target.value });
                                 }}
@@ -262,7 +273,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                             <label>Alternative Number</label>
                             <InputText
                                 disabled={viewmode}
-                                value={passengerDetails?.alternativenumber}
+                                value={passengerDetails?.alternativenumber || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, alternativenumber: e.target.value });
                                 }}
@@ -272,7 +283,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                             <label>Email</label>
                             <InputText
                                 disabled={viewmode}
-                                value={passengerDetails?.email}
+                                value={passengerDetails?.email || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, email: e.target.value });
                                 }}
@@ -490,7 +501,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                                 <label>Medical Evidence Details</label>
                                 <InputTextarea
                                     disabled={viewmode}
-                                    value={passengerDetails?.evidencedatails}
+                                    value={passengerDetails?.evidencedatails || ""}
                                     onChange={(e) => {
                                         setPassengerDetails({ ...passengerDetails, evidencedatails: e.target.value });
                                     }}
@@ -505,7 +516,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                             <label>Details</label>
                             <InputTextarea
                                 disabled={viewmode}
-                                value={passengerDetails?.detail}
+                                value={passengerDetails?.detail || ""}
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, detail: e.target.value });
                                 }}

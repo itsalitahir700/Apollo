@@ -109,23 +109,23 @@ function RTATable() {
     };
 
     const nameTemplate = (rowData) => {
-        const {firstname,middlename,lastname}=rowData
-        return `${firstname!==null ? firstname :""} ${middlename!==null ? middlename :""} ${lastname!==null ? lastname :""}`
+        const { firstname, middlename, lastname } = rowData;
+        return `${firstname !== null ? firstname : ""} ${middlename !== null ? middlename : ""} ${lastname !== null ? lastname : ""}`;
     };
 
-    const dateTemplate = (rowData) => { 
-            let allDate = rowData.createdon.split(' ')
-            let thisDate = allDate[0].split('-')
-            let newDate = [thisDate[2],thisDate[1],thisDate[0] ].join("-")
-            return newDate    
+    const dateTemplate = (rowData) => {
+        let allDate = rowData.createdon.split(" ");
+        let thisDate = allDate[0].split("-");
+        let newDate = [thisDate[2], thisDate[1], thisDate[0]].join("-");
+        return newDate;
     };
 
     return (
         <Card>
             {!loading && rtalist && rtalist.length ? (
-                <DataTable value={rtalist} expandedRows={expandedRows} dataKey="rtanumber" onRowToggle={(e) => setExpandedRows(e.data)} rowExpansionTemplate={rowExpansionTemplate}>
+                <DataTable value={rtalist} sortField="createdon" sortOrder={-1} expandedRows={expandedRows} dataKey="rtanumber" onRowToggle={(e) => setExpandedRows(e.data)} rowExpansionTemplate={rowExpansionTemplate}>
                     <Column expander style={{ width: "2.5rem" }} filterMatchMode="contains"></Column>
-                    <Column field="createdon" body={dateTemplate} header="Created On" filter sortable ></Column>
+                    <Column field="createdon" body={dateTemplate} header="Created On" filter sortable></Column>
                     <Column field="rtanumber" header="Reference Number" filter sortable filterMatchMode="contains"></Column>
                     <Column body={nameTemplate} header="Name" filter sortable filterMatchMode="contains"></Column>
                     <Column field="contactdue" header="Contact Due" filter sortable filterMatchMode="contains"></Column>

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
 import { Badge } from "primereact/badge";
+import { InputTextarea } from "primereact/inputtextarea";
 import { getClaimantDetails, ActionOnRtaFromDirectIntro, ActionOnRta } from "../../redux/actions/claimantAction";
 import ClaimantInfo from "./claimantinfo";
 import AccidentInfo from "./AccidentInfo";
@@ -87,6 +88,11 @@ function ViewClaimant() {
     const status = useSelector((state) => state.claimantSlice.claimantDetails.status);
     const directIntroducer = useSelector((state) => state.authenticationSlice?.directIntroducer);
     const [displayBasic, setDisplayBasic] = useState(false);
+    const [rejectModal, setrejectModal] = useState(false);
+    const [reason, setreason] = useState("");
+    const [loading, setloading] = useState(false);
+    const [loadingIcon, setloadingIcon] = useState("");
+    const [rejectBtnValue, setrejectBtnValue] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -154,7 +160,6 @@ function ViewClaimant() {
     const handleTaskAction = async () => {
         const rtaCode = urlObj?.query?.id;
         const res = await handleGetRequest(`rta/getAuthRtaCaseTasks/${rtaCode}`);
-        console.log("res", res);
         setshowModal(true);
         settaskActionData(res.data);
     };
@@ -164,10 +169,10 @@ function ViewClaimant() {
         settaskActionData(res.data);
     };
 
-    const handleAddPassenger = async(passenger) => {
-        const pObj= {passengers:[{...passenger}], rtacode : rtaCode}
+    const handleAddPassenger = async (passenger) => {
+        const pObj = { passengers: [{ ...passenger }], rtacode: rtaCode };
         setpassengers(await postPassengers(pObj));
-      };
+    };
 
     const taskButton = <div>{taskFlag === "Y" ? <Button onClick={handleTaskAction} label="Tasks" icon="pi pi-check" iconPos="right" className="p-button-info" /> : ""}</div>;
 
@@ -191,7 +196,7 @@ function ViewClaimant() {
                               <Button
                                   value={item.buttonvalue}
                                   onClick={(e) => {
-                                      handleActionButton(item.buttonvalue);
+                                      handleActionButton(item);
                                   }}
                                   label={item.buttonname}
                                   className="p-button-sm p-button-primary p-mr-2 p-mb-2"
@@ -227,17 +232,45 @@ function ViewClaimant() {
         </div>
     );
 
+    const handlRejectActionButton = async () => {
+        setloading(true);
+        setloadingIcon("pi pi-spin pi-spinner");
+        const data = {
+            rtaCode,
+            toStatus: rejectBtnValue,
+            reason,
+        };
+        await dispatch(ActionOnRta(data));
+        setrejectModal(false);
+        setrejectBtnValue("");
+        setloading(false);
+        setloadingIcon("");
+    };
+
+    const Rejectfooter = (
+        <div>
+            <center className="p-mt-2 p-button-outlined">
+                <Button icon={loadingIcon || ""} disabled={loading} onClick={handlRejectActionButton} label="Submit" />
+            </center>
+        </div>
+    );
+
     const handleActionHotKey = (value) => {
         setrtaHotkeyModal(true);
         setbtnValue(value);
     };
 
     const handleActionButton = async (value) => {
-        const data = {
-            rtaCode,
-            toStatus: value,
-        };
-        await dispatch(ActionOnRta(data));
+        if (value.rejectDialog === "Y") {
+            setrejectModal(true);
+            setrejectBtnValue(value.buttonvalue);
+        } else {
+            const data = {
+                rtaCode,
+                toStatus: value.buttonvalue,
+            };
+            await dispatch(ActionOnRta(data));
+        }
     };
 
     useEffect(() => {
@@ -270,11 +303,23 @@ function ViewClaimant() {
             </Fieldset>
 
             <Fieldset className="p-mt-2" legend="Passenger Info">
-            <Button label="Add" className="add-passenger-btn" icon="pi pi-external-link" onClick={() => {setDisplayBasic(!displayBasic)}} />
+                <Button
+                    label="Add"
+                    className="add-passenger-btn"
+                    icon="pi pi-external-link"
+                    onClick={() => {
+                        setDisplayBasic(!displayBasic);
+                    }}
+                />
                 <PassengersTable viewmode={viewmode} isView={true} passengers={passengers} />
-                <PassengerModal claimantAddress={{ gpostalcode: claimantDetails?.postalcode, gaddress1: claimantDetails?.address1, gaddress2: claimantDetails?.address2, gaddress3: claimantDetails?.address3, gcity: claimantDetails?.city, gregion: claimantDetails?.region }}
-                driverOrPassenger={accidentDetails?.driverpassenger} status={states} show={displayBasic} hide={setDisplayBasic} handlePassengerReturn={handleAddPassenger} />
-           
+                <PassengerModal
+                    claimantAddress={{ gpostalcode: claimantDetails?.postalcode, gaddress1: claimantDetails?.address1, gaddress2: claimantDetails?.address2, gaddress3: claimantDetails?.address3, gcity: claimantDetails?.city, gregion: claimantDetails?.region }}
+                    driverOrPassenger={accidentDetails?.driverpassenger}
+                    status={states}
+                    show={displayBasic}
+                    hide={setDisplayBasic}
+                    handlePassengerReturn={handleAddPassenger}
+                />
             </Fieldset>
 
             <MinorModal handleMinorReturn={setMinorDetails} minorData={minorDetails} viewmode={viewmode} show={showMinorModal} hide={setShowMinorModal} />
@@ -309,6 +354,9 @@ function ViewClaimant() {
             </Dialog>
             <Dialog header="Tasks" visible={showModal} style={{ width: "70vw" }} onHide={() => setshowModal(false)}>
                 <TaskData rtaCode={rtaCode} refreshTasks={() => refreshTasks()} taskActionData={taskActionData} />
+            </Dialog>
+            <Dialog header="Reject Dialog" visible={rejectModal} footer={Rejectfooter} onHide={() => setrejectModal(false)} breakpoints={breakpoints} style={{ width: "50vw" }}>
+                <InputTextarea rows={5} cols={60} placeholder="Enter Reason " value={reason} onChange={(e) => setreason(e.target.value)} />
             </Dialog>
         </div>
     );

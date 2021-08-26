@@ -6,6 +6,7 @@ import "./Rtacase.css";
 import Notes from "../../../components/Notes";
 import Messages from "../../../components/Messages";
 import Documents from "../../../components/Documents";
+import Logs from "../../../components/Logs";
 
 import { SRLWrapper } from "simple-react-lightbox";
 
@@ -32,6 +33,9 @@ const RTACase = () => {
                     </TabPanel>
                     <TabPanel header="Documents">
                         <Documents />
+                    </TabPanel>
+                    <TabPanel header="Timelines">
+                        <Logs />
                     </TabPanel>
                 </TabView>
             </div>

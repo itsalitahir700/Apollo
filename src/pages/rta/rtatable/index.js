@@ -9,6 +9,7 @@ import { Chip } from "primereact/chip";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { baseURL } from "../../../Config";
 import { CopyRtatoHire } from "../../../redux/actions/claimantAction";
 import "./rtatable.css";
 
@@ -99,6 +100,13 @@ function RTATable() {
         setVisible(true);
         setrtaCode(rtaCode);
     };
+    const handleDownloadReport = (rtaCode) => {
+        const url = "/report/rtaClaimReport/" + rtaCode;
+        window.open(
+            `${baseURL + url}`,
+            "_blank" // <- This is what makes it open in a new window.
+        );
+    };
     const dispatch = useDispatch();
     const accept = async () => {
         const data = {
@@ -114,7 +122,8 @@ function RTATable() {
             <div>
                 {rowData.editflag === "Y" ? <Button tooltip="Edit" icon="pi pi-pencil" onClick={() => history.push(`rtaCase?id=${rowData?.rtacode}&mode=e`)} className="p-button-rounded p-button-warning p-mr-2" /> : ""}
                 <Button tooltip="View" icon="pi pi-eye" onClick={() => history.push(`rtaCase?id=${rowData?.rtacode}&mode=v`)} className="p-button-rounded p-button-primary p-mr-2" />
-                <Button tooltip="Copy to Hire" icon="pi pi-copy" onClick={() => confirmCopy(rowData?.rtacode)} className="p-button-rounded p-button-info" />
+                <Button tooltip="Copy to Hire" icon="pi pi-copy" onClick={() => confirmCopy(rowData?.rtacode)} className="p-button-rounded p-button-info p-mr-2" />
+                <Button tooltip="Download Report" icon="pi pi-download" onClick={() => handleDownloadReport(rowData?.rtacode)} className="p-button-rounded p-button-info" />
             </div>
         );
     };

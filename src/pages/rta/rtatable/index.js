@@ -8,7 +8,7 @@ import { Card } from "primereact/card";
 import { Chip } from "primereact/chip";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { baseURL } from "../../../Config";
 import { CopyRtatoHire } from "../../../redux/actions/claimantAction";
 import "./rtatable.css";
@@ -19,6 +19,12 @@ function RTATable() {
     const [expandedRows, setExpandedRows] = useState();
     const [visible, setVisible] = useState(false);
     const [rtaCode, setrtaCode] = useState("");
+    const [catCode, setcatCode] = useState("");
+
+    useEffect(() => {
+        const categorycode = JSON.parse(localStorage.getItem("loggedIn"));
+        setcatCode(categorycode?.tblUsercategory?.categorycode);
+    }, []);
 
     const history = useHistory();
 
@@ -122,7 +128,7 @@ function RTATable() {
             <div>
                 {rowData.editflag === "Y" ? <Button tooltip="Edit" icon="pi pi-pencil" onClick={() => history.push(`rtaCase?id=${rowData?.rtacode}&mode=e`)} className="p-button-rounded p-button-warning p-mr-2" /> : ""}
                 <Button tooltip="View" icon="pi pi-eye" onClick={() => history.push(`rtaCase?id=${rowData?.rtacode}&mode=v`)} className="p-button-rounded p-button-primary p-mr-2" />
-                <Button tooltip="Copy to Hire" icon="pi pi-copy" onClick={() => confirmCopy(rowData?.rtacode)} className="p-button-rounded p-button-info p-mr-2" />
+                {catCode === "4" ? <Button tooltip="Copy to Hire" icon="pi pi-copy" onClick={() => confirmCopy(rowData?.rtacode)} className="p-button-rounded p-button-info p-mr-2" /> : ""}
                 <Button tooltip="Download Report" icon="pi pi-download" onClick={() => handleDownloadReport(rowData?.rtacode)} className="p-button-rounded p-button-info" />
             </div>
         );

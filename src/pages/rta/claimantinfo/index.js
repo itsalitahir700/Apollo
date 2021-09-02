@@ -67,6 +67,13 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
             setMinor(false);
         }
     };
+    useEffect(() => {
+        if (calculate_age(claimantDetails.dob) < 15) {
+            setMinor(true);
+        } else {
+            setMinor(false);
+        }
+    }, [claimantDetails.dob, viewmode]);
     const calculate_age = (dob1) => {
         var today = new Date();
         var birthDate = new Date(dob1); // create a date object directly from `dob1` argument
@@ -191,7 +198,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                 </div>
                 <div className="p-field p-col-12 p-md-4">
                     <label>Date of Birth *</label>
-                    {minor && <Button disabled={viewmode} label="Minor" className="p-bPassworutton-danger minor" onClick={() => showMinorModal(true)} style={{ float: "right" }}></Button>}
+                    {minor && <Button label="Minor" className="p-bPassworutton-danger minor" onClick={() => showMinorModal(true)} style={{ float: "right" }}></Button>}
                     <InputText
                         onBlur={() => {
                             minor && showMinorModal(true);

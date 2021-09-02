@@ -255,9 +255,9 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                         <InputTextarea
                             disabled={viewmode}
                             rows={5}
-                            value={accidentDetails?.evidencedatails}
+                            value={accidentDetails?.medicalevidence}
                             onChange={(e) => {
-                                setaccidentDetails({ ...accidentDetails, evidencedatails: e.target.value });
+                                setaccidentDetails({ ...accidentDetails, medicalevidence: e.target.value });
                             }}
                             className={errors?.mobile && "p-invalid p-d-block"}
                         />

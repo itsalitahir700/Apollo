@@ -1,8 +1,8 @@
 const minordetails = {
     gtitle: "",
     gfirstname: "",
-    gmiddleName: "",
-    glastName: "",
+    gmiddlename: "",
+    glastname: "",
     gdob: "",
     gpostalcode: "",
     gemail: "",
@@ -61,7 +61,7 @@ const accidentdetails = {
     injlength: "",
     ongoing: "N",
     medicalinfo: "N",
-    evidencedatails: "",
+    medicalevidence: "",
     vehicledamage: "",
 };
 

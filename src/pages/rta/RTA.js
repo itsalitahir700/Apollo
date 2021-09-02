@@ -73,6 +73,10 @@ function RTA() {
 
     const history = useHistory();
 
+    const handleMinorReturn = (obj) => {
+        setMinorDetails(obj);
+    };
+
     const handleAddPassenger = (passenger) => {
         let newArr = JSON.parse(JSON.stringify(passengers));
         newArr.push(passenger);
@@ -145,7 +149,7 @@ function RTA() {
             </Fieldset>
             <Button label="Create RTA" disabled={loading} onClick={handleSubmit} className="fixed-bottom" icon={loading ? "pi pi-spin pi-spinner" : ""} />
             <MinorModal
-                handleMinorReturn={setMinorDetails}
+                handleMinorReturn={handleMinorReturn}
                 claimantAddress={{ gpostalcode: claimantDetails?.postalcode, gaddress1: claimantDetails?.address1, gaddress2: claimantDetails?.address2, gaddress3: claimantDetails?.address3, gcity: claimantDetails?.city, gregion: claimantDetails?.region }}
                 show={showMinorModal}
                 hide={setShowMinorModal}

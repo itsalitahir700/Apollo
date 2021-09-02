@@ -77,7 +77,6 @@ function UpdateClaimant() {
     const rtaCode = urlObj?.query?.id;
 
     const fetchClaimantDetails = useCallback(() => {
-       
         dispatch(getClaimantDetails("rta/getAuthRtaCase/", rtaCode));
     }, [dispatch, rtaCode]);
 
@@ -110,6 +109,7 @@ function UpdateClaimant() {
             setAccidentDetails(newaccidentObj);
             setVehicleDetails(newvehicleObj);
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [claimantstore]);
 
@@ -119,10 +119,14 @@ function UpdateClaimant() {
 
     const token = localStorage.getItem("token");
 
+    const handleMinorReturn = (obj) => {
+        setMinorDetails(obj);
+    };
+
     const handleSubmit = async () => {
         setloading(true);
         const rtaCode = { rtacode: urlObj?.query?.id };
-        const post = { ...claimantDetails, ...accidentDetails, ...vehicleDetails, ...rtaCode };
+        const post = { ...claimantDetails, ...minorDetails, ...accidentDetails, ...vehicleDetails, ...rtaCode };
         await updataRta(post, token);
         setloading(false);
     };
@@ -131,10 +135,10 @@ function UpdateClaimant() {
         const res = await getPassengers(rtaCode, token);
         setpassengers(res);
     };
-    
-    const handleAddPassenger = async(passenger) => {
-      const pObj= {passengers:[{...passenger}], rtacode : rtaCode}
-      setpassengers(await postPassengers(pObj));
+
+    const handleAddPassenger = async (passenger) => {
+        const pObj = { passengers: [{ ...passenger }], rtacode: rtaCode };
+        setpassengers(await postPassengers(pObj));
     };
 
     useEffect(() => {
@@ -171,15 +175,33 @@ function UpdateClaimant() {
             </Fieldset>
 
             <Fieldset className="p-mt-2" legend="Passenger Info">
-                <Button label="Add" className="add-passenger-btn" icon="pi pi-external-link" onClick={() => {setDisplayBasic(!displayBasic) }} />
+                <Button
+                    label="Add"
+                    className="add-passenger-btn"
+                    icon="pi pi-external-link"
+                    onClick={() => {
+                        setDisplayBasic(!displayBasic);
+                    }}
+                />
                 <PassengersTable isView={true} passengers={passengers} />
-                <PassengerModal claimantAddress={{ gpostalcode: claimantDetails?.postalcode, gaddress1: claimantDetails?.address1, gaddress2: claimantDetails?.address2, gaddress3: claimantDetails?.address3, gcity: claimantDetails?.city, gregion: claimantDetails?.region }}
-                driverOrPassenger={accidentDetails?.driverpassenger} status={states} show={displayBasic} hide={setDisplayBasic} handlePassengerReturn={handleAddPassenger} />
+                <PassengerModal
+                    claimantAddress={{ gpostalcode: claimantDetails?.postalcode, gaddress1: claimantDetails?.address1, gaddress2: claimantDetails?.address2, gaddress3: claimantDetails?.address3, gcity: claimantDetails?.city, gregion: claimantDetails?.region }}
+                    driverOrPassenger={accidentDetails?.driverpassenger}
+                    status={states}
+                    show={displayBasic}
+                    hide={setDisplayBasic}
+                    handlePassengerReturn={handleAddPassenger}
+                />
             </Fieldset>
 
-            <MinorModal  
+            <MinorModal
                 claimantAddress={{ gpostalcode: claimantDetails?.postalcode, gaddress1: claimantDetails?.address1, gaddress2: claimantDetails?.address2, gaddress3: claimantDetails?.address3, gcity: claimantDetails?.city, gregion: claimantDetails?.region }}
-                handleMinorReturn={setMinorDetails} minorData={minorDetails} viewmode={viewmode} show={showMinorModal} hide={setShowMinorModal} />
+                handleMinorReturn={handleMinorReturn}
+                minorData={minorDetails}
+                viewmode={viewmode}
+                show={showMinorModal}
+                hide={setShowMinorModal}
+            />
             <center className="p-mt-2 p-button-outlined" onClick={handleSubmit}>
                 <Button disabled={loading} icon={loading ? "pi pi-spin pi-spinner" : ""} label="Update" />
             </center>

@@ -8,7 +8,7 @@ import { minorValidation } from "../../../utilities/validation";
 import { getAddress, getAddressValues, getFurtherAddressService } from "../../../services/Rta";
 import "../rta.css";
 
-function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minordata, viewmode, claimantAddress }) {
+function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minorData, viewmode, claimantAddress }) {
     const breakpoints = { "960px": "75vw", "640px": "100vw" };
     let states = [
         {
@@ -53,9 +53,13 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minordata,
         },
     ];
 
-    const [minorDetails, setMinorDetails] = useState(minordata && Object.keys(minordata).length ? minordata : minordetails);
+    const [minorDetails, setMinorDetails] = useState(minorData && Object.keys(minorData).length ? minorData : minordetails);
     const [titleValue, settitleValue] = useState("");
     const [errors, seterrors] = useState({});
+
+    useEffect(() => {
+        setMinorDetails(minorData && Object.keys(minorData).length ? minorData : minordetails);
+    }, [minorData]);
 
     const [addressItems, setaddressItems] = useState("");
     const [addressItemsValue, setaddressItemsValue] = useState("");
@@ -126,6 +130,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minordata,
                     if (ins === dt) newObj[ins] = details[ins];
                 });
             });
+
             setMinorDetails(newObj);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -175,26 +180,26 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minordata,
                     <label> Middle Name</label>
                     <InputText
                         disabled={viewmode}
-                        value={minorDetails?.gmiddleName || ""}
+                        value={minorDetails?.gmiddlename || ""}
                         onChange={(e) => {
-                            setMinorDetails({ ...minorDetails, gmiddleName: e.target.value });
+                            setMinorDetails({ ...minorDetails, gmiddlename: e.target.value });
                         }}
-                        className={errors?.gmiddleName && "p-invalid p-d-block"}
+                        className={errors?.gmiddlename && "p-invalid p-d-block"}
                     />
-                    <small className="p-error p-d-block">{errors?.gmiddleName}</small>
+                    <small className="p-error p-d-block">{errors?.gmiddlename}</small>
                 </div>
 
                 <div className="p-field p-col-12 p-md-3">
                     <label> Last Name</label>
                     <InputText
                         disabled={viewmode}
-                        value={minorDetails?.glastName || ""}
+                        value={minorDetails?.glastname || ""}
                         onChange={(e) => {
-                            setMinorDetails({ ...minorDetails, glastName: e.target.value });
+                            setMinorDetails({ ...minorDetails, glastname: e.target.value });
                         }}
-                        className={errors?.glastName && "p-invalid p-d-block"}
+                        className={errors?.glastname && "p-invalid p-d-block"}
                     />
-                    <small className="p-error p-d-block">{errors?.glastName}</small>
+                    <small className="p-error p-d-block">{errors?.glastname}</small>
                 </div>
                 <div className="p-field p-col-12 p-md-4">
                     <label>Date of Birth</label>

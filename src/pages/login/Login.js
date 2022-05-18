@@ -30,7 +30,7 @@ const Login = () => {
     return (
         <div className="login_body">
             <div align="center" className="p-mb-2">
-                <h1 className="login_h1 logo_h1">Legal Assist Portal</h1>
+                <h1 className="login_h1 logo_h1">Apollo</h1>
             </div>
             <div class="container" id="container">
                 <div class="form-container sign-in-container">
@@ -51,14 +51,14 @@ const Login = () => {
                     <div class="overlay">
                         <div class="overlay-panel overlay-right">
                             <h1 className="login_h1">Welcome!</h1>
-                            <p className="login_p">Please login to access Legal Assit Portal</p>
+                            <p className="login_p">Please login to access Apollo Portal</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <footer>
-                <p className="login_p"> Powered by Legal Assist IT Dept</p>
+                <p className="login_p"> Powered by Apollo IT Dept</p>
             </footer>
         </div>
     );

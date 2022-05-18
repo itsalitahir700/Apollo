@@ -152,7 +152,7 @@ const App = () => {
         return true;
     };
 
-    const logo = layoutColorMode === "dark" ? "assets/layout/images/logo_llp.png" : "assets/layout/images/logo.svg";
+    const logo = layoutColorMode === "dark" ? "assets/layout/images/logo-1.png" : "assets/layout/images/logo.svg";
 
     const wrapperClass = classNames("layout-wrapper", {
         "layout-overlay": layoutMode === "overlay",
@@ -226,7 +226,7 @@ const App = () => {
                     <CSSTransition classNames="layout-sidebar" timeout={{ enter: 200, exit: 200 }} in={isSidebarVisible()} unmountOnExit>
                         <div ref={sidebar} className={sidebarClassName} onClick={onSidebarClick}>
                             <div className="layout-logo" style={{ cursor: "pointer" }} onClick={() => history.push("/")}>
-                                <img alt="Logo" src={logo} />
+                                <img width={"100px"} alt="Logo" src={logo} />
                             </div>
                             <AppProfile />
                             <AppMenu model={menu} onMenuItemClick={onMenuItemClick} />
@@ -265,7 +265,6 @@ const App = () => {
                             <Route exact path="/caseList" component={CaseList} />
                             <Route exact path="/updatepassword" component={UpdatePassword} />
                             <Route exact path="/eSign" component={ESign} />
-                            
                         </Switch>
                     )}
                 </Switch>

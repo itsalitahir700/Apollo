@@ -68,12 +68,15 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
         }
     };
     useEffect(() => {
-        if (calculate_age(claimantDetails.dob) < 15) {
-            setMinor(true);
-        } else {
-            setMinor(false);
+        if (claimantDetails?.dob !== "" && claimantDetails?.dob !== null && claimantDetails?.dob !== undefined) {
+            if (calculate_age(claimantDetails.dob) < 15) {
+                setMinor(true);
+            } else {
+                setMinor(false);
+            }
         }
-    }, [claimantDetails.dob, viewmode]);
+    }, [claimantDetails?.dob, viewmode]);
+
     const calculate_age = (dob1) => {
         var today = new Date();
         var birthDate = new Date(dob1); // create a date object directly from `dob1` argument

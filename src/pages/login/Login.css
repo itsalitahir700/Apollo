@@ -12,7 +12,7 @@
 }
 
 .logo_h1 {
-    color: #066842;
+    color: #00a1ed;
 }
 
 .login_h1 {
@@ -30,8 +30,8 @@
 
 .login_button {
     border-radius: 20px;
-    border: 1px solid #037203;
-    background-color: #156519 !important;
+    border: 1px solid #00a1ed;
+    background-color: #00a1ed !important;
     color: #ffffff;
     font-size: 12px;
     font-weight: bold;
@@ -133,8 +133,8 @@
 
 .overlay {
     background: #ff416c;
-    background: -webkit-linear-gradient(to right, #046309, #068b1d);
-    background: linear-gradient(to right, #037203, #056d24);
+    background: -webkit-linear-gradient(to right, #00a1ed, #00a1ed);
+    background: linear-gradient(to right, #00a1ed, #00a1ed);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0 0;
@@ -219,6 +219,6 @@ footer i {
 }
 
 footer a {
-    color: #3c97bf;
+    color: #00a1ed;
     text-decoration: none;
 }

@@ -355,7 +355,7 @@ export const Dashboard = () => {
             <h2>
                 Welcome <br />
                 To
-                <br /> LEGAL ASSIST{" "}
+                <br /> Apollo{" "}
             </h2>
         </center>
     );

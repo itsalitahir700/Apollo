@@ -799,12 +799,25 @@ pre[class*="language-"] {
 }
 .welcome-msg h2 {
     font-weight: bolder;
-    color: #1ea40e !important;
+    color: #00a1ed !important;
     font-weight: bold;
-    text-shadow: 0px 0px 3px #33f01c;
+    text-shadow: 0px 0px 3px #00a1ed;
 }
 .p-f-center {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.layout-topbar {
+    background-color: #00a1ed !important;
+}
+
+.layout-sidebar-dark .layout-menu li.active-menuitem > a {
+    background-color: #131315;
+    color: #00a1ed;
+}
+
+.layout-sidebar-dark .layout-menu li a:hover {
+    color: #00a1ed;
 }

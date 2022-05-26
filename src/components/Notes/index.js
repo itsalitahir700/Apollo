@@ -41,8 +41,8 @@ function Notes({ getNotesService, addNotesService, caseType }) {
 
     const handleUserLov = async () => {
         let userList = await getLovUserCategory();
-        const loggedIn = JSON.parse(localStorage.getItem("loggedIn")).tblUsercategory.categorycode;
-        switch (Number(loggedIn)) {
+        const loggedInApollo = JSON.parse(localStorage.getItem("loggedInApollo")).tblUsercategory.categorycode;
+        switch (Number(loggedInApollo)) {
             case 1:
                 userList = userList.filter((item) => item.code === "4");
                 break;

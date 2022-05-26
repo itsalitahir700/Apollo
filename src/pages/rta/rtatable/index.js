@@ -22,7 +22,7 @@ function RTATable() {
     const [catCode, setcatCode] = useState("");
 
     useEffect(() => {
-        const categorycode = JSON.parse(localStorage.getItem("loggedIn"));
+        const categorycode = JSON.parse(localStorage.getItem("loggedInApollo"));
         setcatCode(categorycode?.tblUsercategory?.categorycode);
     }, []);
 

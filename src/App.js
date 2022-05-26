@@ -59,6 +59,7 @@ const App = () => {
     const [routes, setroutes] = useState([]);
     const auth = useSelector((state) => state?.authenticationSlice?.token);
     const nav = useSelector((state) => state?.authenticationSlice?.nav);
+    const loggedInApollo = useSelector((state) => state?.authenticationSlice?.loggedInApollo);
 
     const sidebar = useRef();
 
@@ -220,7 +221,7 @@ const App = () => {
     return (
         <div className={wrapperClass} onClick={onWrapperClick}>
             <ToastContainer></ToastContainer>
-            {auth && (
+            {auth && loggedInApollo && (
                 <>
                     <AppTopbar onToggleMenu={onToggleMenu} />
                     <CSSTransition classNames="layout-sidebar" timeout={{ enter: 200, exit: 200 }} in={isSidebarVisible()} unmountOnExit>
@@ -234,40 +235,37 @@ const App = () => {
                     </CSSTransition>
                 </>
             )}
-            <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange} layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
+            {/* <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange} layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} /> */}
 
-            {console.log(routes)}
             <div className="layout-main">
-                <Switch>
-                    {!auth ? (
-                        <Switch>
-                            <Route path="/" exact component={Login} />
-                            <Route exact path="/eSign" component={ESign} />
-                            <Redirect to="/" />
-                        </Switch>
-                    ) : (
-                        <Switch>
-                            <Route exact path="/" component={Dashboard} />
-                            {routes && routes.includes("/profile") && <Route exact path="/profile" component={Profile} />}
-                            {routes && routes.includes("/profile") && <Route exact path="/companydetails" component={CompanyDetails} />}
-                            {routes && routes.includes("/module") && <Route exact path="/module" component={Module} />}
-                            {routes && routes.includes("/role") && <Route exact path="/role" component={Role} />}
-                            {routes && routes.includes("/module") && <Route exact path="/pages" component={Pages} />}
-                            {routes && routes.includes("/role") && <Route exact path="/rolerights" component={RoleRights} />}
-                            {routes && routes.includes("/workflow") && <Route exact path="/workflow" component={WorkFlow} />}
-                            {routes && routes.includes("/rta") && <Route exact path="/rta" component={RTA} />}
-                            {routes && routes.includes("/rtalist") && <Route exact path="/rtalist" component={RTATable} />}
-                            {routes && routes.includes("/rtalist") && <Route exact path="/rtaCase" component={RTACase} />}
-                            {<Route exact path="/hire" component={Hire} />}
-                            {<Route exact path="/hirelist" component={HireTable} />}
-                            <Route exact path="/hireCase" component={HireCase} />
-                            <Route exact path="/users" component={Users} />
-                            <Route exact path="/caseList" component={CaseList} />
-                            <Route exact path="/updatepassword" component={UpdatePassword} />
-                            <Route exact path="/eSign" component={ESign} />
-                        </Switch>
-                    )}
-                </Switch>
+                {!auth && !loggedInApollo ? (
+                    <Switch>
+                        <Route path="/" exact component={Login} />
+                        <Route exact path="/eSign" component={ESign} />
+                        <Redirect to="/" />
+                    </Switch>
+                ) : (
+                    <Switch>
+                        <Route exact path="/" component={Dashboard} />
+                        {routes && routes.includes("/profile") && <Route exact path="/profile" component={Profile} />}
+                        {routes && routes.includes("/profile") && <Route exact path="/companydetails" component={CompanyDetails} />}
+                        {routes && routes.includes("/module") && <Route exact path="/module" component={Module} />}
+                        {routes && routes.includes("/role") && <Route exact path="/role" component={Role} />}
+                        {routes && routes.includes("/module") && <Route exact path="/pages" component={Pages} />}
+                        {routes && routes.includes("/role") && <Route exact path="/rolerights" component={RoleRights} />}
+                        {routes && routes.includes("/workflow") && <Route exact path="/workflow" component={WorkFlow} />}
+                        {routes && routes.includes("/rta") && <Route exact path="/rta" component={RTA} />}
+                        {routes && routes.includes("/rtalist") && <Route exact path="/rtalist" component={RTATable} />}
+                        {routes && routes.includes("/rtalist") && <Route exact path="/rtaCase" component={RTACase} />}
+                        {<Route exact path="/hire" component={Hire} />}
+                        {<Route exact path="/hirelist" component={HireTable} />}
+                        <Route exact path="/hireCase" component={HireCase} />
+                        <Route exact path="/users" component={Users} />
+                        <Route exact path="/caseList" component={CaseList} />
+                        <Route exact path="/updatepassword" component={UpdatePassword} />
+                        <Route exact path="/eSign" component={ESign} />
+                    </Switch>
+                )}
             </div>
         </div>
     );

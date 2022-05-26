@@ -13,8 +13,8 @@ export const AppTopbar = (props) => {
 
             <div className="layout-topbar-icons" style={{ display: "flex" }}>
                 <center>
-                    {JSON.parse(localStorage.getItem("loggedIn"))?.email} <br />
-                    <b>{JSON.parse(localStorage.getItem("loggedIn"))?.tblUsercategory?.categoryname}</b>
+                    {JSON.parse(localStorage.getItem("loggedInApollo"))?.email} <br />
+                    <b>{JSON.parse(localStorage.getItem("loggedInApollo"))?.tblUsercategory?.categoryname}</b>
                 </center>
                 <button type="button" className="p-link">
                     <span onClick={handleLogout} className="layout-topbar-item-text">

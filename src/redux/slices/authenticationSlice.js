@@ -7,7 +7,7 @@ const slice = createSlice({
         token: localStorage.getItem("token"),
         nav: localStorage.getItem("nav"),
         directIntroducer: localStorage.getItem("directIntroducer"),
-        loggedIn: localStorage.getItem("loggedIn"),
+        loggedInApollo: localStorage.getItem("loggedInApollo"),
     },
     reducers: {
         LOGIN_SUCCESS: (state, action) => {
@@ -16,7 +16,7 @@ const slice = createSlice({
                 loginData: action.payload,
                 token: localStorage.getItem("token"),
                 nav: localStorage.getItem("nav"),
-                loggedIn: localStorage.getItem("loggedIn"),
+                loggedInApollo: localStorage.getItem("loggedInApollo"),
                 directIntroducer: localStorage.getItem("directIntroducer"),
             };
         },
@@ -26,7 +26,7 @@ const slice = createSlice({
                 loginData: "",
                 token: "",
                 nav: "",
-                loggedIn: "",
+                loggedInApollo: "",
             };
         },
     },

@@ -5,7 +5,7 @@ export const loginAction = (authData) => async (dispatch) => {
     console.log(res);
     if (res.login === true) {
         localStorage.setItem("token", res.token);
-        localStorage.setItem("loggedIn", JSON.stringify(res?.tblCompanyprofile));
+        localStorage.setItem("loggedInApollo", JSON.stringify(res?.tblCompanyprofile));
         localStorage.setItem("directIntroducer", res.directIntroducer);
         localStorage.setItem("nav", JSON.stringify(res._nav));
         dispatch(LOGIN_SUCCESS(res));

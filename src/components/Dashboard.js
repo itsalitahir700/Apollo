@@ -79,7 +79,7 @@ export const Dashboard = () => {
         setTasksCheckbox(selectedTasks);
     };
 
-    return JSON.parse(localStorage.getItem("loggedIn"))?.tblUsercategory?.categorycode === "4" ? (
+    return JSON.parse(localStorage.getItem("loggedInApollo"))?.tblUsercategory?.categorycode === "4" ? (
         <div className="p-grid p-fluid dashboard">
             <div className="p-col-12 p-lg-4">
                 <div className="card summary">

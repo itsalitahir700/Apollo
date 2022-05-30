@@ -170,7 +170,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minorData,
                         disabled={viewmode}
                         value={minorDetails?.gfirstname || ""}
                         onChange={(e) => {
-                            setMinorDetails({ ...minorDetails, gfirstname: e.target.value });
+                            setMinorDetails({ ...minorDetails, gfirstname: e.target.value.capitalizeEveryWord() });
                         }}
                         className={errors?.gfirstname && "p-invalid p-d-block"}
                     />
@@ -182,7 +182,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minorData,
                         disabled={viewmode}
                         value={minorDetails?.gmiddlename || ""}
                         onChange={(e) => {
-                            setMinorDetails({ ...minorDetails, gmiddlename: e.target.value });
+                            setMinorDetails({ ...minorDetails, gmiddlename: e.target.value.capitalizeEveryWord() });
                         }}
                         className={errors?.gmiddlename && "p-invalid p-d-block"}
                     />
@@ -195,7 +195,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minorData,
                         disabled={viewmode}
                         value={minorDetails?.glastname || ""}
                         onChange={(e) => {
-                            setMinorDetails({ ...minorDetails, glastname: e.target.value });
+                            setMinorDetails({ ...minorDetails, glastname: e.target.value.capitalizeEveryWord() });
                         }}
                         className={errors?.glastname && "p-invalid p-d-block"}
                     />

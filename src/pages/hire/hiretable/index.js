@@ -141,7 +141,7 @@ function HireTable() {
                     <Column field="hirenumber" header="Reference Number" filter sortable filterMatchMode="contains"></Column>
                     <Column field="firstname" header="Name" filter sortable filterMatchMode="contains"></Column>
                     <Column field="contactdue" header="Contact Due" filter sortable filterMatchMode="contains"></Column>
-                    <Column field="status" body={statusTemplate} header="Status" filter sortable filterMatchMode="contains"></Column>
+                    <Column field="tblRtastatus.descr" body={statusTemplate} header="Status" filter sortable filterMatchMode="contains"></Column>
                     <Column body={actionTemplate} header="Acts" filterMatchMode="contains"></Column>
                 </DataTable>
             ) : (

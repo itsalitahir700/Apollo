@@ -218,6 +218,13 @@ const App = () => {
         return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
     }, []);
 
+    String.prototype.capitalizeEveryWord = function () {
+        return this.toLowerCase()
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+    };
+
     return (
         <div className={wrapperClass} onClick={onWrapperClick}>
             <ToastContainer></ToastContainer>

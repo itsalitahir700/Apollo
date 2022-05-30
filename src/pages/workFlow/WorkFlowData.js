@@ -232,8 +232,8 @@ const WorkFlowData = () => {
         <div className="datatable-filter-demo">
             <div className="card p-datatable-sm">
                 <DataTable header={header} ref={dt} value={workFlowData} paginator rows={10} className="p-datatable-customers" emptyMessage="No data found.">
-                    <Column style={{ textAlign: "center" }} field="rolename" header="Compaign Name" body={nameBodyTemplate} filter sortable  filterMatchMode="contains"/>
-                    <Column style={{ textAlign: "center" }} field="descr" header="Description" body={descrfeeBodyTemplate} filter sortable   filterMatchMode="contains"/>
+                    <Column style={{ textAlign: "center" }} field="tblCompaign.compaignname" header="Compaign Name" body={nameBodyTemplate} filter sortable filterMatchMode="contains" />
+                    <Column style={{ textAlign: "center" }} field="tblRtastatus.descr" header="Description" body={descrfeeBodyTemplate} filter sortable filterMatchMode="contains" />
                     <Column style={{ textAlign: "center" }} body={actionBodyTemplate} filterMatchMode="contains"></Column>
                 </DataTable>
             </div>

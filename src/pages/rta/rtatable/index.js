@@ -97,6 +97,10 @@ function RTATable() {
                             <strong>Solicitor : </strong>
                             <p>{data?.solicter}</p>
                         </div>
+                        <div className="box">
+                            <strong>Reject Reason : </strong>
+                            <p>{data?.remarks}</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -159,12 +163,12 @@ function RTATable() {
             {!loading && rtalist && rtalist.length ? (
                 <DataTable value={rtalist} sortField="createdon" sortOrder={-1} expandedRows={expandedRows} dataKey="rtanumber" onRowToggle={(e) => setExpandedRows(e.data)} rowExpansionTemplate={rowExpansionTemplate}>
                     <Column expander style={{ width: "2.5rem" }} filterMatchMode="contains"></Column>
-                    <Column field="createdon" body={dateTemplate} header="Created On" filter sortable></Column>
+                    <Column field={dateTemplate} body={dateTemplate} header="Created On" filter sortable></Column>
                     <Column field="rtanumber" header="Reference Number" filter sortable filterMatchMode="contains"></Column>
-                    <Column body={nameTemplate} header="Name" filter sortable filterMatchMode="contains"></Column>
+                    <Column field={nameTemplate} body={nameTemplate} header="Name" filter sortable filterMatchMode="contains"></Column>
                     <Column field="contactdue" header="Contact Due" filter sortable filterMatchMode="contains"></Column>
                     <Column field="rtataskname" header="Current Task" filter sortable filterMatchMode="contains"></Column>
-                    <Column field="status" body={statusTemplate} header="Status" filter sortable filterMatchMode="contains"></Column>
+                    <Column field={statusTemplate} body={statusTemplate} header="Status" filter sortable filterMatchMode="contains"></Column>
                     <Column body={actionTemplate} header="Acts" filterMatchMode="contains"></Column>
                 </DataTable>
             ) : (

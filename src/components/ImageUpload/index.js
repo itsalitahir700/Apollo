@@ -11,11 +11,12 @@ function ImagesUpload({ handleImages }) {
     const upload = React.useRef(null);
     const [files, setfiles] = useState([]);
     const [loading, setloading] = useState(false);
+    const tempFiles = [];
 
     const header = () => {
         return (
             <>
-                <input type="file" accept="image/gif, image/jpeg, image/png" style={{ display: "none" }} ref={upload} onChange={onFileChange} />
+                <input type="file" multiple accept="image/gif, image/jpeg, image/png" style={{ display: "none" }} ref={upload} onChange={onFileChange} />
                 <Button onClick={() => upload.current.click()}>Choose File</Button>
                 &nbsp;
                 <Button onClick={handleClear}>
@@ -27,26 +28,35 @@ function ImagesUpload({ handleImages }) {
 
     const onFileChange = async (e) => {
         setloading(true);
-        await getBase64(e.target.files[0]);
+        const files = e.target.files;
+
+        for await (const file of files) {
+            await getBase64(file);
+        }
         setloading(false);
     };
 
     async function getBase64(file) {
+        console.log("file ::", file);
         if (file.type === "image/png" || file.type === "image/jpeg" || file.type === "image/jpg") {
+            console.log("file 1::", file);
             var reader = new FileReader();
             reader.readAsDataURL(file);
-            reader.onload = function () {
+
+            reader.onload = await function () {
                 if (!files.some((file) => file?.fileBase64 === reader.result)) {
-                    let newfiles = JSON.parse(JSON.stringify(files));
+                    console.log("file 2::", file);
                     const filetype = file.type.split("/");
-                    newfiles.push({ fileBase64: reader.result, fileName: file.name, fileSize: file.size, fileExt: `.${filetype[1]}` });
-                    setfiles(newfiles);
+                    tempFiles.push({ fileBase64: reader.result, fileName: file.name, fileSize: file.size, fileExt: `.${filetype[1]}` });
+                    setfiles(tempFiles);
                 }
             };
         } else {
             toastBC.current.show({ severity: "warn", summary: "This file type not supported" });
         }
     }
+
+    console.log("file 3::", files);
 
     const handleRemove = (b64) => {
         let newArr = files.filter((file) => JSON.stringify(file?.fileBase64) !== JSON.stringify(b64));

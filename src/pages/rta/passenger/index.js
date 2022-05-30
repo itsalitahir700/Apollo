@@ -243,7 +243,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                                     optionLabel="name"
                                 />
                             </div>
-                            <small className="p-error p-d-block">{errors?.niNumber || ""}</small>
+                            <small className="p-error p-d-block">{errors?.ninumber || ""}</small>
                         </div>
                         <div className="p-field p-col-12 p-md-4">
                             <label>Mobile *</label>

@@ -246,7 +246,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                             optionLabel="name"
                         />
                     </div>
-                    <small className="p-error p-d-block">{errors?.ninulastnamember}</small>
+                    <small className="p-error p-d-block">{errors?.ninumber}</small>
                 </div>
                 <div className="p-field p-col-12 p-md-3">
                     <label>Standard of English *</label>

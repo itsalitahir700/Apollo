@@ -1,5 +1,6 @@
 import validator from "validator";
 
+const niNumberRegex = /^\s*[a-zA-Z]{2}(?:\s*\d\s*){6}[a-zA-Z]{2}?\s*$/;
 const isEmpty = (value) => value === undefined || value === null || (typeof value === "object" && Object.keys(value).length === 0) || (typeof value === "string" && value.trim().length === 0);
 
 const validation = async (post) => {
@@ -44,6 +45,8 @@ const validation = async (post) => {
 
     if (validator.isEmpty(ninumber)) {
         errors.ninumber = "NI number is required";
+    } else if (!validator.matches(ninumber, niNumberRegex)) {
+        errors.ninumber = "NI number is not valid";
     }
 
     if (validator.isEmpty(englishlevel)) {
@@ -139,6 +142,8 @@ const passengerValidation = async (post) => {
 
     if (validator.isEmpty(ninumber)) {
         errors.ninumber = "NI number is required";
+    } else if (!validator.matches(ninumber, niNumberRegex)) {
+        errors.ninumber = "NI number is not valid";
     }
 
     if (validator.isEmpty(mobile)) {

@@ -120,7 +120,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         value={claimantDetails?.firstname || ""}
                         disabled={viewmode}
                         onChange={(e) => {
-                            setclaimantDetails({ ...claimantDetails, firstname: e.target.value });
+                            setclaimantDetails({ ...claimantDetails, firstname: e.target.value.capitalizeEveryWord() });
                         }}
                         className={errors?.firstname && "p-invalid p-d-block"}
                     />
@@ -132,7 +132,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         disabled={viewmode}
                         value={claimantDetails?.middlename || ""}
                         onChange={(e) => {
-                            setclaimantDetails({ ...claimantDetails, middlename: e.target.value });
+                            setclaimantDetails({ ...claimantDetails, middlename: e.target.value.capitalizeEveryWord() });
                         }}
                     />
                 </div>
@@ -142,7 +142,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         disabled={viewmode}
                         value={claimantDetails?.lastname || ""}
                         onChange={(e) => {
-                            setclaimantDetails({ ...claimantDetails, lastname: e.target.value });
+                            setclaimantDetails({ ...claimantDetails, lastname: e.target.value.capitalizeEveryWord() });
                         }}
                         className={errors?.lastname && "p-invalid p-d-block"}
                     />
@@ -193,7 +193,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                             disabled={viewmode}
                             value={claimantDetails?.ninumber}
                             onChange={(e) => {
-                                setclaimantDetails({ ...claimantDetails, ninumber: e.target.value });
+                                setclaimantDetails({ ...claimantDetails, ninumber: e.target.value.toUpperCase() });
                             }}
                             className={errors?.ninumber && "p-invalid p-d-block"}
                         />

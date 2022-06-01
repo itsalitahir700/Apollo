@@ -174,7 +174,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                                 disabled={viewmode}
                                 value={passengerDetails?.firstname || ""}
                                 onChange={(e) => {
-                                    setPassengerDetails({ ...passengerDetails, firstname: e.target.value });
+                                    setPassengerDetails({ ...passengerDetails, firstname: e.target.value.capitalizeEveryWord() });
                                 }}
                                 className={errors?.firstname && "p-invalid p-d-block"}
                             />
@@ -186,7 +186,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                                 disabled={viewmode}
                                 value={passengerDetails?.middlename || ""}
                                 onChange={(e) => {
-                                    setPassengerDetails({ ...passengerDetails, middlename: e.target.value });
+                                    setPassengerDetails({ ...passengerDetails, middlename: e.target.value.capitalizeEveryWord() });
                                 }}
                             />
                         </div>
@@ -197,7 +197,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                                 disabled={viewmode}
                                 value={passengerDetails?.lastname || ""}
                                 onChange={(e) => {
-                                    setPassengerDetails({ ...passengerDetails, lastname: e.target.value });
+                                    setPassengerDetails({ ...passengerDetails, lastname: e.target.value.capitalizeEveryWord() });
                                 }}
                                 className={errors?.lastname && "p-invalid p-d-block"}
                             />
@@ -226,7 +226,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                                     disabled={viewmode}
                                     value={passengerDetails?.ninumber || ""}
                                     onChange={(e) => {
-                                        setPassengerDetails({ ...passengerDetails, ninumber: e.target.value });
+                                        setPassengerDetails({ ...passengerDetails, ninumber: e.target.value.toUpperCase() });
                                     }}
                                     className={errors?.ninumber && "p-invalid p-d-block"}
                                 />

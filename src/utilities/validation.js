@@ -1,6 +1,6 @@
 import validator from "validator";
 
-const niNumberRegex = /^\s*[a-zA-Z]{2}(?:\s*\d\s*){6}[a-zA-Z]{2}?\s*$/;
+const niNumberRegex = /^\s*[a-zA-Z]{2}(?:\s*\d\s*){6}[a-zA-Z]{1,}?\s*$/;
 const isEmpty = (value) => value === undefined || value === null || (typeof value === "object" && Object.keys(value).length === 0) || (typeof value === "string" && value.trim().length === 0);
 
 const validation = async (post) => {

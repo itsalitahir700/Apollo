@@ -232,7 +232,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                             disabled={viewmode}
                             value={claimantDetails?.ninumber}
                             onChange={(e) => {
-                                setclaimantDetails({ ...claimantDetails, ninumber: e.target.value });
+                                setclaimantDetails({ ...claimantDetails, ninumber: e.target.value.toUpperCase() });
                             }}
                             className={errors?.ninumber && "p-invalid p-d-block"}
                         />

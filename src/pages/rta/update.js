@@ -191,6 +191,7 @@ function UpdateClaimant() {
                     show={displayBasic}
                     hide={setDisplayBasic}
                     handlePassengerReturn={handleAddPassenger}
+                    allData={{ claimantDetails, minorDetails, accidentDetails, vehicleDetails, rtaCode, passengers }}
                 />
             </Fieldset>
 

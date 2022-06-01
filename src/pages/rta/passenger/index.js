@@ -13,7 +13,7 @@ import { vehicledetails } from "../../../utilities/constants";
 import { passengerValidation } from "../../../utilities/validation";
 import { getAddress, getAddressValues, getFurtherAddressService } from "../../../services/Rta";
 
-function PassengerModel({ driverOrPassenger, status, show, hide, handlePassengerReturn, passenger, isEdit, viewmode, claimantAddress }) {
+function PassengerModel({ driverOrPassenger, status, show, hide, handlePassengerReturn, passenger, isEdit, viewmode, claimantAddress, allData }) {
     if (viewmode) {
         isEdit = "View";
     }
@@ -42,6 +42,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
     const [addressFurtherItems, setaddressFurtherItems] = useState("");
     const [addressFurtherItemsValue, setaddressFurtherItemsValue] = useState("");
     const [showFurtherAddress, setshowFurtherAddress] = useState(false);
+    const [completeData, setCompleteData] = useState({});
 
     const handlePassenger = async () => {
         const isvalid = await passengerValidation(passengerDetails);
@@ -142,6 +143,11 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
     useEffect(() => {
         if (passenger && Object.keys(passenger).length !== 0) setPassengerDetails(passenger);
     }, [passenger, show]);
+
+    useEffect(() => {
+        console.log(allData, passengerDetails);
+        setCompleteData({ passengerDetails, ...allData });
+    }, [allData, passengerDetails]);
 
     return (
         <Dialog header={isEdit && isEdit !== "View" ? "Edit Passenger" : isEdit === "View" ? isEdit + " Passenger Details" : "Add Passenger"} footer={footer} visible={show} style={{ width: "80%" }} onHide={() => hide(false)}>
@@ -525,7 +531,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                     </div>
                 </TabPanel>
             </TabView>
-            <MinorModal claimantAddress={claimantAddress} disabled={viewmode} handleMinorReturn={setMinorDetails} details={passengerDetails} show={showMinorModal} hide={setShowMinorModal} isEdit={isEdit} />
+            <MinorModal claimantAddress={claimantAddress} disabled={viewmode} handleMinorReturn={setMinorDetails} details={passengerDetails} show={showMinorModal} hide={setShowMinorModal} completeData={completeData} isEdit={isEdit} />
         </Dialog>
     );
 }

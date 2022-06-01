@@ -7,8 +7,9 @@ import { minordetails } from "../../../utilities/constants";
 import { minorValidation } from "../../../utilities/validation";
 import { getAddress, getAddressValues, getFurtherAddressService } from "../../../services/Rta";
 import "../rta.css";
+import { isArray } from "lodash";
 
-function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minorData, viewmode, claimantAddress }) {
+function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minorData, viewmode, claimantAddress, completeData }) {
     const breakpoints = { "960px": "75vw", "640px": "100vw" };
     let states = [
         {
@@ -55,6 +56,7 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minorData,
 
     const [minorDetails, setMinorDetails] = useState(minorData && Object.keys(minorData).length ? minorData : minordetails);
     const [titleValue, settitleValue] = useState("");
+    const [adult, setAdult] = useState("");
     const [errors, seterrors] = useState({});
 
     useEffect(() => {
@@ -66,6 +68,18 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minorData,
     const [addressFurtherItems, setaddressFurtherItems] = useState("");
     const [addressFurtherItemsValue, setaddressFurtherItemsValue] = useState("");
     const [showFurtherAddress, setshowFurtherAddress] = useState(false);
+    const [adults, setAdults] = useState([]);
+
+    const calculate_age = (dob) => {
+        var today = new Date();
+        var birthDate = new Date(dob); // create a date object directly from `dob1` argument
+        var age_now = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age_now--;
+        }
+        return age_now;
+    };
 
     const handleMinor = async () => {
         const isvalid = await minorValidation(minorDetails);
@@ -121,6 +135,26 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minorData,
         setMinorDetails({ ...minorDetails, ...claimantAddress });
     };
 
+    const handleAdultsDropdown = (data, adultsArr = []) => {
+        Object.keys(data).forEach((key) => {
+            if (isArray(data[key])) {
+                data[key].forEach((obj, ind) => {
+                    handleAdultsDropdown({ [ind]: obj }, adultsArr);
+                });
+            } else if (typeof data[key] === "object" && "dob" in data[key] && calculate_age(data[key].dob) > 17) adultsArr.push(data[key]);
+        });
+        setAdults(adultsArr);
+    };
+
+    const handleAdultSelection = (obj) => {
+        // rename each key and start with g
+        const newObj = {};
+        Object.keys(obj).forEach((key) => {
+            newObj[`g${key}`] = obj[key];
+        });
+        setMinorDetails({ ...minorDetails, ...newObj });
+    };
+
     //Match Keys & Map Edit Values to Minor Details
     const setValues = React.useCallback(() => {
         if (details && Object.keys(details).length) {
@@ -140,6 +174,10 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minorData,
         setValues();
     }, [setValues]);
 
+    useEffect(() => {
+        if (completeData && Object.keys(completeData).length) handleAdultsDropdown(completeData);
+    }, [completeData]);
+
     const footer = (
         <div>
             <Button label={isEdit ? "Update" : "Add"} onClick={handleMinor} icon="pi pi-check" isEdit />
@@ -149,6 +187,22 @@ function MinorModal({ show, hide, handleMinorReturn, isEdit, details, minorData,
     return (
         <Dialog header={isEdit ? "Update Litigation Friend" : "Litigation Friend"} footer={footer} visible={show} onHide={() => hide(false)} breakpoints={breakpoints} style={{ width: "50vw" }}>
             <div className="p-fluid p-formgrid p-grid">
+                <div className="p-field p-col-12 p-md-3">
+                    <label htmlFor="Status"> Available Adults</label>
+                    <Dropdown
+                        disabled={viewmode}
+                        inputId="adults"
+                        value={adult}
+                        onChange={(e) => {
+                            setAdult(e.value);
+                            handleAdultSelection(e.target.value);
+                        }}
+                        options={adults}
+                        placeholder="Select"
+                        optionLabel="firstname"
+                    />
+                </div>
+
                 <div className="p-field p-col-12 p-md-3">
                     <label htmlFor="Status"> Title</label>
                     <Dropdown

@@ -220,7 +220,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                                     disabled={viewmode}
                                     value={passengerDetails?.ninumber || ""}
                                     onChange={(e) => {
-                                        setPassengerDetails({ ...passengerDetails, ninumber: e.target.value });
+                                        setPassengerDetails({ ...passengerDetails, ninumber: e.target.value.toUpperCase() });
                                     }}
                                     className={errors?.ninumber && "p-invalid p-d-block"}
                                 />

@@ -25,6 +25,7 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }
         partyname: "",
         partycontactno: "",
         partyaddress: "",
+        yearofmanufacture: "",
     };
     const [vehiclesDetails, setvehiclesDetails] = useState(vehicledata && Object.keys(vehicledata).length ? vehicledata : initialState);
     const [reportedToPolice, setreportedToPolice] = useState(false);
@@ -32,13 +33,13 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }
     const getMakeModel = async () => {
         const res = await getMakeModelService(`https://uk1.ukvehicledata.co.uk/api/datapackage/VehicleData?v=2&api_nullitems=1&auth_apikey=f0eb8944-03b9-4ead-a05b-fcb8d155d04c&user_tag=&key_VRM=${vehiclesDetails?.registerationno}`);
         console.log(res);
-        setvehiclesDetails({ ...vehiclesDetails, makemodel: res?.Response?.DataItems?.VehicleRegistration?.MakeModel });
+        setvehiclesDetails({ ...vehiclesDetails, makemodel: res?.Response?.DataItems?.VehicleRegistration?.MakeModel, yearofmanufacture: res?.Response?.DataItems?.VehicleRegistration?.YearOfManufacture });
     };
 
     const getThirdPartyMakeModel = async () => {
         const res = await getMakeModelService(`https://uk1.ukvehicledata.co.uk/api/datapackage/VehicleData?v=2&api_nullitems=1&auth_apikey=f0eb8944-03b9-4ead-a05b-fcb8d155d04c&user_tag=&key_VRM=${vehiclesDetails?.partyregno}`);
         console.log(res);
-        setvehiclesDetails({ ...vehiclesDetails, partymakemodel: res?.Response?.DataItems?.VehicleRegistration?.MakeModel });
+        setvehiclesDetails({ ...vehiclesDetails, partymakemodel: res?.Response?.DataItems?.VehicleRegistration?.MakeModel, yearofmanufacture: res?.Response?.DataItems?.VehicleRegistration?.YearOfManufacture });
     };
 
     useEffect(() => {
@@ -55,28 +56,33 @@ function VehiclesInfo({ handleVehicleInfoReturn, vehicledata, viewmode, errors }
                 {/* THIRD PARTY */}
                 <div className="p-field p-col-12 p-md-4">
                     <label>Clients Registration *</label>
-                    <div className="p-inputgroup">
-                        <InputText
-                            disabled={viewmode}
-                            value={vehiclesDetails?.registerationno}
-                            onChange={(e) => {
-                                setvehiclesDetails({ ...vehiclesDetails, registerationno: e.target.value });
-                            }}
-                            onBlur={(e) => {
-                                getMakeModel();
-                            }}
-                            className={errors?.registerationno && "p-invalid p-d-block"}
-                        />
-                        <Dropdown
-                            options={[{ name: "Will provide to solicitor" }]}
-                            onChange={(e) => {
-                                setvehiclesDetails({ ...vehiclesDetails, registerationno: e.value.name });
-                            }}
-                            placeholder="Select"
-                            optionLabel="name"
-                        />
+                    <div>
+                        <div className="p-inputgroup">
+                            <InputText
+                                disabled={viewmode}
+                                value={vehiclesDetails?.registerationno}
+                                onChange={(e) => {
+                                    setvehiclesDetails({ ...vehiclesDetails, registerationno: e.target.value });
+                                }}
+                                onBlur={(e) => {
+                                    getMakeModel();
+                                }}
+                                className={errors?.registerationno && "p-invalid p-d-block"}
+                            />
+                            <Dropdown
+                                options={[{ name: "Will provide to solicitor" }]}
+                                onChange={(e) => {
+                                    setvehiclesDetails({ ...vehiclesDetails, registerationno: e.value.name });
+                                }}
+                                placeholder="Select"
+                                optionLabel="name"
+                            />
+                        </div>
+                        <small className="p-error p-d-block">{errors?.registerationno}</small>
                     </div>
-                    <small className="p-error p-d-block">{errors?.registerationno}</small>
+                    <div className="p-mt-4">
+                        <label>Year of Manufacture : </label> <span>{vehiclesDetails?.yearofmanufacture}</span>
+                    </div>
                 </div>
 
                 <div className="p-field p-col-12 p-md-4">

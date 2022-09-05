@@ -158,7 +158,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         }}
                         checked={scotland}
                     ></Checkbox>
-                    <label style={{ paddingLeft: "1%" }}>Did accident occur in scotlands?</label>
+                    <label style={{ paddingLeft: "1%" }}>Did the Accident occur in Scotland?</label>
                 </div>
                 <div className="p-field p-col-12 p-md-4">
                     <label>Date of Birth *</label>

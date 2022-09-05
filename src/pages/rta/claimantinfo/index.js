@@ -60,8 +60,10 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
     const [showFurtherAddress, setshowFurtherAddress] = useState(false);
 
     const handleAge = (dob) => {
-        setclaimantDetails({ ...claimantDetails, dob: dob, ninumber: calculate_age(dob) < 15 ? "Minor" : "" });
-        if (calculate_age(dob) < 15) {
+        let age = 15;
+        if (claimantDetails.scotland === "Y") { age = 16; }
+        setclaimantDetails({ ...claimantDetails, dob: dob, ninumber: calculate_age(dob) < age ? "Minor" : "" });
+        if (calculate_age(dob) < age) {
             setMinor(true);
         } else {
             setMinor(false);
@@ -192,12 +194,13 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         disabled={viewmode}
                         onChange={(e) => {
                             const scotlandvalue = e.checked ? "Y" : "N";
+                            claimantDetails?.dob && handleAge(claimantDetails?.dob);
                             setclaimantDetails({ ...claimantDetails, scotland: scotlandvalue });
                             setscotland(e.checked);
                         }}
                         checked={scotland}
                     ></Checkbox>
-                    <label style={{ paddingLeft: "1%" }}>Did accident occur in scotlands?</label>
+                    <label style={{ paddingLeft: "1%" }}>Did the Accident occur in Scotland?</label>
                 </div>
                 <div className="p-field p-col-12 p-md-4">
                     <label>Date of Birth *</label>
@@ -280,7 +283,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                             onChange={(e) => {
                                 setclaimantDetails({ ...claimantDetails, translatordetail: e.target.value });
                             }}
-                            className={errors?.mobile && "p-invalid p-d-block"}
+                            className={errors?.translatordetail && "p-invalid p-d-block"}
                         />
                     </div>
                 ) : (
@@ -298,7 +301,11 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                         }}
                         className={errors?.mobile && "p-invalid p-d-block"}
                     />
-                    <small className="p-error p-d-block">{errors?.mobile}</small>
+                    <div className="flex justify-content-between p-align-items-center">
+                        <small> {claimantDetails?.mobile?.length | '0'} digits</small>
+
+                        <small className="p-error p-d-block">{errors?.mobile}</small>
+                    </div>
                 </div>
 
                 <div className="p-field p-col-12 p-md-2">
@@ -311,6 +318,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                             setclaimantDetails({ ...claimantDetails, landLine: e.target.value });
                         }}
                     />
+                    <small> {claimantDetails?.landLine?.length | '0'} digits</small>
                 </div>
                 <div className="p-field p-col-12 p-md-3">
                     <label>Alternative Number *</label>

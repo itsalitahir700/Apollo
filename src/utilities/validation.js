@@ -23,6 +23,8 @@ const validation = async (post) => {
     let injclasscode = !isEmpty(post?.injclasscode) ? post?.injclasscode.toString() : "";
     let injdescription = !isEmpty(post?.injdescription) ? post?.injdescription.toString() : "";
     let injlength = !isEmpty(post?.injlength) ? post?.injlength.toString() : "";
+    let medicalinfo = !isEmpty(post?.medicalinfo) ? post?.medicalinfo.toString() : "";
+    let medicalevidence = !isEmpty(post?.medicalevidence) ? post?.medicalevidence.toString() : "";
 
     let registerationno = !isEmpty(post?.registerationno) ? post?.registerationno.toString() : "";
     let makemodel = !isEmpty(post?.makemodel) ? post?.makemodel.toString() : "";
@@ -39,14 +41,27 @@ const validation = async (post) => {
         errors.lastname = "Last name must be between 2 to 50 characters";
     }
 
+    if (validator.isEmpty(medicalevidence) && medicalinfo === "Y") {
+        errors.medicalevidence = "Medical evidance is required";
+    }
+
     if (validator.isEmpty(dob)) {
         errors.dob = "Date of birth is required";
     }
 
-    if (validator.isEmpty(ninumber)) {
-        errors.ninumber = "NI number is required";
-    } else if (!validator.matches(ninumber, niNumberRegex)) {
-        errors.ninumber = "NI number is not valid";
+    if (ninumber !== "WILL BE PROVIDED TO SOLICITOR" && ninumber !== "Minor") {
+        let ninumberFirstChar = ninumber[0];
+        let ninumberSecondChar = ninumber[1];
+        let prefix = ninumberFirstChar + ninumberSecondChar;
+        let prefixCheckList = ["BG", "GB", "KN", "NK", "NT", "TN", "ZZ"];
+        let checklist = "D,F,I,Q,U,V";
+        if (validator.isEmpty(ninumber)) {
+            errors.ninumber = "NI number is required";
+        } else if (checklist.includes(ninumberSecondChar) || checklist.includes(ninumberFirstChar) || ninumber[1] === "O" || prefixCheckList.includes(prefix)) {
+            errors.ninumber = "NI number is required";
+        } else if (!validator.matches(ninumber, niNumberRegex)) {
+            errors.ninumber = "NI number is not valid";
+        }
     }
 
     if (validator.isEmpty(englishlevel)) {
@@ -123,11 +138,21 @@ const passengerValidation = async (post) => {
     let ninumber = !isEmpty(post?.ninumber) ? post?.ninumber.toString() : "";
     let mobile = !isEmpty(post?.mobile) ? post?.mobile.toString() : "";
     let postalcode = !isEmpty(post?.postalcode) ? post?.postalcode.toString() : "";
+    let injclasscode = !isEmpty(post?.injclasscode) ? post?.injclasscode.toString() : "";
+    let driverpassen = !isEmpty(post?.driverpassen) ? post?.driverpassen.toString() : "";
+    let injdescr = !isEmpty(post?.injdescr) ? post?.injdescr.toString() : "";
+    let detail = !isEmpty(post?.detail) ? post?.detail.toString() : "";
+    let medicalinfo = !isEmpty(post?.medicalinfo) ? post?.medicalinfo.toString() : "";
+    let evidencedatails = !isEmpty(post?.evidencedatails) ? post?.evidencedatails.toString() : "";
 
     if (validator.isEmpty(firstname)) {
         errors.firstname = "First name is required";
     } else if (!validator.isLength(firstname, { min: 2, max: 50 })) {
         errors.firstname = "First name must be between 2 to 50 characters";
+    }
+
+    if (validator.isEmpty(evidencedatails) && medicalinfo === "Y") {
+        errors.evidencedatails = "Medical evidance is required";
     }
 
     if (validator.isEmpty(lastname)) {
@@ -140,10 +165,19 @@ const passengerValidation = async (post) => {
         errors.dob = "Date of birth is required";
     }
 
-    if (validator.isEmpty(ninumber)) {
-        errors.ninumber = "NI number is required";
-    } else if (!validator.matches(ninumber, niNumberRegex)) {
-        errors.ninumber = "NI number is not valid";
+    if (ninumber !== "WILL BE PROVIDED TO SOLICITOR" && ninumber !== "Minor") {
+        let ninumberFirstChar = ninumber[0];
+        let ninumberSecondChar = ninumber[1];
+        let prefix = ninumberFirstChar + ninumberSecondChar;
+        let prefixCheckList = ["BG", "GB", "KN", "NK", "NT", "TN", "ZZ"];
+        let checklist = "D,F,I,Q,U,V";
+        if (validator.isEmpty(ninumber)) {
+            errors.ninumber = "NI number is required";
+        } else if (checklist.includes(ninumberSecondChar) || checklist.includes(ninumberFirstChar) || ninumber[1] === "O" || prefixCheckList.includes(prefix)) {
+            errors.ninumber = "NI number is required";
+        } else if (!validator.matches(ninumber, niNumberRegex)) {
+            errors.ninumber = "NI number is not valid";
+        }
     }
 
     if (validator.isEmpty(mobile)) {
@@ -154,6 +188,22 @@ const passengerValidation = async (post) => {
 
     if (validator.isEmpty(postalcode)) {
         errors.postalcode = "Address is required";
+    }
+
+    if (validator.isEmpty(injclasscode)) {
+        errors.injclasscode = "Injury Classification is required";
+    }
+
+    if (validator.isEmpty(driverpassen)) {
+        errors.driverpassen = "Claimant is required";
+    }
+
+    if (validator.isEmpty(injdescr)) {
+        errors.injdescr = "Injury Description is required";
+    }
+
+    if (validator.isEmpty(detail)) {
+        errors.detail = "Detail is required";
     }
 
     return {

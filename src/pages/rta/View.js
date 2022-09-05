@@ -18,6 +18,7 @@ import { getPassengers, postPassengers } from "../../services/Rta";
 import { getSolicitorsForRta, getCompanyWiseUser } from "../../services/Lovs";
 import { handleGetRequest } from "../../services/GetTemplate";
 import PassengerModal from "./passenger";
+import SubRtaCases from "./SubRtaCases";
 
 function ViewClaimant() {
     let states = [
@@ -93,6 +94,8 @@ function ViewClaimant() {
     const [loading, setloading] = useState(false);
     const [loadingIcon, setloadingIcon] = useState("");
     const [rejectBtnValue, setrejectBtnValue] = useState(false);
+    const [subRtaCasesDetails, setsubRtaCasesDetails] = useState(false);
+    const [selectedSubRtaCases, setSelectedSubRtaCases] = useState(null);
 
     const dispatch = useDispatch();
 
@@ -214,8 +217,14 @@ function ViewClaimant() {
     };
 
     const handleSubmitSolicitor = async () => {
+        let rtaCodes = [];
+        if (selectedSubRtaCases !== null) {
+            rtaCodes = selectedSubRtaCases.map((item) => item.rtacode.toString());
+        }
+        rtaCodes.push(rtaCode);
         const data = {
-            rtaCode,
+            mainRtaCode: rtaCode,
+            rtaCode: rtaCodes,
             toStatus: btnValue,
             solicitioCode: companyWiseUserValue.code,
             solicitorUserCode: solicitorRtaDataValue.code,
@@ -255,9 +264,11 @@ function ViewClaimant() {
         </div>
     );
 
-    const handleActionHotKey = (value) => {
+    const handleActionHotKey = async (value) => {
         setrtaHotkeyModal(true);
         setbtnValue(value);
+        const res = await handleGetRequest(`rta/getSubRtaCases/` + rtaNumber);
+        setsubRtaCasesDetails(res.data);
     };
 
     const handleActionButton = async (value) => {
@@ -325,7 +336,7 @@ function ViewClaimant() {
             <MinorModal handleMinorReturn={setMinorDetails} minorData={minorDetails} viewmode={viewmode} show={showMinorModal} hide={setShowMinorModal} />
 
             <Dialog header="Solicitor for RTA" visible={rtaHotkeyModal} footer={footer} onHide={() => setrtaHotkeyModal(false)} breakpoints={breakpoints} style={{ width: "50vw" }}>
-                <div className="p-fluid p-formgrid p-grid" style={{ paddingBottom: "30%" }}>
+                <div className="p-fluid p-formgrid p-grid" style={{ paddingBottom: "10%" }}>
                     <div className="p-field p-col-12 p-md-6">
                         <label>Solicitor for Rta</label>
                         <Dropdown
@@ -351,6 +362,7 @@ function ViewClaimant() {
                         />
                     </div>
                 </div>
+                <SubRtaCases subRtaCasesDetails={subRtaCasesDetails} selectedSubRtaCases={selectedSubRtaCases} setSelectedSubRtaCases={setSelectedSubRtaCases} />
             </Dialog>
             <Dialog header="Tasks" visible={showModal} style={{ width: "70vw" }} onHide={() => setshowModal(false)}>
                 <TaskData rtaCode={rtaCode} refreshTasks={() => refreshTasks()} taskActionData={taskActionData} />

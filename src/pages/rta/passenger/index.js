@@ -405,7 +405,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                 </TabPanel>
                 <TabPanel header="Injury Info">
                     <div className="p-fluid p-formgrid p-grid">
-                        <div className="p-field p-col-12 p-md-2 p-d-flex p-justify-between">
+                        <div className="p-field p-col-12 p-md-4">
                             {driverOrPassenger === "P" || driverOrPassenger === undefined ? (
                                 <div className="p-field-radiobutton">
                                     <RadioButton
@@ -436,6 +436,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                                 />
                                 <label htmlFor="city2">Passenger</label>
                             </div>
+                            <small className="p-error p-d-block">{errors?.driverpassen}</small>
                         </div>
 
                         <div className="p-field p-col-12 p-md-4">
@@ -450,7 +451,9 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                                 }}
                                 placeholder="Select"
                                 optionLabel="name"
+                                className={errors?.injclasscode && "p-invalid"}
                             />
+                            <small className="p-error p-d-block">{errors?.injclasscode}</small>
                         </div>
 
                         <div className="p-field p-col-12 p-md-3 p-f-center">
@@ -476,7 +479,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                             <label>&nbsp;Medical evidence avaliable</label>
                         </div>
 
-                        <div className="p-field p-col-12 p-md-8">
+                        <div className="p-field p-col-12 p-md-4">
                             <label>Injury Description</label>
                             <InputTextarea
                                 disabled={viewmode}
@@ -484,7 +487,9 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, injdescr: e.target.value });
                                 }}
+                                className={errors?.injdescr && "p-invalid p-d-block"}
                             />
+                            <small className="p-error p-d-block">{errors?.injdescr}</small>
                         </div>
 
                         <div className="p-field p-col-12 p-md-4">
@@ -511,7 +516,7 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                                     onChange={(e) => {
                                         setPassengerDetails({ ...passengerDetails, evidencedatails: e.target.value });
                                     }}
-                                    className={errors?.mobile && "p-invalid p-d-block"}
+                                    className={errors?.evidencedatails && "p-invalid p-d-block"}
                                 />
                             </div>
                         ) : (
@@ -526,7 +531,9 @@ function PassengerModel({ driverOrPassenger, status, show, hide, handlePassenger
                                 onChange={(e) => {
                                     setPassengerDetails({ ...passengerDetails, detail: e.target.value });
                                 }}
+                                className={errors?.detail && "p-invalid p-d-block"}
                             />
+                            <small className="p-error p-d-block">{errors?.detail}</small>
                         </div>
                     </div>
                 </TabPanel>

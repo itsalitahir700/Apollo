@@ -259,8 +259,9 @@ function AccidentInfo({ handleAccidentReturn, accidentdata, viewmode, errors }) 
                             onChange={(e) => {
                                 setaccidentDetails({ ...accidentDetails, medicalevidence: e.target.value });
                             }}
-                            className={errors?.mobile && "p-invalid p-d-block"}
+                            className={errors?.medicalevidence && "p-invalid p-d-block"}
                         />
+                        <small className="p-error p-d-block">{errors?.medicalevidence}</small>
                     </div>
                 ) : (
                     ""

@@ -28,15 +28,33 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
     const [addressFurtherItems, setaddressFurtherItems] = useState("");
     const [addressFurtherItemsValue, setaddressFurtherItemsValue] = useState("");
     const [showFurtherAddress, setshowFurtherAddress] = useState(false);
+    const [currentAge, setcurrentAge] = useState("");
 
     const handleAge = (dob) => {
-        setclaimantDetails({ ...claimantDetails, dob, ninumber: calculate_age(dob) < 15 ? "Minor" : "" });
-        if (calculate_age(dob) < 15) {
+        let age_limit = 18;
+        if (claimantDetails?.scotland === "Y") {
+            age_limit = 16;
+        }
+        setclaimantDetails({ ...claimantDetails, dob: dob, ninumber: calculate_age(dob) < age_limit ? "Minor" : "" });
+        if (calculate_age(dob) < age_limit) {
             setMinor(true);
         } else {
             setMinor(false);
         }
     };
+    useEffect(() => {
+        if (claimantDetails?.dob !== "" && claimantDetails?.dob !== null && claimantDetails?.dob !== undefined) {
+            let age_limit = 18;
+            if (claimantDetails?.scotland === "Y") {
+                age_limit = 16;
+            }
+            if (calculate_age(claimantDetails.dob) < age_limit) {
+                setMinor(true);
+            } else {
+                setMinor(false);
+            }
+        }
+    }, [claimantDetails?.dob, viewmode, claimantDetails?.scotland]);
 
     const calculate_age = (dob1) => {
         var today = new Date();
@@ -46,6 +64,7 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
         if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
             age_now--;
         }
+        setcurrentAge(age_now);
         return age_now;
     };
 
@@ -162,7 +181,12 @@ function ClaimantInfo({ showMinorModal, handleClaimantReturn, claimantdata, view
                 </div>
                 <div className="p-field p-col-12 p-md-4">
                     <label>Date of Birth *</label>
-                    {minor && <Button disabled={viewmode} label="Minor" className="p-bPassworutton-danger minor" onClick={() => showMinorModal(true)} style={{ float: "right" }}></Button>}
+                    {minor && <Button label="Minor" className="p-bPassworutton-danger minor" onClick={() => showMinorModal(true)} style={{ float: "right" }}></Button>}
+                    {currentAge !== "" && (
+                        <span style={{ paddingLeft: "20%" }}>
+                            <Button label={currentAge + "Year(s)"} className="p-bPassworutton-danger minor" disabled></Button>
+                        </span>
+                    )}
                     <InputText
                         onBlur={() => {
                             minor && showMinorModal(true);
